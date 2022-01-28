@@ -70,7 +70,32 @@ const resolvers = {
       }
     
       throw new AuthenticationError('You need to be logged in!');
-    }
+    },
+    saveMedia: async (parent, { input }, context) => {
+      if (context.user) {
+        const updatedUser = await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { savedMedia: input } },
+          { new: true }
+        )
+        return updatedUser;
+      }
+
+      throw new AuthenticationError('You need to be logged in!');
+    },
+    addReaction: async (parent, { mediaId, reactionBody }, context) => {
+      if (context.user) {
+        const updatedMedia = await Media.findOneAndUpdate(
+          { _id: mediaId },
+          { $push: { reactions: { reactionBody, username: context.user.username } } },
+          { new: true, runValidators: true }
+        );
+
+        return updatedMedia;
+      }
+
+      throw new AuthenticationError('You need to be logged in!');
+    },
   },
 };
 
