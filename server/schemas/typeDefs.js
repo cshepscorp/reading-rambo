@@ -6,7 +6,7 @@ const typeDefs = gql`
     username: String
     email: String
     mediaCount: Int
-    savedMedia: [Media]
+    medias: [Media]
     comments: [Comment]
   }
 
@@ -19,6 +19,7 @@ const typeDefs = gql`
 
   input MediaInput {
     title: String
+    imdbID: String
     year: String
     director: String
     actors: String
@@ -27,7 +28,10 @@ const typeDefs = gql`
   }
 
   type Media {
-    imdbID: ID!
+    _id: ID!
+    createdAt: String
+    username: String
+    imdbID: String
     title: String
     year: String
     director: String
@@ -37,8 +41,6 @@ const typeDefs = gql`
     reactions: [Reaction]
     reactionCount: Int
   }
-
-
 
   type Reaction {
     _id: ID
@@ -58,14 +60,15 @@ const typeDefs = gql`
     user(username: String!): User
     comments(username: String): [Comment]
     comment(_id: ID!): Comment
-    media(username: String): [Media]
+    medias(username: String): [Media]
+    media(_id: ID!): Media
   }
 
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     addComment(commentText: String!): Comment
-    saveMedia(input: MediaInput): User
+    addMedia(input: MediaInput): Media
     addReaction(mediaId: ID!, reactionBody: String!): Media
   }
 `;
