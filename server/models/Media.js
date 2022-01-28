@@ -26,6 +26,10 @@ const mediaSchema = new Schema(
     poster: {
       type: String,
     },
+    username: {
+      type: String,
+      required: true,
+    },
     reactions: [reactionSchema],
   },
   {

@@ -1,4 +1,4 @@
-const { User, Comment } = require("../models");
+const { User, Comment, Media } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 
@@ -7,13 +7,13 @@ const resolvers = {
     me: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
-          .select('-__v -password')
-          .populate('comments');
-    
+          .select("-__v -password")
+          .populate("comments");
+
         return userData;
       }
-    
-      throw new AuthenticationError('Not logged in');
+
+      throw new AuthenticationError("Not logged in");
     },
     comments: async (parent, { username }) => {
       const params = username ? { username } : {};
@@ -32,6 +32,13 @@ const resolvers = {
       return User.findOne({ username })
         .select("-__v -password")
         .populate("comments");
+    },
+    medias: async (parent, { username }) => {
+      const params = username ? { username } : {};
+      return Media.find(params).sort({ createdAt: -1 });
+    },
+    media: async (parent, { _id }) => {
+      return Media.findOne({ _id });
     },
   },
   Mutation: {
@@ -58,43 +65,50 @@ const resolvers = {
     },
     addComment: async (parent, args, context) => {
       if (context.user) {
-        const comment = await Comment.create({ ...args, username: context.user.username });
-    
+        const comment = await Comment.create({
+          ...args,
+          username: context.user.username,
+        });
+
         await User.findByIdAndUpdate(
           { _id: context.user._id },
           { $push: { comments: comment._id } },
           { new: true }
         );
-    
+
         return comment;
       }
-    
-      throw new AuthenticationError('You need to be logged in!');
+
+      throw new AuthenticationError("You need to be logged in!");
     },
-    saveMedia: async (parent, { input }, context) => {
+    addMedia: async (parent, { input }, context) => {
       if (context.user) {
         const updatedUser = await User.findByIdAndUpdate(
           { _id: context.user._id },
           { $addToSet: { savedMedia: input } },
           { new: true }
-        )
+        );
         return updatedUser;
       }
 
-      throw new AuthenticationError('You need to be logged in!');
+      throw new AuthenticationError("You need to be logged in!");
     },
     addReaction: async (parent, { mediaId, reactionBody }, context) => {
       if (context.user) {
         const updatedMedia = await Media.findOneAndUpdate(
           { _id: mediaId },
-          { $push: { reactions: { reactionBody, username: context.user.username } } },
+          {
+            $push: {
+              reactions: { reactionBody, username: context.user.username },
+            },
+          },
           { new: true, runValidators: true }
         );
 
         return updatedMedia;
       }
 
-      throw new AuthenticationError('You need to be logged in!');
+      throw new AuthenticationError("You need to be logged in!");
     },
   },
 };
