@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const listSchema = require('./List');
+const mediaSchema = require('./Media');
 
 const userSchema = new Schema(
   {
@@ -22,13 +22,18 @@ const userSchema = new Schema(
       required: true,
       minlength: 5
     },
-    comments: [
+    // comments: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Comment'
+    //   }
+    // ],
+    media: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Comment'
+        ref: 'Thought'
       }
     ],
-    savedMedia: [listSchema],
   },
   {
     toJSON: {

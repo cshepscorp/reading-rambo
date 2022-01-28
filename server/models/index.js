@@ -1,5 +1,6 @@
 const User = require('./User');
 const Comment = require('./Comment');
-const List = require('./List');
+const Media = require('./Media');
+const Reaction = require('./Reaction');
 
-module.exports = { User, Comment, List };
+module.exports = { User, Comment, Media, Reaction };
