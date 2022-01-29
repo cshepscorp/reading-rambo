@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './style.css';
 
 import { searchGoogleBooks } from '../../utils/API';
@@ -7,7 +7,6 @@ import { searchGoogleBooks } from '../../utils/API';
 //   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
 // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
-// learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
 //   useEffect(() => {
 //     return () => saveBookIds(savedBookIds);
 //   });
@@ -17,8 +16,6 @@ const Home = () => {
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
-
-  function handleChange(e) {}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,13 +33,18 @@ const Home = () => {
 
       const { items } = await response.json();
 
+      // deconstruct book data into Json format to be returned in our component
       const bookData = items.map((book) => ({
         bookId: book.id,
-        title: book.volumeInfo.title
+        authors: book.volumeInfo.authors || ['No author to display'],
+        title: book.volumeInfo.title,
+        description: book.volumeInfo.description,
+        image: book.volumeInfo.imageLinks?.thumbnail || ''
       }));
 
       setSearchedBooks(bookData);
       setSearchInput('');
+      console.log(searchInput);
     } catch (err) {
       console.log(err);
     }
@@ -68,7 +70,7 @@ const Home = () => {
       <div id='search-results'>
         <h2>
           {searchedBooks.length
-            ? `Viewing ${searchedBooks.length} results:`
+            ? `Showing ${searchedBooks.length} results`
             : 'search for a book to begin!'}
         </h2>
         <div>
