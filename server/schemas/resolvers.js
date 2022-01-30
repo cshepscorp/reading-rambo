@@ -8,8 +8,8 @@ const resolvers = {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
           .select("-__v -password")
-          .populate("comments");
-
+          .populate("comments")
+          .populate("savedMedia");
         return userData;
       }
 
@@ -25,20 +25,22 @@ const resolvers = {
     },
     // get all users
     users: async () => {
-      return User.find().select("-__v -password").populate("comments");
+      return User.find().select("-__v -password").populate("comments").populate("savedMedia");
     },
     // get a user by username
     user: async (parent, { username }) => {
       return User.findOne({ username })
         .select("-__v -password")
-        .populate("comments");
+        .populate("comments")
+        .populate("savedMedia");
     },
-    medias: async (parent, { username }) => {
+    savedMedia: async (parent, { username }) => {
       const params = username ? { username } : {};
       return Media.find(params).sort({ createdAt: -1 });
     },
-    media: async (parent, { _id }) => {
-      return Media.findOne({ _id });
+
+    media: async () => {
+      return Media.find().sort({ createdAt: -1 });
     },
   },
   Mutation: {
@@ -93,6 +95,18 @@ const resolvers = {
 
       throw new AuthenticationError("You need to be logged in!");
     },
+    removeMedia: async (parent, { mediaId }, context) => {
+      if (context.user) {
+        const updatedUser = await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $pull: { savedMedia: { mediaId: mediaId } } },
+          { new: true }
+        );
+        return updatedUser;
+      }
+
+      throw new AuthenticationError("You need to be logged in!");
+    },
     addReaction: async (parent, { mediaId, reactionBody }, context) => {
       if (context.user) {
         const updatedMedia = await Media.findOneAndUpdate(
@@ -114,3 +128,7 @@ const resolvers = {
 };
 
 module.exports = resolvers;
+
+// media: async (parent, { _id }) => {
+//   return Media.findOne({ _id });
+// },

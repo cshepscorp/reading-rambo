@@ -23,3 +23,44 @@ export const LOGIN_USER = gql`
     }
   }
 `;
+
+export const ADD_MEDIA = gql`
+  mutation addMedia($input: MediaInput!) {
+    addMedia(input: $input) {
+      username
+      savedMedia {
+        title
+        imdbId
+        year
+        plot
+        director
+        actors
+        authors
+        poster
+        image
+      }
+    }
+  }
+`;
+
+export const REMOVE_MEDIA = gql`
+  mutation removeMedia($mediaId: ID!) {
+    removeMedia(mediaId: $mediaId) {
+      _id
+      username
+      email
+      mediaCount
+      savedMedia {
+        title
+        imdbId
+        year
+        plot
+        director
+        actors
+        authors
+        poster
+        image
+      }
+    }
+  }
+`;
