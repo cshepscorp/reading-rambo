@@ -52,7 +52,6 @@ const Home = () => {
 
   return (
     <div>
-      <h1>reading rambo</h1>
       <form onSubmit={handleSubmit} id='searchbar'>
         <input
           type='text'
