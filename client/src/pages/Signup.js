@@ -35,7 +35,8 @@ const Signup = () => {
   };
 
   return (
-    <div>
+    <main className="flex-row justify-center mb-4">
+    <div className="col-12 col-med-6">
       <h2>Sign Up</h2>
       <div>
         <form onSubmit={handleFormSubmit}>
@@ -76,6 +77,7 @@ const Signup = () => {
         </form>
       </div>
     </div>
+    </main>
   );
 };
 
