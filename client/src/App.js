@@ -1,5 +1,7 @@
 import './App.css';
 import Home from './components/Home';
+import MediaSearch from './components/MediaSearch';
+
 import {
   ApolloProvider,
   ApolloClient,
@@ -22,6 +24,7 @@ function App() {
       <div className='flex-column justify-flex-start min-100-vh'>
         <div className='container'>
           <Home />
+          <MediaSearch />
         </div>
       </div>
     </ApolloProvider>
