@@ -1,9 +1,9 @@
-const faker = require("faker");
+const faker = require('faker');
 
-const db = require("../config/connection");
-const { Comment, User, Media } = require("../models");
+const db = require('../config/connection');
+const { Comment, User, Media } = require('../models');
 
-db.once("open", async () => {
+db.once('open', async () => {
   await Comment.deleteMany({});
   await User.deleteMany({});
   await Media.deleteMany({});
@@ -43,7 +43,7 @@ db.once("open", async () => {
   let createdMedias = [];
   for (let i = 0; i < 100; i += 1) {
     const title = faker.lorem.words(Math.round(Math.random() * 3) + 1);
-    const imdbID = Math.round(Math.random() * 10) + 1;
+    const imdbId = Math.round(Math.random() * 10) + 1;
     const actors = faker.lorem.words(Math.round(Math.random() * 5) + 1);
 
     const plot = faker.lorem.words(Math.round(Math.random() * 20) + 1);
@@ -55,8 +55,8 @@ db.once("open", async () => {
       title,
       actors,
       plot,
-      imdbID,
-      username,
+      imdbId,
+      username
     });
 
     const updatedUser = await User.updateOne(
@@ -65,10 +65,10 @@ db.once("open", async () => {
     );
 
     createdMedias.push(createdMedia);
-    console.log("===createdMedias====");
+    console.log('===createdMedias====');
     console.log(createdMedias);
   }
 
-  console.log("all done!");
+  console.log('all done!');
   process.exit(0);
 });

@@ -1,4 +1,4 @@
-const { gql } = require("apollo-server-express");
+const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type User {
@@ -21,7 +21,7 @@ const typeDefs = gql`
   input MediaInput {
     mediaId: ID
     title: String
-    imdbID: String
+    imdbId: String
     year: String
     plot: String
     director: String
@@ -36,7 +36,7 @@ const typeDefs = gql`
     createdAt: String
     username: String
     title: String
-    imdbID: String
+    imdbId: String
     year: String
     plot: String
     director: String

@@ -1,53 +1,53 @@
-const { Schema, model } = require("mongoose");
-const reactionSchema = require("./Reaction");
-const dateFormat = require("../utils/dateFormat");
+const { Schema, model } = require('mongoose');
+const reactionSchema = require('./Reaction');
+const dateFormat = require('../utils/dateFormat');
 const mediaSchema = new Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: true
     },
     year: {
-      type: String,
+      type: String
     },
     director: {
-      type: String,
+      type: String
     },
     actors: {
-      type: String,
+      type: String
     },
     plot: {
-      type: String,
+      type: String
     },
-    imdbID: {
+    imdbId: {
       type: String,
-      required: true,
+      required: true
     },
     poster: {
-      type: String,
+      type: String
     },
     username: {
       type: String,
-      required: true,
+      required: true
     },
     createdAt: {
       type: Date,
       default: Date.now,
-      get: (timestamp) => dateFormat(timestamp),
+      get: (timestamp) => dateFormat(timestamp)
     },
-    reactions: [reactionSchema],
+    reactions: [reactionSchema]
   },
   {
     toJSON: {
-      getters: true,
-    },
+      getters: true
+    }
   }
 );
 
-mediaSchema.virtual("reactionCount").get(function () {
+mediaSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 });
 
-const Media = model("Media", mediaSchema);
+const Media = model('Media', mediaSchema);
 
 module.exports = Media;

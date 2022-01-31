@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Auth from "../../utils/auth";
 import { searchOmdb } from "../../utils/API";
-//import { searchImdb } from "../../utils/API";
 import { ADD_MEDIA } from "../../utils/mutations";
 import { QUERY_ME } from "../../utils/queries";
 import { saveMediaIds, getSavedMediaIds } from "../../utils/localStorage";
 import { useMutation } from "@apollo/client";
-//import { QUERY_ME } from "../../utils/queries";
 
 const MediaSearch = () => {
   const [searchedMedia, setSearchedMedia] = useState([]);
@@ -64,12 +62,6 @@ const MediaSearch = () => {
         image: media.Poster,
       }));
 
-      // IMDB API
-      // const mediaData = Search.map((media) => ({
-      //   mediaId: media.id,
-      //   title: media.title,
-      //   stars: media.stars,
-      // }));
       console.log(mediaData);
       setSearchedMedia(mediaData);
       setMediaSearchInput("");
@@ -133,7 +125,7 @@ const MediaSearch = () => {
                 <p>Year: {media.year}</p>
                 <p>id: {media.mediaId}</p>
                 <button className="btn-block btn-info">See related Books</button>
-                {/* {Auth.loggedIn() && (
+                {Auth.loggedIn() && (
                   <button
                     disabled={savedMediaIds?.some(
                       (savedMediaId) => savedMediaId === media.mediaId
@@ -148,7 +140,7 @@ const MediaSearch = () => {
                       : "Save this to my list!"}
                   </button>
                 )}
-                {error && <div>Book save failed</div>} */}
+                {error && <div>Book save failed</div>}
               </div>
             );
           })}
