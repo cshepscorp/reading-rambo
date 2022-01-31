@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import Auth from "../../utils/auth";
 import { searchOmdb } from "../../utils/API";
@@ -7,12 +6,7 @@ import { ADD_MEDIA } from "../../utils/mutations";
 import { QUERY_ME } from "../../utils/queries";
 import { saveMediaIds, getSavedMediaIds } from "../../utils/localStorage";
 import { useMutation } from "@apollo/client";
-=======
-import React, { useState } from 'react';
-import Auth from "../../utils/auth";
-import { searchOmdb } from '../../utils/API';
 //import { QUERY_ME } from "../../utils/queries";
->>>>>>> efb1f7ea22a3825d4afa3e33d66fd3fc9f7a6bee
 
 const MediaSearch = () => {
   const [searchedMedia, setSearchedMedia] = useState([]);
@@ -123,10 +117,6 @@ const MediaSearch = () => {
           <button type="submit">search</button>
         </form>
       </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> efb1f7ea22a3825d4afa3e33d66fd3fc9f7a6bee
       <div id="media-search-results">
         <div className="cardHolder">
           {searchedMedia.map((media) => {
@@ -142,12 +132,8 @@ const MediaSearch = () => {
                 <h4>{media.title}</h4>
                 <p>Year: {media.year}</p>
                 <p>id: {media.mediaId}</p>
-<<<<<<< HEAD
-                {Auth.loggedIn() && (
-=======
                 <button className="btn-block btn-info">See related Books</button>
                 {/* {Auth.loggedIn() && (
->>>>>>> efb1f7ea22a3825d4afa3e33d66fd3fc9f7a6bee
                   <button
                     disabled={savedMediaIds?.some(
                       (savedMediaId) => savedMediaId === media.mediaId
@@ -162,11 +148,7 @@ const MediaSearch = () => {
                       : "Save this to my list!"}
                   </button>
                 )}
-<<<<<<< HEAD
-                {error && <div>Book save failed</div>}
-=======
                 {error && <div>Book save failed</div>} */}
->>>>>>> efb1f7ea22a3825d4afa3e33d66fd3fc9f7a6bee
               </div>
             );
           })}
