@@ -5,6 +5,14 @@ import { QUERY_ME_SIMPLE } from "../../utils/queries";
 import { searchGoogleBooks } from "../../utils/API";
 import Auth from "../../utils/auth";
 
+// create state to hold saved bookId values
+//   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
+
+// set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
+//   useEffect(() => {
+//     return () => saveBookIds(savedBookIds);
+//   });
+
 const Home = () => {
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
@@ -74,12 +82,39 @@ const Home = () => {
             ? `Showing ${searchedBooks.length} results`
             : "search for a book to begin!"}
         </h2>
-        <div>
+        <div className="cardHolder">
           {searchedBooks.map((book) => {
             return (
-              <div key={book.bookId}>
+              <div className="card" key={book.bookId}>
+                {book.image ? (
+                  <img
+                    src={book.image}
+                    alt={`The cover for ${book.title}`}
+                    variant="top"
+                  />
+                ) : null}
                 <h4>{book.title}</h4>
-                <p>lorem ipsum placeholder</p>
+                <p>Year: {book.year}</p>
+                <p>id: {book.bookId}</p>
+                <button className="btn-block btn-info">
+                  See related Media
+                </button>
+                {/* {Auth.loggedIn() && (
+                    <button
+                      disabled={savedMediaIds?.some(
+                        (savedMediaId) => savedMediaId === media.mediaId
+                      )}
+                      className="btn-block btn-info"
+                      onClick={() => handleSaveMedia(media.mediaId)}
+                    >
+                      {savedMediaIds?.some(
+                        (savedMediaId) => savedMediaId === media.mediaId
+                      )
+                        ? "This item is saved!"
+                        : "Save this to my list!"}
+                    </button>
+                  )}
+                  {error && <div>Book save failed</div>} */}
               </div>
             );
           })}
