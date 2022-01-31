@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const ADD_USER = gql`
   mutation addUser($username: String!, $email: String!, $password: String!) {
@@ -30,14 +30,17 @@ export const ADD_MEDIA = gql`
       username
       savedMedia {
         title
-        imdbId
+        bookId
+        mediaId
         year
         plot
+        description
         director
         actors
         authors
         poster
         image
+        createdAt
       }
     }
   }
@@ -52,14 +55,17 @@ export const REMOVE_MEDIA = gql`
       mediaCount
       savedMedia {
         title
-        imdbId
+        bookId
+        mediaId
         year
         plot
+        description
         director
         actors
         authors
         poster
         image
+        createdAt
       }
     }
   }

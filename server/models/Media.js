@@ -3,7 +3,8 @@ const reactionSchema = require('./Reaction');
 const dateFormat = require('../utils/dateFormat');
 const mediaSchema = new Schema(
   {
-    mediaID: { type: String },
+    mediaId: { type: String },
+    bookId: { type: String },
     title: {
       type: String,
       required: true
@@ -17,19 +18,19 @@ const mediaSchema = new Schema(
     actors: {
       type: String
     },
+    authors: [
+      {
+        type: String,
+      },
+    ],
     plot: {
       type: String
     },
-    imdbId: {
-      type: String,
-      required: true
+    description: {
+      type: String
     },
     poster: { type: String },
     image: { type: String },
-    username: {
-      type: String,
-      required: true
-    },
     createdAt: {
       type: Date,
       default: Date.now,

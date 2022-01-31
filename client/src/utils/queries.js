@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const QUERY_ME = gql`
   {
@@ -8,8 +8,18 @@ export const QUERY_ME = gql`
       email
       mediaCount
       savedMedia {
-        imdbId
         title
+        bookId
+        mediaId
+        year
+        plot
+        description
+        director
+        actors
+        authors
+        poster
+        image
+        createdAt
       }
     }
   }
@@ -23,8 +33,18 @@ export const QUERY_USER = gql`
       email
       mediaCount
       savedMedia {
-        imdbId
         title
+        bookId
+        mediaId
+        year
+        plot
+        description
+        director
+        actors
+        authors
+        poster
+        image
+        createdAt
       }
     }
   }
