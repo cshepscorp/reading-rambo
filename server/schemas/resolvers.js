@@ -35,7 +35,8 @@ const resolvers = {
         .populate("savedMedia");
     },
     savedMedia: async (parent, { username }) => {
-      const params = username ? { username } : {};
+      const params = username ? { username } : {username:""};
+
       return Media.find(params).sort({ createdAt: -1 });
     },
 
