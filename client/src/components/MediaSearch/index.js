@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-
+import Auth from "../../utils/auth";
 import { searchOmdb } from '../../utils/API';
+//import { QUERY_ME } from "../../utils/queries";
 
 const MediaSearch = () => {
   const [searchedMedia, setSearchedMedia] = useState([]);
@@ -26,7 +27,8 @@ const MediaSearch = () => {
       const mediaData = Search.map((media) => ({
         mediaId: media.imdbID,
         title: media.Title,
-        writers: media.writer
+        year: media.Year,
+        image: media.Poster,
       }));
 
       setSearchedMedia(mediaData);
@@ -54,14 +56,38 @@ const MediaSearch = () => {
         </form>
       </div>
 
-      <div id='media-search-results'>
-        <div>
+      <div id="media-search-results">
+        <div className="cardHolder">
           {searchedMedia.map((media) => {
             return (
-              <div key={media.mediaId}>
+              <div className="card" key={media.mediaId}>
+                {media.image ? (
+                  <img
+                    src={media.image}
+                    alt={`The poster for ${media.title}`}
+                    variant="top"
+                  />
+                ) : null}
                 <h4>{media.title}</h4>
-                <p>lorem ipsum placeholder</p>
-                <p>more info link here....</p>
+                <p>Year: {media.year}</p>
+                <p>id: {media.mediaId}</p>
+                <button></button>
+                {/* {Auth.loggedIn() && (
+                  <button
+                    disabled={savedMediaIds?.some(
+                      (savedMediaId) => savedMediaId === media.mediaId
+                    )}
+                    className="btn-block btn-info"
+                    onClick={() => handleSaveMedia(media.mediaId)}
+                  >
+                    {savedMediaIds?.some(
+                      (savedMediaId) => savedMediaId === media.mediaId
+                    )
+                      ? "This item is saved!"
+                      : "Save this to my list!"}
+                  </button>
+                )}
+                {error && <div>Book save failed</div>} */}
               </div>
             );
           })}
