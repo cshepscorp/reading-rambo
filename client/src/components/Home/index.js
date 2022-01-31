@@ -86,7 +86,9 @@ const Home = () => {
                 <h4>{book.title}</h4>
                 <p>Year: {book.year}</p>
                 <p>id: {book.bookId}</p>
-                <button></button>
+                <button className="btn-block btn-info">
+                  See related Media
+                </button>
                 {/* {Auth.loggedIn() && (
                     <button
                       disabled={savedMediaIds?.some(

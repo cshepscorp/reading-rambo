@@ -71,7 +71,7 @@ const MediaSearch = () => {
                 <h4>{media.title}</h4>
                 <p>Year: {media.year}</p>
                 <p>id: {media.mediaId}</p>
-                <button></button>
+                <button className="btn-block btn-info">See related Books</button>
                 {/* {Auth.loggedIn() && (
                   <button
                     disabled={savedMediaIds?.some(
