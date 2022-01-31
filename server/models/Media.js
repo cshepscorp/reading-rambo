@@ -3,6 +3,7 @@ const reactionSchema = require('./Reaction');
 const dateFormat = require('../utils/dateFormat');
 const mediaSchema = new Schema(
   {
+    mediaID: { type: String },
     title: {
       type: String,
       required: true
@@ -23,9 +24,8 @@ const mediaSchema = new Schema(
       type: String,
       required: true
     },
-    poster: {
-      type: String
-    },
+    poster: { type: String },
+    image: { type: String },
     username: {
       type: String,
       required: true

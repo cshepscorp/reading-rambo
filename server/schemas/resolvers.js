@@ -32,15 +32,13 @@ const resolvers = {
     },
     // get a user by username
     user: async (parent, { username }) => {
-      return (
-        User.findOne({ username })
-          // .select("-__v -password") //seems to be useless?
-          .populate('comments')
-          .populate('savedMedia')
-      );
+      return User.findOne({ username })
+        // .select("-__v -password") //seems to be useless?
+        .populate("comments")
+        .populate("savedMedia");
     },
     savedMedia: async (parent, { username }) => {
-      const params = username ? { username } : { username: '' };
+      const params = username ? { username } : { username: "" };
 
       return Media.find(params).sort({ createdAt: -1 });
     },
@@ -92,11 +90,12 @@ const resolvers = {
     addMedia: async (parent, { input }, context) => {
       if (context.user) {
         const newMedia = await Media.create({ ...input });
-        const updatedUser = await User.findByIdAndUpdate(
+        const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { savedMedia: newMedia } },
           { new: true, runValidators: true }
-        ).populate('savedMedia');
+        )
+        .populate("savedMedia");
 
         return updatedUser;
       }
