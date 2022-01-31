@@ -61,7 +61,7 @@ db.once("open", async () => {
 
     const updatedUser = await User.updateOne(
       { _id: userId },
-      { $push: { media: createdMedia } }
+      { $push: { savedMedia: createdMedia } }
     );
 
     createdMedias.push(createdMedia);

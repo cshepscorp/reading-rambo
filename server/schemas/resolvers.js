@@ -17,7 +17,7 @@ const resolvers = {
     },
     comments: async (parent, { username }) => {
       const params = username ? { username } : {};
-      return Comment.find().sort({ createdAt: -1 });
+      return Comment.find(params).sort({ createdAt: -1 });
     },
     // in case we make it so comments can be 'reacted to'
     comment: async (parent, { _id }) => {
@@ -30,8 +30,8 @@ const resolvers = {
     // get a user by username
     user: async (parent, { username }) => {
       return User.findOne({ username })
-        .select("-__v -password")
-        .populate("comments")
+        // .select("-__v -password") //seems to be useless?
+        .populate("comments") 
         .populate("savedMedia");
     },
     savedMedia: async (parent, { username }) => {

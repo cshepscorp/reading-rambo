@@ -22,12 +22,18 @@ const userSchema = new Schema(
       required: true,
       minlength: 5,
     },
-    media: [
+    savedMedia: [
       {
         type: Schema.Types.ObjectId,
         ref: "Media",
       },
     ],
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Comment"
+      }
+    ]
   },
   {
     toJSON: {
@@ -53,7 +59,7 @@ userSchema.methods.isCorrectPassword = async function (password) {
 
 // keep track of how many books/movies a user has saved
 userSchema.virtual("mediaCount").get(function () {
-  return this.media.length;
+  return this.savedMedia.length;
 });
 
 const User = model("User", userSchema);
