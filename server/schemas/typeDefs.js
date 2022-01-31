@@ -5,7 +5,6 @@ const typeDefs = gql`
     _id: ID!
     username: String
     email: String
-    stupidThing: String
     mediaCount: Int
     savedMedia: [Media]
     comments: [Comment]
@@ -18,21 +17,28 @@ const typeDefs = gql`
     username: String
   }
 
+  input Reaction {
+    reactionBody: String!
+    username: String!
+    createdAt: String
+  }
+
   input MediaInput {
-    mediaId: ID
-    title: String
-    imdbID: String
+    mediaID: String
+    title: String!
     year: String
-    plot: String
     director: String
     actors: String
+    plot: String
     authors: String
+    imdbID: String!
     poster: String
     image: String
+    username: String!
   }
 
   type Media {
-    mediaId: ID
+    mediaID: String
     createdAt: String
     username: String
     title: String
