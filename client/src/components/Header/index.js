@@ -1,7 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
-// so we know if user is logged in
-import Auth from "../../utils/auth";
+import React from 'react';
+import { Button } from 'react-bootstrap';
+import Auth from '../../utils/auth';
 
 const Header = () => {
   const logout = (event) => {
@@ -10,24 +9,24 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-secondary mb-4 py-2 flex-row align-center">
-      <div className="container flex-row justify-space-between-lg justify-center align-center">
-        <Link to="/">
+    <header className='bg-secondary mb-4 py-2 flex-row align-center'>
+      <div className='container flex-row justify-space-between-lg justify-center align-center'>
+        <Button href='/'>
           <h1>reading rambo</h1>
-        </Link>
+        </Button>
 
-        <nav className="text-center">
+        <nav className='navbar'>
           {Auth.loggedIn() ? (
             <>
-              <Link to="/mymedia">My Stuff</Link>
-              <a href="/" onClick={logout}>
-                Logout
-              </a>
+              <Button href='/mymedia'>my stuff</Button>
+              <Button href='/' onClick={logout}>
+                logout
+              </Button>
             </>
           ) : (
             <>
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Signup</Link>
+              <Button href='/login'>login</Button>{' '}
+              <Button href='/signup'>signup</Button>
             </>
           )}
         </nav>
