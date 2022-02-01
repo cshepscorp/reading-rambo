@@ -1,6 +1,6 @@
-const { User, Comment, Media } = require('../models');
-const { AuthenticationError } = require('apollo-server-express');
-const { signToken } = require('../utils/auth');
+const { User, Comment, Media } = require("../models");
+const { AuthenticationError } = require("apollo-server-express");
+const { signToken } = require("../utils/auth");
 const mongoose = require("mongoose");
 
 const resolvers = {
@@ -8,13 +8,14 @@ const resolvers = {
     me: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
-          .select('-__v -password')
-          .populate('comments')
-          .populate('savedMedia');
+          .select("-__v -password")
+          .populate("comments")
+          .populate("savedMedia")
+          .sort({ createdAt: -1 });
         return userData;
       }
 
-      throw new AuthenticationError('Not logged in');
+      throw new AuthenticationError("Not logged in");
     },
     comments: async (parent, { username }) => {
       const params = username ? { username } : {};
@@ -27,16 +28,18 @@ const resolvers = {
     // get all users
     users: async () => {
       return User.find()
-        .select('-__v -password')
-        .populate('comments')
-        .populate('savedMedia');
+        .select("-__v -password")
+        .populate("comments")
+        .populate("savedMedia");
     },
     // get a user by username
     user: async (parent, { username }) => {
-      return User.findOne({ username })
-        // .select("-__v -password") //seems to be useless?
-        .populate("comments")
-        .populate("savedMedia");
+      return (
+        User.findOne({ username })
+          // .select("-__v -password") //seems to be useless?
+          .populate("comments")
+          .populate("savedMedia")
+      );
     },
     savedMedia: async (parent, { username }) => {
       const params = username ? { username } : { username: "" };
@@ -46,7 +49,7 @@ const resolvers = {
 
     media: async () => {
       return Media.find().sort({ createdAt: -1 });
-    }
+    },
   },
   Mutation: {
     addUser: async (parent, args) => {
@@ -58,13 +61,13 @@ const resolvers = {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user) {
-        throw new AuthenticationError('Incorrect credentials');
+        throw new AuthenticationError("Incorrect credentials");
       }
 
       const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
-        throw new AuthenticationError('Incorrect credentials');
+        throw new AuthenticationError("Incorrect credentials");
       }
 
       const token = signToken(user);
@@ -74,7 +77,7 @@ const resolvers = {
       if (context.user) {
         const comment = await Comment.create({
           ...args,
-          username: context.user.username
+          username: context.user.username,
         });
 
         await User.findByIdAndUpdate(
@@ -86,7 +89,7 @@ const resolvers = {
         return comment;
       }
 
-      throw new AuthenticationError('You need to be logged in!');
+      throw new AuthenticationError("You need to be logged in!");
     },
     addMedia: async (parent, { input }, context) => {
       if (context.user) {
@@ -95,13 +98,12 @@ const resolvers = {
           { _id: context.user._id },
           { $addToSet: { savedMedia: newMedia } },
           { new: true, runValidators: true }
-        )
-        .populate("savedMedia");
+        ).populate("savedMedia");
 
         return updatedUser;
       }
 
-      throw new AuthenticationError('You need to be logged in!');
+      throw new AuthenticationError("You need to be logged in!");
     },
     removeMedia: async (parent, { title }, context) => {
       if (context.user) {
@@ -116,7 +118,7 @@ const resolvers = {
         return updatedUser;
       }
 
-      throw new AuthenticationError('You need to be logged in!');
+      throw new AuthenticationError("You need to be logged in!");
     },
     addReaction: async (parent, { mediaId, reactionBody }, context) => {
       if (context.user) {
@@ -124,8 +126,8 @@ const resolvers = {
           { _id: mediaId },
           {
             $push: {
-              reactions: { reactionBody, username: context.user.username }
-            }
+              reactions: { reactionBody, username: context.user.username },
+            },
           },
           { new: true, runValidators: true }
         );
@@ -133,9 +135,9 @@ const resolvers = {
         return updatedMedia;
       }
 
-      throw new AuthenticationError('You need to be logged in!');
-    }
-  }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+  },
 };
 
 module.exports = resolvers;

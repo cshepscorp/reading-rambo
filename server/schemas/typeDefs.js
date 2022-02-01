@@ -26,6 +26,7 @@ const typeDefs = gql`
   input MediaInput {
     mediaId: String
     bookId: String
+    createdAt: String
     title: String!
     year: String
     director: String
