@@ -36,7 +36,7 @@ export const ADD_MEDIA = gql`
         plot
         description
         director
-        actors
+        stars
         authors
         poster
         image
@@ -61,7 +61,7 @@ export const REMOVE_MEDIA = gql`
         plot
         description
         director
-        actors
+        stars
         authors
         poster
         image

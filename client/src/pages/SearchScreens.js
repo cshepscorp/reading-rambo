@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Auth from '../utils/auth';
-import { searchOmdb } from '../utils/API';
+//import { searchOmdb } from "../utils/API";
+import { searchImdb } from '../utils/API';
 import { ADD_MEDIA } from '../utils/mutations';
 import { QUERY_ME } from '../utils/queries';
 import { saveMediaIds, getSavedMediaIds } from '../utils/localStorage';
@@ -11,11 +12,11 @@ const SearchScreens = () => {
 
   const [mediaSearchInput, setMediaSearchInput] = useState('');
 
+  const [savedMediaIds, setSavedMediaIds] = useState(getSavedMediaIds());
+
   const [relatedSearchValue, setRelatedSearchValue] = useState('');
   console.log('=====Current setRelatedSearchInput value=====');
   console.log(relatedSearchValue);
-
-  const [savedMediaIds, setSavedMediaIds] = useState(getSavedMediaIds());
 
   useEffect(() => {
     return () => saveMediaIds(savedMediaIds);
@@ -49,22 +50,36 @@ const SearchScreens = () => {
     }
 
     try {
-      const response = await searchOmdb(mediaSearchInput);
-      //const response = await searchImdb(mediaSearchInput);
+      //const response = await searchOmdb(mediaSearchInput);
+      const response = await searchImdb(mediaSearchInput);
 
       if (!response.ok) {
         throw new Error('something went wrong');
       }
 
-      const { Search } = await response.json();
-
       // OMDB API
-      const mediaData = Search.map((media) => ({
-        mediaId: media.imdbID,
-        title: media.Title,
-        year: media.Year,
-        image: media.Poster
-      }));
+      // const { Search } = await response.json();
+      // const mediaData = Search.map((media) => ({
+      //   mediaId: media.imdbID,
+      //   title: media.Title,
+      //   year: media.Year,
+      //   image: media.Poster,
+      // }));
+
+      // IMDB API
+      const { results } = await response.json();
+      const mediaData = results
+        .filter((media, idx) => idx < 12)
+        .map((media) => ({
+          mediaId: media.id,
+          title: media.title,
+          year: media.description,
+          image: media.image,
+          stars: media.stars,
+          description: media.plot
+        }));
+      // console.log("============mediaData from imdb============");
+      // console.log(mediaData);
 
       console.log(mediaData);
       setSearchedMedia(mediaData);
@@ -126,8 +141,15 @@ const SearchScreens = () => {
                   />
                 ) : null}
                 <h4>{media.title}</h4>
-                {media.year ? <p>Year: {media.year}</p> : null}
-                {/* <p>id: {media.mediaId}</p> */}
+                {media.year ? (
+                  <p className='small'>Year: {media.year}</p>
+                ) : null}
+                {media.stars ? (
+                  <p className='small'>Starring: {media.stars}</p>
+                ) : null}
+                {media.description ? (
+                  <p className='small'>Description: {media.description}</p>
+                ) : null}
                 <button
                   className='btn-block btn-info'
                   value={media.title}
