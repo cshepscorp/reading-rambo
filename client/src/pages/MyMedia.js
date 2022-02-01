@@ -63,11 +63,11 @@ const MyMedia = () => {
                   ) : null}
                   <div>
                     <p>{media.title}</p>
-                    {media.actors ? (
-                      <p className="small">Actors: {media.actors}</p>
-                    ) : null}
                     {media.year ? (
                       <p className="small">Year: {media.year}</p>
+                    ) : null}
+                    {media.stars ? (
+                      <p className="small">Starring: {media.stars}</p>
                     ) : null}
                     {media.description ? (
                       <p className="small">Description: {media.description}</p>

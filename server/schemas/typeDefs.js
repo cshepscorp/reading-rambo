@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
   type User {
@@ -30,7 +30,7 @@ const typeDefs = gql`
     year: String
     director: String
     description: String
-    actors: String
+    stars: String
     plot: String
     authors: String
     poster: String
@@ -46,7 +46,7 @@ const typeDefs = gql`
     plot: String
     description: String
     director: String
-    actors: String
+    stars: String
     authors: [String]
     poster: String
     image: String

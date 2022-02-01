@@ -15,7 +15,7 @@ export const QUERY_ME = gql`
         plot
         description
         director
-        actors
+        stars
         authors
         poster
         image

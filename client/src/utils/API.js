@@ -10,7 +10,8 @@ export const searchOmdb = (query) => {
   return fetch(`https://www.omdbapi.com/?apikey=40e85cd&s=${query}`);
 };
 
-
 export const searchImdb = (query) => {
-  return fetch(`https://imdb-api.com/API/AdvancedSearch/k_ie48e5ua?title=${query}`);
+  return fetch(
+    `https://imdb-api.com/API/AdvancedSearch/k_ie48e5ua?title=${query}&moviemeter=0,`
+  );
 };
