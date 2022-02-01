@@ -100,22 +100,22 @@ const Home = () => {
                 <button className='btn-block btn-info'>
                   See related Media
                 </button>
-                {/* {Auth.loggedIn() && (
-                    <button
-                      disabled={savedMediaIds?.some(
-                        (savedMediaId) => savedMediaId === media.mediaId
-                      )}
-                      className="btn-block btn-info"
-                      onClick={() => handleSaveMedia(media.mediaId)}
-                    >
-                      {savedMediaIds?.some(
-                        (savedMediaId) => savedMediaId === media.mediaId
-                      )
-                        ? "This item is saved!"
-                        : "Save this to my list!"}
-                    </button>
-                  )}
-                  {error && <div>Book save failed</div>} */}
+                {Auth.loggedIn() && (
+                  <button
+                    disabled={savedMediaIds?.some(
+                      (savedMediaId) => savedMediaId === media.mediaId
+                    )}
+                    className='btn-block btn-info'
+                    onClick={() => handleSaveMedia(media.mediaId)}
+                  >
+                    {savedMediaIds?.some(
+                      (savedMediaId) => savedMediaId === media.mediaId
+                    )
+                      ? 'This item is saved!'
+                      : 'Save this to my list!'}
+                  </button>
+                )}
+                {error && <div>Book save failed</div>}
               </div>
             );
           })}
