@@ -24,6 +24,7 @@ const Home = () => {
   console.log(loggedIn);
 
   const { data: userData } = useQuery(QUERY_ME);
+
   console.log('====ME data');
   console.log(userData);
 

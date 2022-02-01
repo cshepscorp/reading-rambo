@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useMutation, useQuery } from '@apollo/client';
 import { REMOVE_MEDIA } from '../utils/mutations';
-import { QUERY_ME } from '../utils/queries'
+import { QUERY_ME } from '../utils/queries';
 import Auth from '../utils/auth';
 import { removeMediaId } from '../utils/localStorage';
 
