@@ -121,7 +121,7 @@ const SearchBooks = () => {
           })}
         </div>
       </div>
-    </header>
+    </div>
   );
 };
 
