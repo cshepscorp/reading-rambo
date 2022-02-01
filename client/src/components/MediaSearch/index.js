@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Auth from "../../utils/auth";
 import { searchOmdb } from "../../utils/API";
+import { searchImdb } from "../../utils/API";
 import { ADD_MEDIA } from "../../utils/mutations";
 import { QUERY_ME } from "../../utils/queries";
 import { saveMediaIds, getSavedMediaIds } from "../../utils/localStorage";
@@ -17,9 +18,9 @@ const MediaSearch = () => {
     return () => saveMediaIds(savedMediaIds);
   });
 
-  console.log("=====LOGGED IN?=====");
+  // console.log("=====LOGGED IN?=====");
   const loggedIn = Auth.loggedIn();
-  console.log(loggedIn);
+  // console.log(loggedIn);
 
   // save media
   const [addMedia, { error }] = useMutation(ADD_MEDIA, {
@@ -45,24 +46,37 @@ const MediaSearch = () => {
     }
 
     try {
-      const response = await searchOmdb(mediaSearchInput);
-      //const response = await searchImdb(mediaSearchInput);
+      //const response = await searchOmdb(mediaSearchInput);
+      const response = await searchImdb(mediaSearchInput);
 
       if (!response.ok) {
         throw new Error("something went wrong");
       }
 
-      const { Search } = await response.json();
+      //const { Search } = await response.json();
+      const { results } = await response.json();
+      console.log(results);
+      // // OMDB API
+      // const mediaData = Search.map((media) => ({
+      //   mediaId: media.imdbID,
+      //   title: media.Title,
+      //   year: media.Year,
+      //   image: media.Poster,
+      // }));
 
-      // OMDB API
-      const mediaData = Search.map((media) => ({
-        mediaId: media.imdbID,
-        title: media.Title,
-        year: media.Year,
-        image: media.Poster,
-      }));
-
-      console.log(mediaData);
+      // IMDB API
+      const mediaData = results
+        .filter((media, idx) => idx < 12)
+        .map((media) => ({
+          mediaId: media.id,
+          title: media.title,
+          year: media.description,
+          image: media.image,
+          stars: media.stars,
+          description: media.plot,
+        }));
+      // console.log("============mediaData from imdb============");
+      // console.log(mediaData);
       setSearchedMedia(mediaData);
       setMediaSearchInput("");
     } catch (err) {
@@ -75,16 +89,17 @@ const MediaSearch = () => {
       (media) => media.mediaId === mediaId
     );
 
+    console.log("=====mediaToSave on click handleSaveMedia========");
+    console.log(mediaToSave);
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-    console.log("=====user token on save media action========");
-    console.log(token);
+    // console.log("=====user token on save media action========");
+    // console.log(token);
 
     if (!token) {
       return false;
     }
 
     try {
-      console.log(mediaToSave);
       await addMedia({
         variables: { input: mediaToSave },
       });
@@ -124,8 +139,11 @@ const MediaSearch = () => {
                 ) : null}
                 <h4>{media.title}</h4>
                 <p>Year: {media.year}</p>
-                <p>id: {media.mediaId}</p>
-                <button className="btn-block btn-info">See related Books</button>
+                <p>Starring: {media.stars}</p>
+                <p>Plot: {media.description}</p>
+                <button className="btn-block btn-info">
+                  See related Books
+                </button>
                 {Auth.loggedIn() && (
                   <button
                     disabled={savedMediaIds?.some(
