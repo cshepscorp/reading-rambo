@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import Auth from "../../utils/auth";
-import { searchOmdb } from "../../utils/API";
-import { ADD_MEDIA } from "../../utils/mutations";
-import { QUERY_ME } from "../../utils/queries";
-import { saveMediaIds, getSavedMediaIds } from "../../utils/localStorage";
-import { useMutation } from "@apollo/client";
+import React, { useEffect, useState } from 'react';
+import Auth from '../utils/auth';
+import { searchOmdb } from '../utils/API';
+import { ADD_MEDIA } from '../utils/mutations';
+import { QUERY_ME } from '../utils/queries';
+import { saveMediaIds, getSavedMediaIds } from '../utils/localStorage';
+import { useMutation } from '@apollo/client';
 
-const MediaSearch = () => {
+const SearchScreens = () => {
   const [searchedMedia, setSearchedMedia] = useState([]);
 
-  const [mediaSearchInput, setMediaSearchInput] = useState("");
+  const [mediaSearchInput, setMediaSearchInput] = useState('');
 
   const [savedMediaIds, setSavedMediaIds] = useState(getSavedMediaIds());
 
@@ -17,7 +17,7 @@ const MediaSearch = () => {
     return () => saveMediaIds(savedMediaIds);
   });
 
-  console.log("=====LOGGED IN?=====");
+  console.log('=====LOGGED IN?=====');
   const loggedIn = Auth.loggedIn();
   console.log(loggedIn);
 
@@ -29,12 +29,12 @@ const MediaSearch = () => {
 
         cache.writeQuery({
           query: QUERY_ME,
-          data: { me: { ...me, savedMedia: [...me.savedMedia, addMedia] } },
+          data: { me: { ...me, savedMedia: [...me.savedMedia, addMedia] } }
         });
       } catch (e) {
         console.error(e);
       }
-    },
+    }
   });
 
   const handleMedia = async (e) => {
@@ -49,7 +49,7 @@ const MediaSearch = () => {
       //const response = await searchImdb(mediaSearchInput);
 
       if (!response.ok) {
-        throw new Error("something went wrong");
+        throw new Error('something went wrong');
       }
 
       const { Search } = await response.json();
@@ -59,12 +59,12 @@ const MediaSearch = () => {
         mediaId: media.imdbID,
         title: media.Title,
         year: media.Year,
-        image: media.Poster,
+        image: media.Poster
       }));
 
       console.log(mediaData);
       setSearchedMedia(mediaData);
-      setMediaSearchInput("");
+      setMediaSearchInput('');
     } catch (err) {
       console.log(err);
     }
@@ -76,7 +76,7 @@ const MediaSearch = () => {
     );
 
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-    console.log("=====user token on save media action========");
+    console.log('=====user token on save media action========');
     console.log(token);
 
     if (!token) {
@@ -86,7 +86,7 @@ const MediaSearch = () => {
     try {
       console.log(mediaToSave);
       await addMedia({
-        variables: { input: mediaToSave },
+        variables: { input: mediaToSave }
       });
       setSavedMediaIds([...savedMediaIds, mediaToSave.mediaId]);
     } catch (err) {
@@ -96,52 +96,53 @@ const MediaSearch = () => {
 
   return (
     <div>
-      --------------------
-      <h2>related media</h2>
+      <h2>screens: shows and movies</h2>
       <div>
-        <form onSubmit={handleMedia} id="searchbar">
+        <form onSubmit={handleMedia} id='searchbar'>
           <input
-            type="text"
-            name="mediaSearchInput"
+            type='text'
+            name='mediaSearchInput'
             value={mediaSearchInput}
             onChange={(e) => setMediaSearchInput(e.target.value)}
-            placeholder="search for movies/series"
+            placeholder='search for movies/series'
           ></input>
-          <button type="submit">search</button>
+          <button type='submit'>search</button>
         </form>
       </div>
-      <div id="media-search-results">
-        <div className="cardHolder">
+      <div id='media-search-results'>
+        <div className='cardHolder'>
           {searchedMedia.map((media) => {
             return (
-              <div className="card" key={media.mediaId}>
+              <div className='card' key={media.mediaId}>
                 {media.image ? (
                   <img
                     src={media.image}
                     alt={`The poster for ${media.title}`}
-                    variant="top"
+                    variant='top'
                   />
                 ) : null}
                 <h4>{media.title}</h4>
                 <p>Year: {media.year}</p>
                 <p>id: {media.mediaId}</p>
-                <button className="btn-block btn-info">See related Books</button>
+                <button className='btn-block btn-info'>
+                  See related Books
+                </button>
                 {Auth.loggedIn() && (
                   <button
                     disabled={savedMediaIds?.some(
                       (savedMediaId) => savedMediaId === media.mediaId
                     )}
-                    className="btn-block btn-info"
+                    className='btn-block btn-info'
                     onClick={() => handleSaveMedia(media.mediaId)}
                   >
                     {savedMediaIds?.some(
                       (savedMediaId) => savedMediaId === media.mediaId
                     )
-                      ? "This item is saved!"
-                      : "Save this to my list!"}
+                      ? 'This item is saved!'
+                      : 'Save this to my list!'}
                   </button>
                 )}
-                {error && <div>Book save failed</div>}
+                {error && <div>save failed</div>}
               </div>
             );
           })}
@@ -151,4 +152,4 @@ const MediaSearch = () => {
   );
 };
 
-export default MediaSearch;
+export default SearchScreens;

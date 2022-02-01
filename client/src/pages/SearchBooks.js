@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import './style.css';
 import { useQuery } from '@apollo/client';
-import { QUERY_ME } from '../../utils/queries';
-import { searchGoogleBooks } from '../../utils/API';
-import Auth from '../../utils/auth';
+import { QUERY_ME } from '../utils/queries';
+import { searchGoogleBooks } from '../utils/API';
+import Auth from '../utils/auth';
 
 // create state to hold saved bookId values
 //   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
@@ -13,7 +12,7 @@ import Auth from '../../utils/auth';
 //     return () => saveBookIds(savedBookIds);
 //   });
 
-const Home = () => {
+const SearchBooks = () => {
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
@@ -63,6 +62,7 @@ const Home = () => {
 
   return (
     <div>
+      <h2>books</h2>
       <form onSubmit={handleSubmit} id='searchbar'>
         <input
           type='text'
@@ -100,7 +100,7 @@ const Home = () => {
                 <button className='btn-block btn-info'>
                   See related Media
                 </button>
-                {Auth.loggedIn() && (
+                {/* {Auth.loggedIn() && (
                   <button
                     disabled={savedMediaIds?.some(
                       (savedMediaId) => savedMediaId === media.mediaId
@@ -115,7 +115,7 @@ const Home = () => {
                       : 'Save this to my list!'}
                   </button>
                 )}
-                {error && <div>Book save failed</div>}
+                {error && <div>Book save failed</div>} */}
               </div>
             );
           })}
@@ -125,4 +125,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default SearchBooks;
