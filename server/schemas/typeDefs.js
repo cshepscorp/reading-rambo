@@ -29,6 +29,7 @@ const typeDefs = gql`
     title: String!
     year: String
     director: String
+    description: String
     actors: String
     plot: String
     authors: String
@@ -40,14 +41,13 @@ const typeDefs = gql`
     mediaId: String
     bookId: String
     createdAt: String
-    username: String
     title: String!
-    imdbId: String
     year: String
     plot: String
+    description: String
     director: String
     actors: String
-    authors: String
+    authors: [String]
     poster: String
     image: String
     reactions: [Reaction]

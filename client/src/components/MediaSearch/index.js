@@ -84,6 +84,7 @@ const MediaSearch = () => {
     }
 
     try {
+      console.log(mediaToSave);
       await addMedia({
         variables: { input: mediaToSave },
       });
