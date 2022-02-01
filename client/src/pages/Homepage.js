@@ -3,6 +3,8 @@ import React from 'react';
 // import { QUERY_ME } from '../utils/queries';
 // import Auth from '../utils/auth';
 
+import { Container, Button } from 'react-bootstrap';
+
 // create state to hold saved bookId values
 //   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
@@ -13,21 +15,17 @@ import React from 'react';
 
 const Homepage = () => {
   return (
-    <div>
+    <Container>
       <h2>where would you like to look?</h2>
 
       <div>
-        <a href='/searchbooks'>
-          <button>books</button>
-        </a>
+        <Button href='/searchbooks'>books</Button>
       </div>
 
       <div>
-        <a href='/searchscreens'>
-          <button>screens</button>
-        </a>
+        <Button href='/searchscreens'>screens</Button>
       </div>
-    </div>
+    </Container>
   );
 };
 
