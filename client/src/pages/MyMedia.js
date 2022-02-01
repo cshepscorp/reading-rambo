@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import { useMutation, useQuery } from '@apollo/client';
-import { REMOVE_MEDIA } from '../utils/mutations';
-import { QUERY_ME } from '../utils/queries';
-import Auth from '../utils/auth';
-import { removeMediaId } from '../utils/localStorage';
+import { useMutation, useQuery } from "@apollo/client";
+import { REMOVE_MEDIA } from "../utils/mutations";
+import { QUERY_ME } from "../utils/queries";
+import Auth from "../utils/auth";
+import { removeMediaId } from "../utils/localStorage";
 
 const MyMedia = () => {
   const { loading, data } = useQuery(QUERY_ME);
   const userData = data?.me || [];
-  console.log('=======ME DATA======');
+  console.log("=======ME DATA======");
 
   const [removeMedia] = useMutation(REMOVE_MEDIA);
 
@@ -22,7 +22,7 @@ const MyMedia = () => {
 
     try {
       await removeMedia({
-        variables: { mediaId: mediaId }
+        variables: { mediaId: mediaId },
       });
 
       removeMediaId(mediaId);
@@ -50,24 +50,31 @@ const MyMedia = () => {
           }:`}
         </h2>
         <div>
-          <div className='cardHolder'>
+          <div className="cardHolder">
             {userData.savedMedia.map((media) => {
               return (
-                <div className='card' key={media.mediaId} border='dark'>
+                <div className="card" key={media.mediaId} border="dark">
                   {media.image ? (
                     <img
                       src={media.image}
                       alt={`The main graphic for ${media.title}`}
-                      variant='top'
+                      variant="top"
                     />
                   ) : null}
                   <div>
                     <p>{media.title}</p>
-                    <p className='small'>People: {media.authors}</p>
-                    {media.link ? <p>{media.link}</p> : null}
-                    <p>{media.description}</p>
+                    {media.actors ? (
+                      <p className="small">Actors: {media.actors}</p>
+                    ) : null}
+                    {media.year ? (
+                      <p className="small">Year: {media.year}</p>
+                    ) : null}
+                    {media.description ? (
+                      <p className="small">Description: {media.description}</p>
+                    ) : null}
+                    {media.link ? <p className="small">{media.link}</p> : null}
                     <button
-                      className='btn-block btn-danger'
+                      className="btn-block btn-danger"
                       onClick={() => handleDeleteMedia(media.mediaId)}
                     >
                       Delete this item!

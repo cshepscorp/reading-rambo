@@ -11,6 +11,10 @@ const SearchScreens = () => {
 
   const [mediaSearchInput, setMediaSearchInput] = useState('');
 
+  const [relatedSearchValue, setRelatedSearchValue] = useState('');
+  console.log('=====Current setRelatedSearchInput value=====');
+  console.log(relatedSearchValue);
+
   const [savedMediaIds, setSavedMediaIds] = useState(getSavedMediaIds());
 
   useEffect(() => {
@@ -122,9 +126,13 @@ const SearchScreens = () => {
                   />
                 ) : null}
                 <h4>{media.title}</h4>
-                <p>Year: {media.year}</p>
-                <p>id: {media.mediaId}</p>
-                <button className='btn-block btn-info'>
+                {media.year ? <p>Year: {media.year}</p> : null}
+                {/* <p>id: {media.mediaId}</p> */}
+                <button
+                  className='btn-block btn-info'
+                  value={media.title}
+                  onClick={() => setRelatedSearchValue(media.title)}
+                >
                   See related Books
                 </button>
                 {Auth.loggedIn() && (
