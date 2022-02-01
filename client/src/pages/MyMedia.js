@@ -41,15 +41,13 @@ const MyMedia = () => {
   return (
     <main>
       <div>
-        <h1>My saved media!</h1>
+        <h1>your saved shows / movies</h1>
       </div>
       <div>
         <h2>
-          {userData.mediaCount.length
-            ? `Viewing ${userData.mediaCount.length} saved ${
-                userData.mediaCount.length === 1 ? 'item' : 'items'
-              }:`
-            : 'You have no saved items!'}
+          {`Viewing ${userData.mediaCount} saved ${
+            userData.mediaCount === 1 ? 'item' : 'items'
+          }:`}
         </h2>
         <div>
           <div className='cardHolder'>
