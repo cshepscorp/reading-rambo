@@ -1,6 +1,7 @@
 const { User, Comment, Media } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
+const mongoose = require("mongoose");
 
 const resolvers = {
   Query: {
@@ -102,13 +103,16 @@ const resolvers = {
 
       throw new AuthenticationError('You need to be logged in!');
     },
-    removeMedia: async (parent, { mediaId }, context) => {
+    removeMedia: async (parent, { title }, context) => {
       if (context.user) {
-        const updatedUser = await User.findByIdAndUpdate(
+        const toDelete = await Media.findOne({ title });
+
+        const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $pull: { savedMedia: { mediaId: mediaId } } },
-          { new: true }
-        );
+          { $pull: { savedMedia: toDelete._id } },
+          { new: true, runValidators: true }
+        ).populate("savedMedia");
+
         return updatedUser;
       }
 

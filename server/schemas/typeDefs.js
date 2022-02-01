@@ -81,7 +81,7 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     addComment(commentText: String!): Comment
     addMedia(input: MediaInput!): User
-    removeMedia(mediaId: ID!): User
+    removeMedia(title: String!): User
     addReaction(mediaId: ID!, reactionBody: String!): Media
   }
 `;
