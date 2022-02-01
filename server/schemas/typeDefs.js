@@ -24,25 +24,24 @@ const typeDefs = gql`
   }
 
   input MediaInput {
-    mediaId: ID
-    title: String
-    imdbId: String
+    mediaId: String
+    bookId: String
+    title: String!
     year: String
     director: String
     actors: String
     plot: String
     authors: String
-    imdbID: String!
     poster: String
     image: String
-    username: String!
   }
 
   type Media {
-    mediaID: String
+    mediaId: String
+    bookId: String
     createdAt: String
     username: String
-    title: String
+    title: String!
     imdbId: String
     year: String
     plot: String

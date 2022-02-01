@@ -14,7 +14,7 @@ db.once('open', async () => {
   for (let i = 0; i < 50; i += 1) {
     const username = faker.internet.userName();
     const email = faker.internet.email(username);
-    const password = faker.internet.password();
+    const password = "password"; //faker.internet.password();
 
     userData.push({ username, email, password });
   }
@@ -43,7 +43,7 @@ db.once('open', async () => {
   let createdMedias = [];
   for (let i = 0; i < 100; i += 1) {
     const title = faker.lorem.words(Math.round(Math.random() * 3) + 1);
-    const imdbId = Math.round(Math.random() * 10) + 1;
+    const mediaId = Math.round(Math.random() * 10) + 1;
     const actors = faker.lorem.words(Math.round(Math.random() * 5) + 1);
 
     const plot = faker.lorem.words(Math.round(Math.random() * 20) + 1);
@@ -55,7 +55,7 @@ db.once('open', async () => {
       title,
       actors,
       plot,
-      imdbId,
+      mediaId,
       username
     });
 
@@ -65,9 +65,13 @@ db.once('open', async () => {
     );
 
     createdMedias.push(createdMedia);
-    console.log('===createdMedias====');
-    console.log(createdMedias);
   }
+  console.log('===Created Media Example===');
+  console.log(createdMedias[0]);
+  console.log('===Created User Example===');
+  console.log(userData[0]);
+  console.log('===Created Comment Example===');
+  console.log(createdComments[0]);
 
   console.log('all done!');
   process.exit(0);
