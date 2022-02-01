@@ -4,6 +4,8 @@ import { QUERY_ME } from '../utils/queries';
 import { searchGoogleBooks } from '../utils/API';
 import Auth from '../utils/auth';
 
+import { Button } from 'react-bootstrap';
+
 // create state to hold saved bookId values
 //   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
@@ -71,10 +73,11 @@ const SearchBooks = () => {
           onChange={(e) => setSearchInput(e.target.value)}
           className='form-control'
           placeholder='type a book'
-        ></input>
-        <button className='btn' type='submit'>
+        ></input>{' '}
+        <br></br>
+        <Button className='btn' type='submit'>
           search
-        </button>
+        </Button>
       </form>
 
       <div id='search-results'>
@@ -97,9 +100,9 @@ const SearchBooks = () => {
                 <h4>{book.title}</h4>
                 <p>Year: {book.year}</p>
                 <p>id: {book.bookId}</p>
-                <button className='btn-block btn-info'>
+                <Button className='btn-block btn-info'>
                   See related Media
-                </button>
+                </Button>
                 {/* {Auth.loggedIn() && (
                   <button
                     disabled={savedMediaIds?.some(

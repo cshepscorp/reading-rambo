@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
-import { LOGIN_USER } from "../utils/mutations";
-import Auth from "../utils/auth";
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../utils/mutations';
+import Auth from '../utils/auth';
 
 const Login = (props) => {
-  const [formState, setFormState] = useState({ email: "", password: "" });
+  const [formState, setFormState] = useState({ email: '', password: '' });
 
   const [login, { error }] = useMutation(LOGIN_USER);
 
@@ -13,7 +13,7 @@ const Login = (props) => {
 
     setFormState({
       ...formState,
-      [name]: value,
+      [name]: value
     });
   };
 
@@ -22,7 +22,7 @@ const Login = (props) => {
 
     try {
       const { data } = await login({
-        variables: { ...formState },
+        variables: { ...formState }
       });
       Auth.login(data.login.token);
     } catch (e) {
@@ -31,32 +31,33 @@ const Login = (props) => {
   };
 
   return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-med-6">
-        <h2>Log In</h2>
+    <main className='flex-row justify-center mb-4'>
+      <div className='col-12 col-med-6'>
+        <h2>welcome back</h2>
         <div>
           <form onSubmit={handleFormSubmit}>
-            <label for="email">Email:</label>
+            <label for='email'>email:</label>
             <input
-              className="form-input"
-              placeholder="Your email"
-              name="email"
-              type="email"
-              id="email"
+              className='form-input'
+              placeholder='Your email'
+              name='email'
+              type='email'
+              id='email'
               value={formState.email}
               onChange={handleChange}
-            />
-            <label for="password">Password:</label>
+            />{' '}
+            <br></br>
+            <label for='password'>password:</label>
             <input
-              className="form-input"
-              placeholder="******"
-              name="password"
-              type="password"
-              id="password"
+              className='form-input'
+              placeholder='******'
+              name='password'
+              type='password'
+              id='password'
               value={formState.password}
               onChange={handleChange}
             />
-            <button className="btn d-block w-100" type="submit">
+            <button className='btn d-block w-100' type='submit'>
               Submit
             </button>
             {error && <div>Login failed</div>}

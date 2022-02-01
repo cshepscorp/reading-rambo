@@ -1,4 +1,5 @@
 import React from 'react';
+import './style.css';
 import { Button } from 'react-bootstrap';
 import Auth from '../../utils/auth';
 
@@ -18,14 +19,14 @@ const Header = () => {
         <nav className='navbar'>
           {Auth.loggedIn() ? (
             <>
-              <Button href='/mymedia'>my stuff</Button>
+              <Button href='/mymedia'>my stuff</Button> |{' '}
               <Button href='/' onClick={logout}>
                 logout
               </Button>
             </>
           ) : (
             <>
-              <Button href='/login'>login</Button>{' '}
+              <Button href='/login'>login</Button> |{' '}
               <Button href='/signup'>signup</Button>
             </>
           )}

@@ -12,6 +12,12 @@
   box-sizing: border-box;
 } */
 
+main {
+  text-align: center;
+  padding: 20px;
+  margin: 20px;
+}
+
 body {
   margin: 10px 200px;
   padding: 0;
@@ -24,7 +30,6 @@ body {
   font-family: 'Poiret One', sans-serif;
 }
 
-h1,
 h2,
 h3,
 h4,
@@ -34,10 +39,17 @@ h6 {
   font-weight: 500;
   margin: 5px 0;
   line-height: 1.25;
+  text-align: center;
 }
 
 h1 {
+  display: inline;
   font-size: 2.25rem;
+  text-align: left;
+  font-family: 'Poiret One', sans-serif;
+  font-weight: 500;
+  margin: 5px 0;
+  line-height: 1.25;
 }
 
 h2 {
@@ -63,11 +75,13 @@ h6 {
 p {
   font-size: 1.1rem;
   margin-top: 0;
+  text-align: center;
 }
 
 a {
   color: var(--yellow);
   text-decoration: none;
+  text-align: center;
 }
 
 a:hover {
@@ -76,6 +90,10 @@ a:hover {
   transition: 0.5s ease;
 }
 
-.navbar {
-  float: right;
+button {
+  text-align: center;
+}
+
+form {
+  text-align: center;
 }
