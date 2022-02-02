@@ -8,6 +8,8 @@ import { QUERY_MEDIA } from "../utils/queries";
 const Home = () => {
   const { loading, data } = useQuery(QUERY_MEDIA);
   const medias = data?.mediaFeed || [];
+  console.log("all media items incl fake data");
+  console.log(medias);
 
   const loggedIn = Auth.loggedIn();
 

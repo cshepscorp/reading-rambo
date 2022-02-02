@@ -29,6 +29,7 @@ export const ADD_MEDIA = gql`
     addMedia(input: $input) {
       username
       savedMedia {
+        username
         title
         bookId
         mediaId
@@ -54,6 +55,7 @@ export const REMOVE_MEDIA = gql`
       email
       mediaCount
       savedMedia {
+        username
         title
         bookId
         mediaId

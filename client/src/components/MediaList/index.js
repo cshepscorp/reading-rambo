@@ -35,8 +35,14 @@ const MediaList = ({ medias, title }) => {
                     className="text-light"
                   >
                     {media.username}
+                    
                   </Link>{" "}
                   added by {media.createdAt} on {media.createdAt}
+                  <Link
+                    to={`/profile/${media.username}`}
+                    style={{ fontWeight: 300 }}
+                    className="text-light"
+                  >View all of this users' media</Link>
                 </p>
               </div>
             </div>

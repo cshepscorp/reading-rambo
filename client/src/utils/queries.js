@@ -8,6 +8,7 @@ export const QUERY_ME = gql`
       email
       mediaCount
       savedMedia {
+        username
         title
         bookId
         mediaId
@@ -33,6 +34,7 @@ export const QUERY_USER = gql`
       email
       mediaCount
       savedMedia {
+        username
         title
         bookId
         mediaId
@@ -40,7 +42,7 @@ export const QUERY_USER = gql`
         plot
         description
         director
-        actors
+        stars
         authors
         poster
         image

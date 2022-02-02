@@ -12,6 +12,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import MyMedia from "./pages/MyMedia";
 import MediaAll from "./pages/MediaAll";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 import SearchEXPERIMENT from "./pages/SearchEXPERIMENT";
@@ -57,6 +58,7 @@ function App() {
             <Route exact path="/mediaall" component={MediaAll} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
+            <Route exact path="/profile/:username?" component={Profile} />
             <Route exact path="/mymedia" component={MyMedia} />
             <Route exact path="/experiment" component={SearchEXPERIMENT} />
             {/* <Route exact path="/thought/:id" component={SingleMedia} /> */}
