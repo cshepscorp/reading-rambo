@@ -49,3 +49,14 @@ export const QUERY_USER = gql`
     }
   }
 `;
+
+export const QUERY_MEDIA = gql`
+  query mediaFeed($username: String) {
+    mediaFeed(username: $username) {
+      title
+      image
+      createdAt
+      username
+    }
+  }
+`;

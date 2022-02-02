@@ -47,8 +47,12 @@ const resolvers = {
       return Media.find(params).sort({ createdAt: -1 });
     },
 
-    media: async () => {
-      return Media.find().sort({ createdAt: -1 });
+    // media: async () => {
+    //   return Media.find().sort({ createdAt: -1 });
+    // },
+    mediaFeed: async (parent, { username }) => {
+      const params = username ? { username } : {};
+      return Media.find(params).sort({ createdAt: -1 });
     },
   },
   Mutation: {
