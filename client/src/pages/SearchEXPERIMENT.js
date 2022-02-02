@@ -5,6 +5,7 @@ import { QUERY_ME } from '../utils/queries';
 import { saveMediaIds, getSavedMediaIds } from '../utils/localStorage';
 import { useMutation } from '@apollo/client';
 import { searchBooks, searchScreens } from '../utils/search';
+import SearchType from "../components/SearchType";
 
 const SearchScreens = () => {
   const [searchedMedia, setSearchedMedia] = useState([]);
@@ -99,13 +100,11 @@ const SearchScreens = () => {
 
   return (
     <div>
-      <h2>screens: shows and movies</h2>
+      <h2>Media Search</h2>
+      
       {/* Some sort of button here could indicate which type of media to search
           Also these buttons need to become unclickable while the search is going somehow */}
-      <input type="radio" id="searchBook" name="searchType" onClick={() => {setMediaSearchType("books")}}></input>
-      <label htmlFor="searchBook">Search For Books</label> <br></br>
-      <input type="radio" id="searchMovies" name="searchType" onClick={() => {setMediaSearchType("screens")}}></input>
-      <label htmlFor="searchMovies">Search For Movies</label> <br></br>
+      <SearchType setMediaSearchType={setMediaSearchType}/>
 
       <div>
         <form onSubmit={handleMedia} id='searchbar'>
