@@ -13,6 +13,8 @@ import Login from './pages/Login';
 import MyMedia from './pages/MyMedia';
 import NotFound from './pages/NotFound';
 
+import SearchEXPERIMENT from "./pages/SearchEXPERIMENT";
+
 import {
   ApolloProvider,
   ApolloClient,
@@ -54,6 +56,7 @@ function App() {
             <Route exact path='/login' component={Login} />
             <Route exact path='/signup' component={Signup} />
             <Route exact path='/mymedia' component={MyMedia} />
+            <Route exact path='/experiment' component={SearchEXPERIMENT} />
             {/* <Route exact path="/thought/:id" component={SingleMedia} /> */}
             <Route component={NotFound} />
           </Switch>
