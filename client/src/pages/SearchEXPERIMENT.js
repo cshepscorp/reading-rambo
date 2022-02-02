@@ -122,6 +122,7 @@ const SearchScreens = () => {
       </div>
       <div id='media-search-results'>
         <div className='cardHolder'>
+          {/* The elements below will actually successfully display attributes from either books or movies */}
           {searchedMedia.map((media) => {
             return (
               <div className='card' key={media.mediaId}>
