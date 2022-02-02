@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Auth from '../utils/auth';
-import { searchImdb } from '../utils/API';
 import { ADD_MEDIA } from '../utils/mutations';
 import { QUERY_ME } from '../utils/queries';
 import { saveMediaIds, getSavedMediaIds } from '../utils/localStorage';
