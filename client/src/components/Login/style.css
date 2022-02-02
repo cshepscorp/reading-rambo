@@ -1,0 +1,11 @@
+#submit {
+  color: thistle;
+  font-size: x-large;
+}
+
+#submit:hover {
+  color: #f7f7ff;
+  background-color: #3a3e40;
+  font-style: normal;
+  transition: 0.8s;
+}
