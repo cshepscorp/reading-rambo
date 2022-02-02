@@ -18,6 +18,9 @@ const SearchScreens = () => {
   console.log('=====Current setRelatedSearchInput value=====');
   console.log(relatedSearchValue);
 
+  //this sets the media search type to either screens or books
+  const [mediaSearchType, setMediaSearchType] = useState("screens");
+
   useEffect(() => {
     return () => saveMediaIds(savedMediaIds);
   });
@@ -25,6 +28,7 @@ const SearchScreens = () => {
   console.log('=====LOGGED IN?=====');
   const loggedIn = Auth.loggedIn();
   console.log(loggedIn);
+  console.log("Search type: "+mediaSearchType);
 
   // save media
   const [addMedia, { error }] = useMutation(ADD_MEDIA, {
@@ -56,11 +60,14 @@ const SearchScreens = () => {
     }
 
     let mediaData = "error";
-    if (false) {
+    if (mediaSearchType === "screens") {
       mediaData = await searchScreens(mediaSearchInput);
     }
-    else {
+    else if (mediaSearchType === "books") {
       mediaData = await searchBooks(mediaSearchInput);
+    }
+    else {
+      throw new Error("Neither search type selected!")
     }
 
     setSearchedMedia(mediaData);
@@ -94,10 +101,11 @@ const SearchScreens = () => {
   return (
     <div>
       <h2>screens: shows and movies</h2>
-
-      <input type="radio" id="searchBook" name="searchType"></input>
+      {/* Some sort of button here could indicate which type of media to search
+          Also these buttons need to become unclickable while the search is going somehow */}
+      <input type="radio" id="searchBook" name="searchType" onClick={() => {setMediaSearchType("books")}}></input>
       <label htmlFor="searchBook">Search For Books</label> <br></br>
-      <input type="radio" id="searchMovies" name="searchType"></input>
+      <input type="radio" id="searchMovies" name="searchType" onClick={() => {setMediaSearchType("screens")}}></input>
       <label htmlFor="searchMovies">Search For Movies</label> <br></br>
 
       <div>
