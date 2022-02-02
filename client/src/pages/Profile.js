@@ -15,8 +15,6 @@ const Profile = (props) => {
   //const [addFriend] = useMutation(ADD_FRIEND);
   const { username: userParam } = useParams();
 
-  
-
   // Now if there's a value in userParam that we got from the URL bar, we'll use that value to run the QUERY_USER query. If there's no value in userParam, like if we simply visit /profile as a logged-in user, we'll execute the QUERY_ME query instead.
   const { loading, data } = useQuery(userParam ? QUERY_USER : QUERY_ME, {
     variables: { username: userParam },
@@ -25,12 +23,12 @@ const Profile = (props) => {
   // when we run QUERY_ME, the response will return with our data in the me property; but if it runs QUERY_USER instead, the response will return with our data in the user property. Now we have it set up to check for both.
   const user = data?.me || data?.user || {};
 
-  console.log('=======ME DATA======');
+  console.log("=======ME DATA======");
   console.log(user);
 
   // redirect to personal page if username is logged-in user's username
   if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
-    return <Redirect to="/profile" />;
+    return <Redirect to="/mymedia" />;
   }
 
   if (loading) {

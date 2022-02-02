@@ -21,7 +21,7 @@ const MediaList = ({ medias, title }) => {
                 />
               ) : null}
               <div className="card-body">
-                <Link to={`/media/${media._id}`}>
+                <Link to={`/media/${media.mediaId}`}>
                   <p>{media.title}</p>
                   {/* <p className="mb-0">
                   Reactions: {media.reactionCount} || Click to{" "}

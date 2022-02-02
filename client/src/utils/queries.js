@@ -59,6 +59,7 @@ export const QUERY_MEDIA = gql`
       image
       createdAt
       username
+      mediaId
     }
   }
 `;
