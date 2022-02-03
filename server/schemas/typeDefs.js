@@ -25,6 +25,7 @@ const typeDefs = gql`
 
   input MediaInput {
     mediaId: String
+    username: String
     bookId: String
     createdAt: String
     title: String!
@@ -40,6 +41,7 @@ const typeDefs = gql`
 
   type Media {
     mediaId: String
+    username: String
     bookId: String
     createdAt: String
     title: String!
@@ -74,7 +76,8 @@ const typeDefs = gql`
     comments(username: String): [Comment]
     comment(_id: ID!): Comment
     savedMedia(username: String): [Media]
-    media: [Media]
+    mediaFeed(username: String): [Media]
+    media(mediaId: ID!): Media
   }
 
   type Mutation {

@@ -5,6 +5,7 @@ import { ADD_MEDIA } from "../utils/mutations";
 import { QUERY_ME } from "../utils/queries";
 import { saveMediaIds, getSavedMediaIds } from "../utils/localStorage";
 import { useMutation } from "@apollo/client";
+import { searchBooks, searchScreens } from "../utils/search";
 
 const SearchScreens = () => {
   const [searchedMedia, setSearchedMedia] = useState([]);
@@ -17,6 +18,9 @@ const SearchScreens = () => {
   console.log("=====Current setRelatedSearchInput value=====");
   console.log(relatedSearchValue);
 
+  //this sets the media search type to either screens or books
+  const [mediaSearchType, setMediaSearchType] = useState("screens");
+
   useEffect(() => {
     return () => saveMediaIds(savedMediaIds);
   });
@@ -24,6 +28,7 @@ const SearchScreens = () => {
   console.log("=====LOGGED IN?=====");
   const loggedIn = Auth.loggedIn();
   console.log(loggedIn);
+  console.log("Search type: " + mediaSearchType);
 
   // save media
   const [addMedia, { error }] = useMutation(ADD_MEDIA, {
@@ -41,6 +46,12 @@ const SearchScreens = () => {
     },
   });
 
+  /**
+   * Checks to see if we're searching a movie or book based
+   * on the radiobuttons (for now; needs changing), then calls
+   * the proper function from utils/search.js to do so,
+   * then changes the state to reflect gathered information
+   */
   const handleMedia = async (e) => {
     e.preventDefault();
 
@@ -48,35 +59,17 @@ const SearchScreens = () => {
       return false;
     }
 
-    try {
-      //const response = await searchOmdb(mediaSearchInput);
-      const response = await searchImdb(mediaSearchInput);
-
-      if (!response.ok) {
-        throw new Error("something went wrong");
-      }
-
-      // IMDB API
-      const { results } = await response.json();
-      const mediaData = results
-        .filter((media, idx) => idx < 12)
-        .map((media) => ({
-          mediaId: media.id,
-          title: media.title,
-          year: media.description,
-          image: media.image,
-          stars: media.stars,
-          description: media.plot,
-        }));
-      // console.log("============mediaData from imdb============");
-      // console.log(mediaData);
-
-      console.log(mediaData);
-      setSearchedMedia(mediaData);
-      setMediaSearchInput("");
-    } catch (err) {
-      console.log(err);
+    let mediaData = "error";
+    if (mediaSearchType === "screens") {
+      mediaData = await searchScreens(mediaSearchInput);
+    } else if (mediaSearchType === "books") {
+      mediaData = await searchBooks(mediaSearchInput);
+    } else {
+      throw new Error("Neither search type selected!");
     }
+
+    setSearchedMedia(mediaData);
+    setMediaSearchInput("");
   };
 
   const handleSaveMedia = async (mediaId) => {
@@ -106,6 +99,26 @@ const SearchScreens = () => {
   return (
     <div>
       <h2>screens: shows and movies</h2>
+      {/* Some sort of button here could indicate which type of media to search
+          Also these buttons need to become unclickable while the search is going somehow */}
+      <input
+        type="radio"
+        id="searchBook"
+        name="searchType"
+        onClick={() => {
+          setMediaSearchType("books");
+        }}
+      ></input>
+      <label htmlFor="searchBook">Search For Books</label> <br></br>
+      <input
+        type="radio"
+        id="searchMovies"
+        name="searchType"
+        onClick={() => {
+          setMediaSearchType("screens");
+        }}
+      ></input>
+      <label htmlFor="searchMovies">Search For Movies</label> <br></br>
       <div>
         <form onSubmit={handleMedia} id="searchbar">
           <input
@@ -143,11 +156,12 @@ const SearchScreens = () => {
                 <button
                   className="btn-block btn-info"
                   value={media.title}
-                  onClick={() => setRelatedSearchValue(media.title)}
+                  onClick={
+                    (() => setRelatedSearchValue(media.title))
+                  }
                 >
                   See related Books
                 </button>
-
                 {Auth.loggedIn() && (
                   <button
                     disabled={savedMediaIds?.some(

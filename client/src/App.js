@@ -5,15 +5,18 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './components/Home';
 import Footer from './components/Footer';
-import Login from './components/Login';
 
-// PAGES
 import SearchBooks from './pages/SearchBooks';
 import SearchScreens from './pages/SearchScreens';
+import SingleMedia from './pages/SingleMedia';
 import Signup from './pages/Signup';
-// import Login from './pages/Login';
+import Login from './pages/Login';
 import MyMedia from './pages/MyMedia';
+import MediaAll from './pages/MediaAll';
+import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
+
+import SearchEXPERIMENT from './pages/SearchEXPERIMENT';
 
 import {
   ApolloProvider,
@@ -53,9 +56,13 @@ function App() {
             <Route exact path='/' component={Home} />
             <Route exact path='/searchbooks' component={SearchBooks} />
             <Route exact path='/searchscreens' component={SearchScreens} />
+            <Route exact path='/mediaall' component={MediaAll} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/signup' component={Signup} />
+            <Route exact path='/profile/:username?' component={Profile} />
             <Route exact path='/mymedia' component={MyMedia} />
+            <Route exact path='/media/:id' component={SingleMedia} />
+            <Route exact path='/experiment' component={SearchEXPERIMENT} />
             {/* <Route exact path="/thought/:id" component={SingleMedia} /> */}
             <Route component={NotFound} />
           </Switch>
