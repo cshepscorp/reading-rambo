@@ -21,6 +21,7 @@ export const QUERY_ME = gql`
         poster
         image
         createdAt
+        reactionCount
       }
     }
   }
@@ -47,6 +48,7 @@ export const QUERY_USER = gql`
         poster
         image
         createdAt
+        reactionCount
       }
     }
   }
@@ -60,6 +62,25 @@ export const QUERY_MEDIA = gql`
       createdAt
       username
       mediaId
+      reactionCount
+    }
+  }
+`;
+
+export const QUERY_SINGLE_MEDIA = gql`
+  query media($mediaId: ID!) {
+    media(mediaId: $mediaId) {
+      title
+      mediaId
+      image
+      reactionCount
+      createdAt
+      reactions {
+        _id
+        reactionBody
+        username
+        createdAt
+      }
     }
   }
 `;

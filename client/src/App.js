@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Homepage from "./pages/Homepage";
 import SearchBooks from "./pages/SearchBooks";
 import SearchScreens from "./pages/SearchScreens";
+import SingleMedia from "./pages/SingleMedia";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import MyMedia from "./pages/MyMedia";
@@ -60,6 +61,7 @@ function App() {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/profile/:username?" component={Profile} />
             <Route exact path="/mymedia" component={MyMedia} />
+            <Route exact path="/media/:id" component={SingleMedia} />
             <Route exact path="/experiment" component={SearchEXPERIMENT} />
             {/* <Route exact path="/thought/:id" component={SingleMedia} /> */}
             <Route component={NotFound} />

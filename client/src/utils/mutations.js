@@ -72,3 +72,18 @@ export const REMOVE_MEDIA = gql`
     }
   }
 `;
+
+export const ADD_REACTION = gql`
+  mutation addReaction($mediaId: ID!, $reactionBody: String!) {
+    addReaction(mediaId: $mediaId, reactionBody: $reactionBody) {
+      mediaId
+      reactionCount
+      reactions {
+        _id
+        reactionBody
+        createdAt
+        username
+      }
+    }
+  }
+`;

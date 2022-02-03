@@ -77,7 +77,7 @@ const typeDefs = gql`
     comment(_id: ID!): Comment
     savedMedia(username: String): [Media]
     mediaFeed(username: String): [Media]
-    media: [Media]
+    media(mediaId: ID!): Media
   }
 
   type Mutation {

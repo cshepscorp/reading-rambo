@@ -46,10 +46,9 @@ const resolvers = {
 
       return Media.find(params).sort({ createdAt: -1 });
     },
-
-    // media: async () => {
-    //   return Media.find().sort({ createdAt: -1 });
-    // },
+    media: async (parent, { mediaId }) => {
+      return Media.findOne({ mediaId });
+    },
     mediaFeed: async (parent, { username }) => {
       const params = username ? { username } : {};
       return Media.find(params).sort({ createdAt: -1 });
@@ -127,7 +126,7 @@ const resolvers = {
     addReaction: async (parent, { mediaId, reactionBody }, context) => {
       if (context.user) {
         const updatedMedia = await Media.findOneAndUpdate(
-          { _id: mediaId },
+          { mediaId: mediaId },
           {
             $push: {
               reactions: { reactionBody, username: context.user.username },

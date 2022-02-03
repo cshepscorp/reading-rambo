@@ -14,11 +14,11 @@ const MediaList = ({ medias, title }) => {
           medias.map((media) => (
             <div key={media._id} className="card mb-3">
               {media.image ? (
-                <img
+                <Link to={`/media/${media.mediaId}`}><img
+                  className="feed-image"
                   src={media.image}
                   alt={`The main graphic for ${media.title}`}
-                  variant="top"
-                />
+                /></Link>
               ) : null}
               <div className="card-body">
                 <Link to={`/media/${media.mediaId}`}>
@@ -28,22 +28,24 @@ const MediaList = ({ medias, title }) => {
                   {media.reactionCount ? "see" : "start"} the discussion!
                 </p> */}
                 </Link>
-                <p className="card-body">
-                  <Link
+                {/* <Link
                     to={`/profile/${media.username}`}
                     style={{ fontWeight: 300 }}
                     className="text-light"
                   >
                     {media.username}
                     
-                  </Link>{" "}
-                  added by {media.createdAt} on {media.createdAt}
-                  <Link
-                    to={`/profile/${media.username}`}
-                    style={{ fontWeight: 300 }}
-                    className="text-light"
-                  >View all of this users' media</Link>
-                </p>
+                  </Link>{" "} */}
+                {/* <p class="card-text">
+                added {media.createdAt}
+                </p> */}
+                <Link
+                  to={`/media/${media.mediaId}`}
+                  style={{ fontWeight: 300 }}
+                  className="text-light"
+                >
+                  Say something...
+                </Link>
               </div>
             </div>
           ))}
