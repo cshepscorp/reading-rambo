@@ -15,20 +15,23 @@ const SearchScreens = () => {
   const [savedMediaIds, setSavedMediaIds] = useState(getSavedMediaIds());
 
   const [relatedSearchValue, setRelatedSearchValue] = useState('');
-  console.log('=====Current setRelatedSearchInput value=====');
-  console.log(relatedSearchValue);
+  // console.log('=====Current setRelatedSearchInput value=====');
+  // console.log(relatedSearchValue);
 
   //this sets the media search type to either screens or books
-  const [mediaSearchType, setMediaSearchType] = useState("screens");
+  const [mediaSearchType, setMediaSearchType] = useState("");
+  const [activeRadioButton, setActiveRadioButton] = useState("");
 
   useEffect(() => {
     return () => saveMediaIds(savedMediaIds);
   });
 
-  console.log('=====LOGGED IN?=====');
+  // console.log('=====LOGGED IN?=====');
   const loggedIn = Auth.loggedIn();
-  console.log(loggedIn);
+  // console.log(loggedIn);
   console.log("Search type: "+mediaSearchType);
+  console.log("Active radiobutton: " + activeRadioButton);
+
 
   // save media
   const [addMedia, { error }] = useMutation(ADD_MEDIA, {
@@ -58,6 +61,10 @@ const SearchScreens = () => {
     if (!mediaSearchInput) {
       return false;
     }
+    /**
+     * The problem is this statement here below is async, which means the stuff below that will activate before it's finished changing the state to reflect the state of the active radioButton. It's set up this way to prevent other parts of the form from changing based on which radioButton is pressed, and instead waiting until the search has actually begun to apply those changes. This is necessary for the search results to be properly formatted. I've tried useEffect (a lot of different ways), but it fires off at what seems like complete random and also refuses to properly execute the searchX() functions inside the conditionals below. I'm not familiar enough with hooks to make this thing work the way I could with other environments. wat do
+     */
+    setMediaSearchType(activeRadioButton);
 
     let mediaData = "error";
     if (mediaSearchType === "screens") {
@@ -67,12 +74,14 @@ const SearchScreens = () => {
       mediaData = await searchBooks(mediaSearchInput);
     }
     else {
+      console.log("MediaSearchType at time of error:" + mediaSearchType);
       throw new Error("Neither search type selected!")
     }
 
     setSearchedMedia(mediaData);
     setMediaSearchInput('');
   };
+
 
   const handleSaveMedia = async (mediaId) => {
     const mediaToSave = searchedMedia.find(
@@ -104,7 +113,7 @@ const SearchScreens = () => {
       
       {/* Some sort of button here could indicate which type of media to search
           Also these buttons need to become unclickable while the search is going somehow */}
-      <SearchType setMediaSearchType={setMediaSearchType}/>
+      <SearchType setActiveRadioButton={setActiveRadioButton}/>
 
       <div>
         <form onSubmit={handleMedia} id='searchbar'>
@@ -146,7 +155,7 @@ const SearchScreens = () => {
                   value={media.title}
                   onClick={() => setRelatedSearchValue(media.title)}
                 >
-                  See related Books
+                  {mediaSearchType === "screens" ? "See Related Books":"See Related Movies"}
                 </button>
                 {Auth.loggedIn() && (
                   <button
