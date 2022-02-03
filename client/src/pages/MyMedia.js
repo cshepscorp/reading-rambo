@@ -42,7 +42,7 @@ const MyMedia = () => {
   return (
     <main>
       <div>
-        <h1>${userData.username}'s your saved shows / movies</h1>
+        <h1>{userData.username}'s saved shows / movies</h1>
       </div>
       <div>
         <h2>
