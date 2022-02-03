@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
-import { SvgIcon } from '@mui/material';
-import GitHubIcon from '@mui/icons-material/GitHub';
+// import { SvgIcon } from '@mui/material';
+// import GitHubIcon from '@mui/icons-material/GitHub';
 
 const Footer = () => {
   return (
@@ -11,7 +11,7 @@ const Footer = () => {
         rel='noreferrer'
         target='_blank'
       >
-        <SvgIcon alt='github-icon' fontSize='large' component={GitHubIcon} />
+        {/* <SvgIcon alt='github-icon' fontSize='large' component={GitHubIcon} /> */}
       </a>
     </div>
   );
