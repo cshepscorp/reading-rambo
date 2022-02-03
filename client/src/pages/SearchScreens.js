@@ -124,7 +124,8 @@ const SearchScreens = () => {
             value={mediaSearchInput}
             onChange={(e) => setMediaSearchInput(e.target.value)}
             placeholder='search for movies/series'
-          ></input>
+          ></input>{' '}
+          <br></br>
           <button type='submit'>search</button>
         </form>
       </div>
