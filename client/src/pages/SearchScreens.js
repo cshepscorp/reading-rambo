@@ -6,6 +6,7 @@ import { ADD_MEDIA } from '../utils/mutations';
 import { QUERY_ME } from '../utils/queries';
 import { saveMediaIds, getSavedMediaIds } from '../utils/localStorage';
 import { useMutation } from '@apollo/client';
+import { Link } from "react-router-dom";
 
 const SearchScreens = () => {
   const [searchedMedia, setSearchedMedia] = useState([]);
@@ -150,6 +151,13 @@ const SearchScreens = () => {
                 {media.description ? (
                   <p className='small'>Description: {media.description}</p>
                 ) : null}
+                {Auth.loggedIn() && (<Link
+                      to={`/media/${media.mediaId}`}
+                      style={{ fontWeight: 300 }}
+                      className="text-light"
+                    >
+                      Add to the convo...
+                    </Link>)}
                 <button
                   className='btn-block btn-info'
                   value={media.title}
@@ -157,6 +165,7 @@ const SearchScreens = () => {
                 >
                   See related Books
                 </button>
+  
                 {Auth.loggedIn() && (
                   <button
                     disabled={savedMediaIds?.some(

@@ -77,13 +77,15 @@ const MyMedia = () => {
                     {`${media.reactionCount} ${
                       media.reactionCount === 1 ? "reaction" : "reactions"
                     }!`}
-                    <Link
-                      to={`/media/${media.mediaId}`}
-                      style={{ fontWeight: 300 }}
-                      className="text-light"
-                    >
-                      Add to the convo...
-                    </Link>
+                    {Auth.loggedIn() && (
+                      <Link
+                        to={`/media/${media.mediaId}`}
+                        style={{ fontWeight: 300 }}
+                        className="text-light"
+                      >
+                        Add to the convo...
+                      </Link>
+                    )}
                     <button
                       className="btn-block btn-danger"
                       onClick={() => handleDeleteMedia(media.mediaId)}

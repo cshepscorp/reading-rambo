@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Auth from '../../utils/auth';
 
 const MediaList = ({ medias, title }) => {
   if (!medias.length) {
@@ -39,13 +40,13 @@ const MediaList = ({ medias, title }) => {
                 {/* <p class="card-text">
                 added {media.createdAt}
                 </p> */}
-                <Link
-                  to={`/media/${media.mediaId}`}
-                  style={{ fontWeight: 300 }}
-                  className="text-light"
-                >
-                  Say something...
-                </Link>
+                {Auth.loggedIn() && (<Link
+                      to={`/media/${media.mediaId}`}
+                      style={{ fontWeight: 300 }}
+                      className="text-light"
+                    >
+                      Add to the convo...
+                    </Link>)}
               </div>
             </div>
           ))}
