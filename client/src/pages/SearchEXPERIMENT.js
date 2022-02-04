@@ -38,6 +38,33 @@ const SearchScreens = () => {
     setMediaSearchInput('');
   }, [mediaSearchType]);
 
+  //new useEffect =================================================================================
+  useEffect( async () => {
+    console.log("relatedSearchValue: " + relatedSearchValue);
+
+    if (!relatedSearchValue) {
+      return false;
+    }
+
+    let mediaData = "error";
+    if (mediaSearchType === "books") {
+      console.log("state read as books");
+      mediaData = await searchScreens(relatedSearchValue);
+    }
+    else if (mediaSearchType === "screens") {
+      console.log("state read as screens");
+      mediaData = await searchBooks(relatedSearchValue);
+    }
+    else {
+      console.log("MediaSearchType at time of error:" + mediaSearchType);
+      throw new Error("Neither search type selected!")
+    }
+    console.log(mediaData);
+    setSearchedMedia(mediaData);
+    setMediaSearchInput('');
+
+  }, [relatedSearchValue])
+
   // console.log('=====LOGGED IN?=====');
   const loggedIn = Auth.loggedIn();
   // console.log(loggedIn);
@@ -70,7 +97,7 @@ const SearchScreens = () => {
   const handleMedia = async (e) => {
     e.preventDefault();
 
-    console.log("starting handleMedia");
+    console.log("handleMedia activated");
 
     if (!mediaSearchInput) {
       return false;
@@ -95,8 +122,6 @@ const SearchScreens = () => {
       setMediaSearchType(activeRadioButton);
     }
   };
-
-
 
   const handleSaveMedia = async (mediaId) => {
     const mediaToSave = searchedMedia.find(
