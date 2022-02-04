@@ -9,14 +9,9 @@ import SearchType from "../components/SearchType";
 
 const SearchScreens = () => {
   const [searchedMedia, setSearchedMedia] = useState([]);
-
   const [mediaSearchInput, setMediaSearchInput] = useState('');
-
   const [savedMediaIds, setSavedMediaIds] = useState(getSavedMediaIds());
-
   const [relatedSearchValue, setRelatedSearchValue] = useState('');
-  // console.log('=====Current setRelatedSearchInput value=====');
-  // console.log(relatedSearchValue);
 
   //this sets the media search type to either screens or books
   const [mediaSearchType, setMediaSearchType] = useState("");
@@ -26,10 +21,27 @@ const SearchScreens = () => {
     return () => saveMediaIds(savedMediaIds);
   });
 
+  useEffect(async () => {
+    console.log("useEffect activated");
+    let mediaData = "error";
+    if (mediaSearchType === "screens") {
+      mediaData = await searchScreens(mediaSearchInput);
+    }
+    else if (mediaSearchType === "books") {
+      mediaData = await searchBooks(mediaSearchInput);
+    }
+    else {
+      console.log("MediaSearchType at time of error:" + mediaSearchType);
+      throw new Error("Neither search type selected!")
+    }
+    setSearchedMedia(mediaData);
+    setMediaSearchInput('');
+  }, [mediaSearchType]);
+
   // console.log('=====LOGGED IN?=====');
   const loggedIn = Auth.loggedIn();
   // console.log(loggedIn);
-  console.log("Search type: "+mediaSearchType);
+  console.log("Search type: " + mediaSearchType);
   console.log("Active radiobutton: " + activeRadioButton);
 
 
@@ -58,29 +70,32 @@ const SearchScreens = () => {
   const handleMedia = async (e) => {
     e.preventDefault();
 
+    console.log("starting handleMedia");
+
     if (!mediaSearchInput) {
       return false;
     }
-    /**
-     * The problem is this statement here below is async, which means the stuff below that will activate before it's finished changing the state to reflect the state of the active radioButton. It's set up this way to prevent other parts of the form from changing based on which radioButton is pressed, and instead waiting until the search has actually begun to apply those changes. This is necessary for the search results to be properly formatted. I've tried useEffect (a lot of different ways), but it fires off at what seems like complete random and also refuses to properly execute the searchX() functions inside the conditionals below. I'm not familiar enough with hooks to make this thing work the way I could with other environments. wat do
-     */
-    setMediaSearchType(activeRadioButton);
 
-    let mediaData = "error";
-    if (mediaSearchType === "screens") {
-      mediaData = await searchScreens(mediaSearchInput);
-    }
-    else if (mediaSearchType === "books") {
-      mediaData = await searchBooks(mediaSearchInput);
-    }
-    else {
-      console.log("MediaSearchType at time of error:" + mediaSearchType);
-      throw new Error("Neither search type selected!")
-    }
+    if (activeRadioButton === mediaSearchType) {
+      let mediaData = "error";
+      if (mediaSearchType === "screens") {
+        mediaData = await searchScreens(mediaSearchInput);
+      }
+      else if (mediaSearchType === "books") {
+        mediaData = await searchBooks(mediaSearchInput);
+      }
+      else {
+        console.log("MediaSearchType at time of error:" + mediaSearchType);
+        throw new Error("Neither search type selected!")
+      }
 
-    setSearchedMedia(mediaData);
-    setMediaSearchInput('');
+      setSearchedMedia(mediaData);
+      setMediaSearchInput('');
+    } else {
+      setMediaSearchType(activeRadioButton);
+    }
   };
+
 
 
   const handleSaveMedia = async (mediaId) => {
@@ -110,10 +125,10 @@ const SearchScreens = () => {
   return (
     <div>
       <h2>Media Search</h2>
-      
+
       {/* Some sort of button here could indicate which type of media to search
           Also these buttons need to become unclickable while the search is going somehow */}
-      <SearchType setActiveRadioButton={setActiveRadioButton}/>
+      <SearchType setActiveRadioButton={setActiveRadioButton} />
 
       <div>
         <form onSubmit={handleMedia} id='searchbar'>
@@ -155,7 +170,7 @@ const SearchScreens = () => {
                   value={media.title}
                   onClick={() => setRelatedSearchValue(media.title)}
                 >
-                  {mediaSearchType === "screens" ? "See Related Books":"See Related Movies"}
+                  {mediaSearchType === "screens" ? "See Related Books" : "See Related Movies"}
                 </button>
                 {Auth.loggedIn() && (
                   <button
