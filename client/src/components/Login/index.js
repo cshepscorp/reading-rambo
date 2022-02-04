@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
-import Auth from '../utils/auth';
-import '../components/Button/style.css';
+import { LOGIN_USER } from '../../utils/mutations';
+import Auth from '../../utils/auth';
+import './style.css';
 import { Button, Container, TextField } from '@mui/material';
 
 const Login = (props) => {
@@ -33,8 +33,7 @@ const Login = (props) => {
   };
 
   return (
-    <main className='flex-row justify-center mb-4'>
-      <div className='col-12 col-med-6'>
+      <div>
         <h2>welcome back</h2>
         <div>
           <form onSubmit={handleFormSubmit}>
@@ -67,7 +66,6 @@ const Login = (props) => {
           </form>
         </div>
       </div>
-    </main>
   );
 };
 

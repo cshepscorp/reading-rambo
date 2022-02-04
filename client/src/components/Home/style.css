@@ -1,0 +1,21 @@
+#book-btn,
+#screen-btn {
+  color: thistle;
+  font-size: x-large;
+}
+
+#book-btn:hover,
+#screen-btn:hover {
+  color: #f7f7ff;
+  background-color: #3a3e40;
+  font-style: normal;
+  transition: 0.8s;
+}
+
+#standard-search {
+  color: #171a26;
+  font-size: xx-large;
+  background-color: thistle;
+  border-radius: 8px;
+  text-decoration: none;
+}
