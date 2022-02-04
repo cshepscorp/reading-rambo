@@ -2,14 +2,23 @@
 #screen-btn {
   color: thistle;
   font-size: x-large;
+  font-family: 'Roboto Mono', monospace;
+  box-shadow: -10px 10px;
 }
 
+#related-btn {
+  color: thistle;
+  font-family: 'Roboto Mono', monospace;
+  box-shadow: -8px 8px;
+}
+
+#related-btn:hover,
 #book-btn:hover,
 #screen-btn:hover {
   color: #f7f7ff;
-  background-color: #3a3e40;
   font-style: normal;
   transition: 0.8s;
+  box-shadow: -4px 4px;
 }
 
 #standard-search {
@@ -17,5 +26,17 @@
   font-size: xx-large;
   background-color: thistle;
   border-radius: 8px;
+  text-decoration: none;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.card {
+  border-radius: 8px;
+  background-color: #474d65;
+  border: 0px;
+
+}
+
+a {
   text-decoration: none;
 }

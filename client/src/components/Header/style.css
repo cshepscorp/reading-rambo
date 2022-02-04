@@ -9,3 +9,39 @@ nav {
 header {
   margin-bottom: 50px;
 }
+
+#logo {
+  box-shadow: -10px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--yellow);
+}
+
+#logo:hover {
+  box-shadow: -4px 4px;
+  transition: 0.5s ease;
+  text-decoration: none;
+  color: #f7f7ff;
+}
+
+a {
+  text-decoration: none;
+}
+
+#mystuff-nav,
+#login-nav,
+#logout-nav,
+#signup-nav {
+  color: var(--yellow);
+  text-decoration: none;
+  text-align: center;
+}
+
+#mystuff-nav:hover,
+#login-nav:hover,
+#logout-nav:hover,
+#signup-nav:hover {
+  transition: 0.5s ease;
+  color: #f7f7ff;
+  text-decoration: none;
+}

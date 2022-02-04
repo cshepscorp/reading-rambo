@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
 :root {
   --dark: #171a26;
   --white: #f7f7ff;
@@ -7,10 +9,6 @@
   --yellow: #eefc7a;
   --green: #70f87e;
 }
-
-/* * {
-  box-sizing: border-box;
-} */
 
 main {
   text-align: center;
@@ -28,7 +26,7 @@ body {
   letter-spacing: 0.1em;
   background: var(--dark);
   color: var(--white);
-  font-family: 'Poiret One', sans-serif;
+  font-family: 'Roboto Mono', monospace;
 }
 
 h2,
@@ -36,7 +34,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Poiret One', sans-serif;
+  font-family: 'Roboto Mono', monospace;
   font-weight: 500;
   margin: 5px 0;
   line-height: 1.25;
@@ -47,7 +45,7 @@ h1 {
   display: inline;
   font-size: 2.25rem;
   text-align: left;
-  font-family: 'Poiret One', sans-serif;
+  font-family: 'Roboto Mono', monospace;
   font-weight: 500;
   margin: 5px 0;
   line-height: 1.25;
@@ -80,15 +78,8 @@ p {
 }
 
 a {
-  color: var(--yellow);
   text-decoration: none;
-  text-align: center;
-}
-
-a:hover {
   color: #f7f7ff;
-  font-style: italic;
-  transition: 0.5s ease;
 }
 
 .container {
@@ -103,5 +94,3 @@ button {
 form {
   text-align: center;
 }
-
-

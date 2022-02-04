@@ -10,13 +10,11 @@ import SearchBooks from './pages/SearchBooks';
 import SearchScreens from './pages/SearchScreens';
 import SingleMedia from './pages/SingleMedia';
 import Signup from './pages/Signup';
-import Login from './pages/Login';
-import MyMedia from './pages/MyMedia';
+import Login from './components/Login';
+import MyContent from './components/MyContent';
 import MediaAll from './pages/MediaAll';
 import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
-
-import SearchEXPERIMENT from './pages/SearchEXPERIMENT';
 
 import {
   ApolloProvider,
@@ -60,10 +58,8 @@ function App() {
             <Route exact path='/login' component={Login} />
             <Route exact path='/signup' component={Signup} />
             <Route exact path='/profile/:username?' component={Profile} />
-            <Route exact path='/mymedia' component={MyMedia} />
+            <Route exact path='/mymedia' component={MyContent} />
             <Route exact path='/media/:id' component={SingleMedia} />
-            <Route exact path='/experiment' component={SearchEXPERIMENT} />
-            {/* <Route exact path="/thought/:id" component={SingleMedia} /> */}
             <Route component={NotFound} />
           </Switch>
           <Footer />

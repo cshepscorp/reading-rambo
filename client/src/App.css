@@ -37,14 +37,6 @@
   }
 }
 
-.cardHolder {
-  flex: 6;
-  padding: 20px;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
 .card img {
   display: block;
   float: left;
