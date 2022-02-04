@@ -27,6 +27,31 @@ const Home = () => {
     return () => saveMediaIds(savedMediaIds);
   });
 
+  // effect for related media button
+    useEffect(async () => {
+      console.log('relatedSearchValue: ' + relatedSearchValue);
+
+      if (!relatedSearchValue) {
+        return false;
+      }
+
+      let mediaData = 'error';
+      if (mediaSearchType === 'books') {
+        console.log('state read as books');
+        mediaData = await searchScreens(relatedSearchValue);
+      } else if (mediaSearchType === 'screens') {
+        console.log('state read as screens');
+        mediaData = await searchBooks(relatedSearchValue);
+      } else {
+        console.log('MediaSearchType at time of error:' + mediaSearchType);
+        throw new Error('Neither search type selected!');
+      }
+      console.log(mediaData);
+      setSearchedMedia(mediaData);
+      setMediaSearchInput('');
+    }, [relatedSearchValue]);
+
+
   // handles state based on media type being searched
   const handleMedia = async (e) => {
     e.preventDefault();
