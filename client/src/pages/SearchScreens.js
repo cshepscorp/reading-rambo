@@ -1,28 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import Auth from '../utils/auth';
-//import { searchOmdb } from "../utils/API";
-import { searchImdb } from '../utils/API';
-import { ADD_MEDIA } from '../utils/mutations';
-import { QUERY_ME } from '../utils/queries';
-import { saveMediaIds, getSavedMediaIds } from '../utils/localStorage';
-import { useMutation } from '@apollo/client';
+import React, { useEffect, useState } from "react";
+import Auth from "../utils/auth";
+import { searchImdb } from "../utils/API";
+import { ADD_MEDIA } from "../utils/mutations";
+import { QUERY_ME } from "../utils/queries";
+import { saveMediaIds, getSavedMediaIds } from "../utils/localStorage";
+import { useMutation } from "@apollo/client";
 
 const SearchScreens = () => {
   const [searchedMedia, setSearchedMedia] = useState([]);
 
-  const [mediaSearchInput, setMediaSearchInput] = useState('');
+  const [mediaSearchInput, setMediaSearchInput] = useState("");
 
   const [savedMediaIds, setSavedMediaIds] = useState(getSavedMediaIds());
 
-  const [relatedSearchValue, setRelatedSearchValue] = useState('');
-  console.log('=====Current setRelatedSearchInput value=====');
+  const [relatedSearchValue, setRelatedSearchValue] = useState("");
+  console.log("=====Current setRelatedSearchInput value=====");
   console.log(relatedSearchValue);
 
   useEffect(() => {
     return () => saveMediaIds(savedMediaIds);
   });
 
-  console.log('=====LOGGED IN?=====');
+  console.log("=====LOGGED IN?=====");
   const loggedIn = Auth.loggedIn();
   console.log(loggedIn);
 
@@ -34,12 +33,12 @@ const SearchScreens = () => {
 
         cache.writeQuery({
           query: QUERY_ME,
-          data: { me: { ...me, savedMedia: [...me.savedMedia, addMedia] } }
+          data: { me: { ...me, savedMedia: [...me.savedMedia, addMedia] } },
         });
       } catch (e) {
         console.error(e);
       }
-    }
+    },
   });
 
   const handleMedia = async (e) => {
@@ -54,17 +53,8 @@ const SearchScreens = () => {
       const response = await searchImdb(mediaSearchInput);
 
       if (!response.ok) {
-        throw new Error('something went wrong');
+        throw new Error("something went wrong");
       }
-
-      // OMDB API
-      // const { Search } = await response.json();
-      // const mediaData = Search.map((media) => ({
-      //   mediaId: media.imdbID,
-      //   title: media.Title,
-      //   year: media.Year,
-      //   image: media.Poster,
-      // }));
 
       // IMDB API
       const { results } = await response.json();
@@ -76,14 +66,14 @@ const SearchScreens = () => {
           year: media.description,
           image: media.image,
           stars: media.stars,
-          description: media.plot
+          description: media.plot,
         }));
       // console.log("============mediaData from imdb============");
       // console.log(mediaData);
 
       console.log(mediaData);
       setSearchedMedia(mediaData);
-      setMediaSearchInput('');
+      setMediaSearchInput("");
     } catch (err) {
       console.log(err);
     }
@@ -95,7 +85,7 @@ const SearchScreens = () => {
     );
 
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-    console.log('=====user token on save media action========');
+    console.log("=====user token on save media action========");
     console.log(token);
 
     if (!token) {
@@ -105,7 +95,7 @@ const SearchScreens = () => {
     try {
       console.log(mediaToSave);
       await addMedia({
-        variables: { input: mediaToSave }
+        variables: { input: mediaToSave },
       });
       setSavedMediaIds([...savedMediaIds, mediaToSave.mediaId]);
     } catch (err) {
@@ -117,60 +107,60 @@ const SearchScreens = () => {
     <div>
       <h2>screens: shows and movies</h2>
       <div>
-        <form onSubmit={handleMedia} id='searchbar'>
+        <form onSubmit={handleMedia} id="searchbar">
           <input
-            type='text'
-            name='mediaSearchInput'
+            type="text"
+            name="mediaSearchInput"
             value={mediaSearchInput}
             onChange={(e) => setMediaSearchInput(e.target.value)}
-            placeholder='search for movies/series'
-          ></input>{' '}
-          <br></br>
-          <button type='submit'>search</button>
+            placeholder="search for movies/series"
+          ></input>
+          <button type="submit">search</button>
         </form>
       </div>
-      <div id='media-search-results'>
-        <div className='cardHolder'>
+      <div id="media-search-results">
+        <div className="cardHolder">
           {searchedMedia.map((media) => {
             return (
-              <div className='card' key={media.mediaId}>
+              <div className="card" key={media.mediaId}>
                 {media.image ? (
                   <img
                     src={media.image}
                     alt={`The poster for ${media.title}`}
-                    variant='top'
+                    variant="top"
                   />
                 ) : null}
                 <h4>{media.title}</h4>
                 {media.year ? (
-                  <p className='small'>Year: {media.year}</p>
+                  <p className="small">Year: {media.year}</p>
                 ) : null}
                 {media.stars ? (
-                  <p className='small'>Starring: {media.stars}</p>
+                  <p className="small">Starring: {media.stars}</p>
                 ) : null}
                 {media.description ? (
-                  <p className='small'>Description: {media.description}</p>
+                  <p className="small">Description: {media.description}</p>
                 ) : null}
                 <button
-                  className='btn-block btn-info'
+                  className="btn-block btn-info"
                   value={media.title}
                   onClick={() => setRelatedSearchValue(media.title)}
                 >
                   See related Books
                 </button>
+
                 {Auth.loggedIn() && (
                   <button
                     disabled={savedMediaIds?.some(
                       (savedMediaId) => savedMediaId === media.mediaId
                     )}
-                    className='btn-block btn-info'
+                    className="btn-block btn-info"
                     onClick={() => handleSaveMedia(media.mediaId)}
                   >
                     {savedMediaIds?.some(
                       (savedMediaId) => savedMediaId === media.mediaId
                     )
-                      ? 'This item is saved!'
-                      : 'Save this to my list!'}
+                      ? "This item is saved!"
+                      : "Save this to my list!"}
                   </button>
                 )}
                 {error && <div>save failed</div>}

@@ -80,12 +80,12 @@ const SearchScreens = () => {
 
         cache.writeQuery({
           query: QUERY_ME,
-          data: { me: { ...me, savedMedia: [...me.savedMedia, addMedia] } }
+          data: { me: { ...me, savedMedia: [...me.savedMedia, addMedia] } },
         });
       } catch (e) {
         console.error(e);
       }
-    }
+    },
   });
 
   /**
@@ -129,7 +129,7 @@ const SearchScreens = () => {
     );
 
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-    console.log('=====user token on save media action========');
+    console.log("=====user token on save media action========");
     console.log(token);
 
     if (!token) {
@@ -139,7 +139,7 @@ const SearchScreens = () => {
     try {
       console.log(mediaToSave);
       await addMedia({
-        variables: { input: mediaToSave }
+        variables: { input: mediaToSave },
       });
       setSavedMediaIds([...savedMediaIds, mediaToSave.mediaId]);
     } catch (err) {
@@ -156,15 +156,15 @@ const SearchScreens = () => {
       <SearchType setActiveRadioButton={setActiveRadioButton} />
 
       <div>
-        <form onSubmit={handleMedia} id='searchbar'>
+        <form onSubmit={handleMedia} id="searchbar">
           <input
-            type='text'
-            name='mediaSearchInput'
+            type="text"
+            name="mediaSearchInput"
             value={mediaSearchInput}
             onChange={(e) => setMediaSearchInput(e.target.value)}
-            placeholder='search for movies/series'
+            placeholder="search for movies/series"
           ></input>
-          <button type='submit'>search</button>
+          <button type="submit">search</button>
         </form>
       </div>
       <div id='media-search-results'>
@@ -172,28 +172,30 @@ const SearchScreens = () => {
           {/* The elements below will actually successfully display attributes from either books or movies */}
           {searchedMedia.map((media) => {
             return (
-              <div className='card' key={media.mediaId}>
+              <div className="card" key={media.mediaId}>
                 {media.image ? (
                   <img
                     src={media.image}
                     alt={`The poster for ${media.title}`}
-                    variant='top'
+                    variant="top"
                   />
                 ) : null}
                 <h4>{media.title}</h4>
                 {media.year ? (
-                  <p className='small'>Year: {media.year}</p>
+                  <p className="small">Year: {media.year}</p>
                 ) : null}
                 {media.stars ? (
-                  <p className='small'>Starring: {media.stars}</p>
+                  <p className="small">Starring: {media.stars}</p>
                 ) : null}
                 {media.description ? (
-                  <p className='small'>Description: {media.description}</p>
+                  <p className="small">Description: {media.description}</p>
                 ) : null}
                 <button
-                  className='btn-block btn-info'
+                  className="btn-block btn-info"
                   value={media.title}
-                  onClick={() => setRelatedSearchValue(media.title)}
+                  onClick={
+                    (() => setRelatedSearchValue(media.title))
+                  }
                 >
                   {mediaSearchType === "screens" ? "See Related Books" : "See Related Movies"}
                 </button>
@@ -202,14 +204,14 @@ const SearchScreens = () => {
                     disabled={savedMediaIds?.some(
                       (savedMediaId) => savedMediaId === media.mediaId
                     )}
-                    className='btn-block btn-info'
+                    className="btn-block btn-info"
                     onClick={() => handleSaveMedia(media.mediaId)}
                   >
                     {savedMediaIds?.some(
                       (savedMediaId) => savedMediaId === media.mediaId
                     )
-                      ? 'This item is saved!'
-                      : 'Save this to my list!'}
+                      ? "This item is saved!"
+                      : "Save this to my list!"}
                   </button>
                 )}
                 {error && <div>save failed</div>}
