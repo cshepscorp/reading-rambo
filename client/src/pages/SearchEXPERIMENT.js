@@ -16,44 +16,75 @@ const SearchScreens = () => {
   //this sets the media search type to either screens or books
   const [mediaSearchType, setMediaSearchType] = useState("");
   const [activeRadioButton, setActiveRadioButton] = useState("");
+  const [lastMediaTypeSearched, setLastMediaTypeSearched] = useState("");
 
   useEffect(() => {
     return () => saveMediaIds(savedMediaIds);
   });
 
+  /**
+   * Activates when mediaSearchType is altered. Checks to see 
+   * if mediaSearchType is either "books" or "screens", and if
+   * neither is true, it terminates. If it is one of those,
+   * then it'll do a search and populate for that respective
+   * search type. It will then set lastMediaTypeSearched to
+   * whatever the last kind of search was (books or screens).
+   * Then, it will RESET mediaSearchType to "" (aka nothing).
+   * This will activate it again, but it will terminate upon
+   * finding mediaSearchType to be empty.
+   */
   useEffect(async () => {
-    console.log("useEffect activated");
+    console.log("regular search useEffect activated");
+
     let mediaData = "error";
-    if (mediaSearchType === "screens") {
-      mediaData = await searchScreens(mediaSearchInput);
+    try {
+      if (mediaSearchType === "screens") {
+        mediaData = await searchScreens(mediaSearchInput);
+      }
+      else if (mediaSearchType === "books") {
+        mediaData = await searchBooks(mediaSearchInput);
+      }
+      else {
+        return;
+      }
+
+      setSearchedMedia(mediaData);
+      setLastMediaTypeSearched(mediaSearchType);
+      setMediaSearchInput('');
+      setMediaSearchType("");
+    } catch (error) {
+      console.log(error);
     }
-    else if (mediaSearchType === "books") {
-      mediaData = await searchBooks(mediaSearchInput);
-    }
-    else {
-      console.log("MediaSearchType at time of error:" + mediaSearchType);
-      throw new Error("Neither search type selected!")
-    }
-    setSearchedMedia(mediaData);
-    setMediaSearchInput('');
   }, [mediaSearchType]);
 
-  //new useEffect =================================================================================
+  /**
+   * Activates when relatedSearchValue is changed, which happens when
+   * a "find related media" button is clicked. Checks lastMediaTypeSearched
+   * to see what the last media type searched was, and then searches for
+   * the OPPOSITE of that, in order to get related media. Doesn't check
+   * mediaSearchType intentionally, as that is reset after each search,
+   * while lastMediaTypeSearched is not. Then, it resets relatedSearchValue,
+   * which reactivates this useEffect, which will immediately terminate once
+   * it finds relatedSearchValue to be reset (aka empty).
+   */
   useEffect( async () => {
     console.log("relatedSearchValue: " + relatedSearchValue);
 
     if (!relatedSearchValue) {
+      console.log("No related search value found");
       return false;
     }
 
     let mediaData = "error";
-    if (mediaSearchType === "books") {
-      console.log("state read as books");
+    if (lastMediaTypeSearched === "books") {
+      console.log("last media search type read as books");
       mediaData = await searchScreens(relatedSearchValue);
+      setLastMediaTypeSearched("screens");
     }
-    else if (mediaSearchType === "screens") {
+    else if (lastMediaTypeSearched === "screens") {
       console.log("state read as screens");
       mediaData = await searchBooks(relatedSearchValue);
+      setLastMediaTypeSearched("books");
     }
     else {
       console.log("MediaSearchType at time of error:" + mediaSearchType);
@@ -62,14 +93,17 @@ const SearchScreens = () => {
     console.log(mediaData);
     setSearchedMedia(mediaData);
     setMediaSearchInput('');
-
+    setRelatedSearchValue("");
   }, [relatedSearchValue])
 
   // console.log('=====LOGGED IN?=====');
   const loggedIn = Auth.loggedIn();
   // console.log(loggedIn);
+  console.log("");
   console.log("Search type: " + mediaSearchType);
   console.log("Active radiobutton: " + activeRadioButton);
+  console.log("Last media type searched: " + lastMediaTypeSearched);
+  console.log("Related search value:" + relatedSearchValue);
 
 
   // save media
@@ -89,38 +123,18 @@ const SearchScreens = () => {
   });
 
   /**
-   * Checks to see if we're searching a movie or book based
-   * on the radiobuttons (for now; needs changing), then calls
-   * the proper function from utils/search.js to do so,
-   * then changes the state to reflect gathered information
+   * Checks to see if the search bar is filled, and then
+   * sets the mediaSearchType, activating the useEffect
+   * that handles the actual search
    */
   const handleMedia = async (e) => {
     e.preventDefault();
-
     console.log("handleMedia activated");
 
     if (!mediaSearchInput) {
       return false;
     }
-
-    if (activeRadioButton === mediaSearchType) {
-      let mediaData = "error";
-      if (mediaSearchType === "screens") {
-        mediaData = await searchScreens(mediaSearchInput);
-      }
-      else if (mediaSearchType === "books") {
-        mediaData = await searchBooks(mediaSearchInput);
-      }
-      else {
-        console.log("MediaSearchType at time of error:" + mediaSearchType);
-        throw new Error("Neither search type selected!")
-      }
-
-      setSearchedMedia(mediaData);
-      setMediaSearchInput('');
-    } else {
-      setMediaSearchType(activeRadioButton);
-    }
+    setMediaSearchType(activeRadioButton);
   };
 
   const handleSaveMedia = async (mediaId) => {
@@ -197,7 +211,7 @@ const SearchScreens = () => {
                     (() => setRelatedSearchValue(media.title))
                   }
                 >
-                  {mediaSearchType === "screens" ? "See Related Books" : "See Related Movies"}
+                  {lastMediaTypeSearched === "screens" ? "See Related Books" : "See Related Movies"}
                 </button>
                 {Auth.loggedIn() && (
                   <button
