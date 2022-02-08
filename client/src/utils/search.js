@@ -4,11 +4,11 @@ import { searchGoogleBooks } from "./API";
 export const searchScreens = async (mediaSearchInput) => {
   try {
     const response = await searchImdb(mediaSearchInput);
-  
+
     if (!response.ok) {
-      throw new Error('something went wrong');
+      throw new Error("something went wrong");
     }
-  
+
     // IMDB API
     const { results } = await response.json();
     const mediaData = results
@@ -19,9 +19,9 @@ export const searchScreens = async (mediaSearchInput) => {
         year: media.description,
         image: media.image,
         stars: media.stars,
-        description: media.plot
+        description: media.plot,
       }));
-  
+
     console.log(mediaData);
     return mediaData;
     // setSearchedMedia(mediaData);
@@ -37,18 +37,18 @@ export const searchBooks = async (mediaSearchInput) => {
     const response = await searchGoogleBooks(mediaSearchInput);
 
     if (!response.ok) {
-      throw new Error('something went wrong');
+      throw new Error("something went wrong");
     }
 
     const { items } = await response.json();
 
     // deconstruct book data into Json format to be returned in our component
     const bookData = items.map((book) => ({
-      bookId: book.id,
-      authors: book.volumeInfo.authors || ['No author to display'],
+      mediaId: book.id,
+      authors: book.volumeInfo.authors || ["No author to display"],
       title: book.volumeInfo.title,
       description: book.volumeInfo.description,
-      image: book.volumeInfo.imageLinks?.thumbnail || ''
+      image: book.volumeInfo.imageLinks?.thumbnail || "",
     }));
 
     // setSearchedBooks(bookData);
@@ -60,4 +60,3 @@ export const searchBooks = async (mediaSearchInput) => {
     console.log(err);
   }
 };
-
