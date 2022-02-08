@@ -10,7 +10,7 @@ import SignUp from './components/SignUp';
 import Login from './components/Login';
 import MyContent from './components/MyContent';
 
-// PAGES
+// PAGES / ROUTES
 import SearchBooks from './pages/SearchBooks';
 import SearchScreens from './pages/SearchScreens';
 import MediaAll from './pages/MediaAll';

@@ -6,7 +6,7 @@ import ReactionForm from '../../components/ReactionForm';
 import Auth from '../../utils/auth';
 import { useQuery } from '@apollo/client';
 import { QUERY_SINGLE_MEDIA } from '../../utils/queries';
-import { Button, Card, Container } from '@mui/material';
+import { Card, Container } from '@mui/material';
 
 const SingleMedia = (props) => {
   const { id: mediaId } = useParams();

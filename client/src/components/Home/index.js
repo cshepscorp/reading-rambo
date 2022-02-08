@@ -29,7 +29,7 @@ const Home = () => {
 
   // effect for related media button
   useEffect(async () => {
-    console.log('relatedSearchValue: ' + relatedSearchValue);
+    console.log('regular search useEffect activated');
 
     if (!relatedSearchValue) {
       return false;
