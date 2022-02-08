@@ -34,7 +34,7 @@ const typeDefs = gql`
     description: String
     stars: String
     plot: String
-    authors: String
+    authors: [String]
     poster: String
     image: String
   }
@@ -85,7 +85,7 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     addComment(commentText: String!): Comment
     addMedia(input: MediaInput!): User
-    removeMedia(title: String!): User
+    removeMedia(mediaId: ID!): User
     addReaction(mediaId: ID!, reactionBody: String!): Media
   }
 `;
