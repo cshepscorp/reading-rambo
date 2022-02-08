@@ -108,9 +108,9 @@ const resolvers = {
 
       throw new AuthenticationError("You need to be logged in!");
     },
-    removeMedia: async (parent, { title }, context) => {
+    removeMedia: async (parent, { mediaId }, context) => {
       if (context.user) {
-        const toDelete = await Media.findOne({ title });
+        const toDelete = await Media.findOneAndDelete({ mediaId });
 
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },

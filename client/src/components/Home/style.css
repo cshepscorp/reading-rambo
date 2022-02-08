@@ -51,3 +51,20 @@ a {
 #media-search-results {
   margin-top: 20px;
 }
+
+#media-feed {
+  margin-top: 30px;
+}
+#media-feed .title {
+  display: none;
+}
+
+.cardHolder {
+  flex: 6;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+

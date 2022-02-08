@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import './style.css';
 import Auth from '../../utils/auth';
 import { ADD_MEDIA } from '../../utils/mutations';
-import { QUERY_ME } from '../../utils/queries';
+import { QUERY_ME, QUERY_MEDIA } from '../../utils/queries';
 import { saveMediaIds, getSavedMediaIds } from '../../utils/localStorage';
 import { searchBooks, searchScreens } from '../../utils/search';
 import { useMutation } from '@apollo/client';
 import { Button, Container, TextField } from '@mui/material';
+
+// for media feed
+import MediaList from '../MediaList';
+import { useQuery } from "@apollo/client";
 
 const Home = () => {
   const [searchedMedia, setSearchedMedia] = useState([]);
@@ -104,6 +108,12 @@ const Home = () => {
   const handleMedia = async (e) => {
     e.preventDefault();
   };
+
+    // to pull in medialist feed
+    const { data } = useQuery(QUERY_MEDIA);
+    const medias = data?.mediaFeed || [];
+    console.log("all media items incl fake data");
+    console.log(medias);
 
   // SAVE MEDIA query
   const [addMedia, { error }] = useMutation(ADD_MEDIA, {
@@ -234,6 +244,9 @@ const Home = () => {
             );
           })}
         </Container>
+      </Container>
+      <Container className="cardHolder" id='media-feed'>
+        <MediaList medias={medias} title="See what others are saving..." />
       </Container>
     </div>
   );
