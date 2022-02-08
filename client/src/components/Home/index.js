@@ -206,7 +206,7 @@ const Home = () => {
         </Container>
       </Container>
       <Container className="cardHolder" id='media-feed'>
-        <MediaList medias={medias} title="See what others are saving..." />
+        <MediaList medias={medias} title="activity feed" />
       </Container>
     </div>
   );

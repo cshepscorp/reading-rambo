@@ -72,7 +72,7 @@ const MyContent = () => {
                 {media.link ? <p className='small'>{media.link}</p> : null}
                 {`${media.reactionCount} ${
                   media.reactionCount === 1 ? 'reaction' : 'reactions'
-                }!`}
+                }`}
               </div>
               {Auth.loggedIn() && (
                 <Button

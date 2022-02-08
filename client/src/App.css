@@ -51,9 +51,7 @@
   color: rgba(255, 255, 255, 1);
   background-color: #999;
 }
-.feed-image {
-  width: 100% !important;
-}
+
 .single-media-image {
   width: 50% !important;
   max-width: min-content;

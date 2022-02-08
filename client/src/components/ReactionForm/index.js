@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './style.css';
 import { useMutation } from '@apollo/client';
 import { ADD_REACTION } from '../../utils/mutations';
 import { Button, Container, TextField } from '@mui/material';
@@ -44,17 +45,18 @@ const ReactionForm = ({ mediaId }) => {
           Character Count: {characterCount}/280
           {error && <span className='ml-2'>Something went wrong...</span>}
         </p>
-        <Container>
           <form onSubmit={handleFormSubmit}>
             <TextField
+              id='reaction-text-field'
+              multiline
+              maxRows={6}
               placeholder='Leave a reaction to this thought...'
               value={reactionBody}
               onChange={handleChange}
             ></TextField>
             <br></br>
-            <Button type='submit'>Submit</Button>
+            <Button id='react-submit' type='submit'>Submit</Button>
           </form>
-        </Container>
         {error && <div>Something went wrong...</div>}
       </Container>
     </div>
