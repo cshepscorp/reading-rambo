@@ -10,47 +10,39 @@ import { Button, Container, TextField } from '@mui/material';
 
 const Home = () => {
   const [searchedMedia, setSearchedMedia] = useState([]);
-
   const [mediaSearchInput, setMediaSearchInput] = useState('');
-
   const [savedMediaIds, setSavedMediaIds] = useState(getSavedMediaIds());
-
-  // related media button WIP
+  // STATE for related media button
   const [relatedSearchValue, setRelatedSearchValue] = useState('');
-  //   console.log('=====Current setRelatedSearchInput value=====');
-  //   console.log(relatedSearchValue);
-
   //this sets the media search type to either screens or books
   const [mediaSearchType, setMediaSearchType] = useState('');
+  const [lastMediaTypeSearched, setLastMediaTypeSearched] = useState('');
 
+  // effect saves mediaId to passed to the state handler
   useEffect(() => {
     return () => saveMediaIds(savedMediaIds);
   });
 
   // effect for related media button
-    useEffect(async () => {
-      console.log('relatedSearchValue: ' + relatedSearchValue);
+  useEffect(async () => {
+    console.log('relatedSearchValue: ' + relatedSearchValue);
 
-      if (!relatedSearchValue) {
-        return false;
-      }
+    if (!relatedSearchValue) {
+      return false;
+    }
 
-      let mediaData = 'error';
-      if (mediaSearchType === 'books') {
-        console.log('state read as books');
-        mediaData = await searchScreens(relatedSearchValue);
-      } else if (mediaSearchType === 'screens') {
-        console.log('state read as screens');
-        mediaData = await searchBooks(relatedSearchValue);
-      } else {
-        console.log('MediaSearchType at time of error:' + mediaSearchType);
-        throw new Error('Neither search type selected!');
-      }
-      console.log(mediaData);
-      setSearchedMedia(mediaData);
-      setMediaSearchInput('');
-    }, [relatedSearchValue]);
-
+    let mediaData = 'error';
+    if (mediaSearchType === 'books') {
+      mediaData = await searchScreens(relatedSearchValue);
+    } else if (mediaSearchType === 'screens') {
+      mediaData = await searchBooks(relatedSearchValue);
+    } else {
+      throw new Error('Neither search type selected!');
+    }
+    console.log(mediaData);
+    setSearchedMedia(mediaData);
+    setMediaSearchInput('');
+  }, [relatedSearchValue]);
 
   // handles state based on media type being searched
   const handleMedia = async (e) => {
@@ -96,8 +88,6 @@ const Home = () => {
     );
 
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-    console.log('=====user token on save media action========');
-    console.log(token);
 
     if (!token) {
       return false;
@@ -159,6 +149,7 @@ const Home = () => {
               <Container className='card' key={media.mediaId}>
                 {media.image ? (
                   <img
+                  className='single-media-image'
                     src={media.image}
                     alt={`The poster for ${media.title}`}
                     variant='top'
@@ -179,10 +170,13 @@ const Home = () => {
                   value={media.title}
                   onClick={() => setRelatedSearchValue(media.title)}
                 >
-                  See related Books
+                  {lastMediaTypeSearched === 'screens'
+                    ? 'See Related Books'
+                    : 'See Related Movies'}{' '}
                 </Button>
                 {Auth.loggedIn() && (
                   <Button
+                    id='save-content-btn'
                     disabled={savedMediaIds?.some(
                       (savedMediaId) => savedMediaId === media.mediaId
                     )}
@@ -191,8 +185,8 @@ const Home = () => {
                     {savedMediaIds?.some(
                       (savedMediaId) => savedMediaId === media.mediaId
                     )
-                      ? 'This item is saved!'
-                      : 'Save this to my list!'}
+                      ? `item saved to 'my content'`
+                      : 'save this'}
                   </Button>
                 )}
                 {error && <div>save failed</div>}

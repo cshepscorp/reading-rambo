@@ -20,7 +20,7 @@ const Header = () => {
           {Auth.loggedIn() ? (
             <>
               <Button id='mystuff-nav' href='/mymedia'>
-                my stuff
+                my content
               </Button>{' '}
               |{' '}
               <Button id='logout-nav' href='/' onClick={logout}>

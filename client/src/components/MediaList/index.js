@@ -1,6 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 import Auth from '../../utils/auth';
+import { Button, Container } from '@mui/material';
 
 const MediaList = ({ medias, title }) => {
   if (!medias.length) {
@@ -9,27 +10,30 @@ const MediaList = ({ medias, title }) => {
 
   return (
     <div>
-      <h3>{title}</h3>
-      <div className="cardHolder">
-        {medias &&
-          medias.map((media) => (
-            <div key={media._id} className="card mb-3">
-              {media.image ? (
-                <Link to={`/media/${media.mediaId}`}><img
-                  className="feed-image"
-                  src={media.image}
-                  alt={`The main graphic for ${media.title}`}
-                /></Link>
-              ) : null}
-              <div className="card-body">
-                <Link to={`/media/${media.mediaId}`}>
-                  <p>{media.title}</p>
-                  {/* <p className="mb-0">
+      <Container>
+        <h3>{title}</h3>
+        <div className='cardHolder'>
+          {medias &&
+            medias.map((media) => (
+              <div key={media._id} className='card mb-3'>
+                {media.image ? (
+                  <Button href={`/media/${media.mediaId}`}>
+                    <img
+                      className='feed-image'
+                      src={media.image}
+                      alt={`The main graphic for ${media.title}`}
+                    />
+                  </Button>
+                ) : null}
+                <div className='card-body'>
+                  <Link to={`/media/${media.mediaId}`}>
+                    <p>{media.title}</p>
+                    {/* <p className="mb-0">
                   Reactions: {media.reactionCount} || Click to{" "}
                   {media.reactionCount ? "see" : "start"} the discussion!
                 </p> */}
-                </Link>
-                {/* <Link
+                  </Link>
+                  {/* <Link
                     to={`/profile/${media.username}`}
                     style={{ fontWeight: 300 }}
                     className="text-light"
@@ -37,20 +41,23 @@ const MediaList = ({ medias, title }) => {
                     {media.username}
                     
                   </Link>{" "} */}
-                {/* <p class="card-text">
+                  {/* <p class="card-text">
                 added {media.createdAt}
                 </p> */}
-                {Auth.loggedIn() && (<Link
+                  {Auth.loggedIn() && (
+                    <Link
                       to={`/media/${media.mediaId}`}
                       style={{ fontWeight: 300 }}
-                      className="text-light"
+                      className='text-light'
                     >
                       Add to the convo...
-                    </Link>)}
+                    </Link>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
-      </div>
+            ))}
+        </div>
+      </Container>
     </div>
   );
 };

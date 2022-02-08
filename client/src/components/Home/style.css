@@ -6,15 +6,18 @@
   box-shadow: -10px 10px;
 }
 
-#related-btn {
+#related-btn,
+#save-content-btn {
   color: thistle;
   font-family: 'Roboto Mono', monospace;
   box-shadow: -8px 8px;
+  margin: 0px 6px;
 }
 
 #related-btn:hover,
 #book-btn:hover,
-#screen-btn:hover {
+#screen-btn:hover,
+#save-content-btn:hover {
   color: #f7f7ff;
   font-style: normal;
   transition: 0.8s;
@@ -34,9 +37,17 @@
   border-radius: 8px;
   background-color: #474d65;
   border: 0px;
-
 }
 
 a {
   text-decoration: none;
+}
+
+.single-media-image {
+  width: 50% !important;
+  max-width: min-content;
+}
+
+#media-search-results {
+  margin-top: 20px;
 }

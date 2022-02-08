@@ -94,3 +94,8 @@ button {
 form {
   text-align: center;
 }
+
+.single-media-image {
+  width: 50% !important;
+  max-width: min-content;
+}

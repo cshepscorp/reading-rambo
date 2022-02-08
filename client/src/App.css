@@ -56,7 +56,9 @@
 }
 .single-media-image {
   width: 50% !important;
+  max-width: min-content;
 }
+
 .small {
   font-size: 10px;
 }
