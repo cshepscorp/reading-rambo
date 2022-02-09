@@ -20,13 +20,7 @@ const ReactionForm = ({ mediaId }) => {
           variables: { mediaId },
         });
 
-<<<<<<< HEAD
-        // console.log("=====mediaId from mutation");
-        // console.log(mediaId);
-        console.log('=====media from mutation');
-=======
         console.log("=====media from mutation");
->>>>>>> 38dca235946cb0acd3333fc7e9b81cfadd3eca38
         console.log(media);
         const reactions = media.reactions;
         console.log("=====reactions");
@@ -50,13 +44,8 @@ const ReactionForm = ({ mediaId }) => {
   };
 
   // submit form
-<<<<<<< HEAD
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-=======
   const handleFormSubmit = async (event) => {
     event.preventDefault();
->>>>>>> 38dca235946cb0acd3333fc7e9b81cfadd3eca38
     try {
       await addReaction({
         variables: { reactionBody, mediaId },
