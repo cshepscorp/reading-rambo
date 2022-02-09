@@ -18,6 +18,7 @@ const Home = () => {
 
   return (
     <main>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       <div className="flex-row justify-space-between">
         {/* {loggedIn && (
           <div className="col-12 mb-3">
@@ -43,6 +44,7 @@ const Home = () => {
           </div>
         ) : null} */}
       </div>
+      </meta>
     </main>
   );
 };

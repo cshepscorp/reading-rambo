@@ -12,12 +12,16 @@
 
 main {
   text-align: center;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   padding: 20px;
   margin: 20px;
   color: var(--white);
 }
 
 body {
+  flex-basis: 100%;
   margin: 10px 200px;
   padding: 0;
   font-weight: 600;
