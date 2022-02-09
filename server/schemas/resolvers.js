@@ -133,7 +133,7 @@ const resolvers = {
             },
           },
           { new: true, runValidators: true }
-        );
+        ).populate("reactions");
 
         return updatedMedia;
       }

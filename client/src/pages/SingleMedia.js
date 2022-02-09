@@ -12,10 +12,10 @@ const SingleMedia = (props) => {
   const { loading, data } = useQuery(QUERY_SINGLE_MEDIA, {
     variables: { mediaId: mediaId },
   });
-  console.log(data);
+  // console.log(data);
   const media = data?.media || {};
-  console.log("media results");
-  console.log(media);
+  // console.log("media results");
+  // console.log(media);
   if (loading) {
     return <div>Loading...</div>;
   }
