@@ -12,6 +12,9 @@
 
 main {
   text-align: center;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   padding: 20px;
   margin: 20px;
   color: var(--white);
