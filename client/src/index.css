@@ -21,6 +21,7 @@ main {
 }
 
 body {
+  flex-basis: 100%;
   margin: 10px 200px;
   padding: 0;
   font-weight: 600;
