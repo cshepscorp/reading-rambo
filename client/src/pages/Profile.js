@@ -5,14 +5,15 @@ import { Redirect, useParams } from "react-router-dom";
 import MediaList from "../components/MediaList";
 
 import { useQuery, useMutation } from "@apollo/client";
-//import { ADD_FRIEND } from "../utils/mutations";
 import { QUERY_USER, QUERY_ME } from "../utils/queries";
 
+// friend stuff
+import FriendList from "../components/FriendList";
+import { ADD_FRIEND } from "../utils/mutations";
 import Auth from "../utils/auth";
-//import ThoughtForm from "../components/ThoughtForm";
 
 const Profile = (props) => {
-  //const [addFriend] = useMutation(ADD_FRIEND);
+  const [addFriend] = useMutation(ADD_FRIEND);
   const { username: userParam } = useParams();
 
   // Now if there's a value in userParam that we got from the URL bar, we'll use that value to run the QUERY_USER query. If there's no value in userParam, like if we simply visit /profile as a logged-in user, we'll execute the QUERY_ME query instead.
@@ -45,15 +46,15 @@ const Profile = (props) => {
     );
   }
 
-  //   const handleClick = async () => {
-  //     try {
-  //       await addFriend({
-  //         variables: { id: user._id },
-  //       });
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   };
+    const handleClick = async () => {
+      try {
+        await addFriend({
+          variables: { id: user._id },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
   return (
     <div>
@@ -62,11 +63,11 @@ const Profile = (props) => {
           {/* if userParam doesn't exist, we'll get a message saying "Viewing your profile." Otherwise, it will display the username of the other user on their profile. */}
           Viewing {userParam ? `${user.username}'s` : "your"} profile.
         </h2>
-        {/* {userParam && (
+        {userParam && (
           <button className="btn ml-auto" onClick={handleClick}>
             Add Friend
           </button>
-        )} */}
+        )}
       </div>
 
       <div className="flex-row justify-space-between mb-3">
@@ -76,14 +77,16 @@ const Profile = (props) => {
             title={`${user.username}'s media...`}
           />
         </div>
-
-        {/* <div className="col-12 col-lg-3 mb-3">
-          <FriendList
-            username={user.username}
-            friendCount={user.friendCount}
-            friends={user.friends}
-          />
-        </div> */}
+        {/* if logged in TRUE and there's data in userData */}
+        {Auth.loggedIn() && user ? (
+          <div className="col-12 col-lg-3 mb-3">
+            <FriendList
+              username={user.username}
+              friendCount={user.friendCount}
+              friends={user.friends}
+            />
+          </div>
+        ) : null}
       </div>
       {/* <div className='mb-3'>
         {!userParam && <ThoughtForm />}

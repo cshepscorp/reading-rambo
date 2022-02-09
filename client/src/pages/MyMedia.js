@@ -11,7 +11,7 @@ const MyMedia = () => {
   const { loading, data } = useQuery(QUERY_ME);
   const userData = data?.me || [];
   console.log("=======ME DATA======");
-
+  console.log(userData);
   const [removeMedia] = useMutation(REMOVE_MEDIA);
 
   const handleDeleteMedia = async (mediaId) => {

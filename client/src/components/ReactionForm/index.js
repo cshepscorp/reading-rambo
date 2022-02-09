@@ -27,7 +27,12 @@ const ReactionForm = ({ mediaId }) => {
         console.log(reactions);
         cache.writeQuery({
           query: QUERY_SINGLE_MEDIA,
-          data: { media: {...media, reactions: [addReaction, ...reactions]} },
+          // data: {
+          //   media: { ...media, reactions: [...media.reactions, addReaction] },
+          // },
+          variables: { mediaId },
+          data: { reactions: [addReaction, ...reactions] },
+          //data: { me: { ...me, savedMedia: [...me.savedMedia, addMedia] } }
         });
       } catch (e) {
         console.error(e);

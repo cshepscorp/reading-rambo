@@ -7,7 +7,8 @@ const typeDefs = gql`
     email: String
     mediaCount: Int
     savedMedia: [Media]
-    comments: [Comment]
+    friendCount: Int
+    friends: [User]
   }
 
   type Comment {
@@ -87,6 +88,7 @@ const typeDefs = gql`
     addMedia(input: MediaInput!): User
     removeMedia(mediaId: ID!): User
     addReaction(mediaId: ID!, reactionBody: String!): Media
+    addFriend(friendId: ID!): User
   }
 `;
 
