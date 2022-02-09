@@ -109,11 +109,11 @@ const Home = () => {
     e.preventDefault();
   };
 
-    // to pull in medialist feed
-    const { data } = useQuery(QUERY_MEDIA);
-    const medias = data?.mediaFeed || [];
-    console.log("all media items incl fake data");
-    console.log(medias);
+  // to pull in medialist feed
+  const { data } = useQuery(QUERY_MEDIA);
+  const medias = data?.mediaFeed || [];
+  console.log("all media items incl fake data");
+  console.log(medias);
 
   // SAVE MEDIA query
   const [addMedia, { error }] = useMutation(ADD_MEDIA, {
