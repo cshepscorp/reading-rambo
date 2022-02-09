@@ -19,6 +19,7 @@ const ReactionForm = ({ mediaId }) => {
           query: QUERY_SINGLE_MEDIA,
           variables: { mediaId }
         });
+
         // console.log("=====mediaId from mutation");
         // console.log(mediaId);
         console.log('=====media from mutation');
@@ -42,7 +43,8 @@ const ReactionForm = ({ mediaId }) => {
   };
 
   // submit form
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
     try {
       await addReaction({
         variables: { reactionBody, mediaId }
