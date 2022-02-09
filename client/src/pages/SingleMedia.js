@@ -12,7 +12,7 @@ const SingleMedia = (props) => {
   const { loading, data } = useQuery(QUERY_SINGLE_MEDIA, {
     variables: { mediaId: mediaId },
   });
-  console.log(data);
+  // console.log(data);
   const media = data?.media || {};
   console.log("media results");
   console.log(media);
@@ -34,11 +34,14 @@ const SingleMedia = (props) => {
           {/* <span style={{ fontWeight: 700 }} className="text-light">
             {media.username}
           </span>{" "} */}
-          added on {media.createdAt}
+          TESTING added on {media.createdAt}
         </p>
         <div className="card-body">
           <p>{media.title}</p>
-          <p>{media.year}</p>
+          {media.year ? <p>{media.year}</p> : null}
+          {media.description ? <p>{media.description}</p> : null}
+          {media.stars ? <p>{media.stars}</p> : null}
+          {media.authors ? <p>{media.authors}</p> : null}
         </div>
       </div>
 

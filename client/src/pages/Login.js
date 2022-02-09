@@ -33,6 +33,7 @@ const Login = (props) => {
   };
 
   return (
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <main className='flex-row justify-center mb-4'>
       <div className='col-12 col-med-6'>
         <h2>welcome back</h2>
@@ -68,6 +69,7 @@ const Login = (props) => {
         </div>
       </div>
     </main>
+    </meta>
   );
 };
 
