@@ -1,0 +1,22 @@
+#reaction-text-field {
+  color: #171a26;
+  font-size: medium;
+  background-color: thistle;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'Roboto Mono', monospace;
+}
+
+#react-submit {
+  color: thistle;
+  font-size: large;
+  font-family: 'Roboto Mono', monospace;
+  box-shadow: -10px 10px;
+}
+
+#react-submit:hover {
+  color: #f7f7ff;
+  font-style: normal;
+  transition: 0.8s;
+  box-shadow: -4px 4px;
+}

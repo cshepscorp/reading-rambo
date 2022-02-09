@@ -29,7 +29,7 @@ const Home = () => {
 
   // effect for related media button
   useEffect(async () => {
-    console.log('relatedSearchValue: ' + relatedSearchValue);
+    console.log('regular search useEffect activated');
 
     if (!relatedSearchValue) {
       return false;
@@ -206,7 +206,7 @@ const Home = () => {
         </Container>
       </Container>
       <Container className="cardHolder" id='media-feed'>
-        <MediaList medias={medias} title="See what others are saving..." />
+        <MediaList medias={medias} title="activity feed" />
       </Container>
     </div>
   );
