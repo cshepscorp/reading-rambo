@@ -9,7 +9,6 @@ const ReactionForm = ({ mediaId }) => {
   const [reactionBody, setBody] = useState('');
   // state change for how many characters are written in the text field
   const [characterCount, setCharacterCount] = useState(0);
-  // const [addReaction, { error }] = useMutation(ADD_REACTION);
   const [addReaction, { error }] = useMutation(ADD_REACTION, {
     update(cache, { data: { addReaction } }) {
       try {
