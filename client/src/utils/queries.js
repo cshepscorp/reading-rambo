@@ -73,6 +73,9 @@ export const QUERY_SINGLE_MEDIA = gql`
       title
       mediaId
       image
+      description
+      stars
+      authors
       reactionCount
       createdAt
       reactions {
