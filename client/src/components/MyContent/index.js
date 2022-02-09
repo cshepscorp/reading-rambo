@@ -1,5 +1,5 @@
 import React from 'react';
-// import ReactionList from "../components/ReactionList";
+// import ReactionList from "../ReactionList";
 import './style.css';
 import { useMutation, useQuery } from '@apollo/client';
 import { REMOVE_MEDIA } from '../../utils/mutations';
@@ -72,7 +72,7 @@ const MyContent = () => {
                 {media.link ? <p className='small'>{media.link}</p> : null}
                 {`${media.reactionCount} ${
                   media.reactionCount === 1 ? 'reaction' : 'reactions'
-                }!`}
+                }`}
               </div>
               {Auth.loggedIn() && (
                 <Button

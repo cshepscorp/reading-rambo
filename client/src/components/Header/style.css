@@ -41,7 +41,6 @@ a {
 #login-nav:hover,
 #logout-nav:hover,
 #signup-nav:hover {
-  transition: 0.5s ease;
+  transition: 0.5s ease-in;
   color: #f7f7ff;
-  text-decoration: none;
 }

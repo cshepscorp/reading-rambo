@@ -1,12 +1,37 @@
 import React, { useState } from 'react';
+import './style.css';
 import { useMutation } from '@apollo/client';
 import { ADD_REACTION } from '../../utils/mutations';
+import { QUERY_SINGLE_MEDIA } from '../../utils/queries';
 import { Button, Container, TextField } from '@mui/material';
 
 const ReactionForm = ({ mediaId }) => {
   const [reactionBody, setBody] = useState('');
+  // state change for how many characters are written in the text field
   const [characterCount, setCharacterCount] = useState(0);
-  const [addReaction, { error }] = useMutation(ADD_REACTION);
+  // const [addReaction, { error }] = useMutation(ADD_REACTION);
+  const [addReaction, { error }] = useMutation(ADD_REACTION, {
+    update(cache, { data: { addReaction } }) {
+      try {
+        // update reaction array's cache
+        // could potentially not exist yet, so wrap in a try/catch
+        const { media } = cache.readQuery({
+          query: QUERY_SINGLE_MEDIA,
+          variables: { mediaId }
+        });
+        // console.log("=====mediaId from mutation");
+        // console.log(mediaId);
+        console.log('=====media from mutation');
+        console.log(media);
+        cache.writeQuery({
+          query: QUERY_SINGLE_MEDIA,
+          data: { media: [addReaction, ...media] }
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  });
 
   // update state based on form input changes
   const handleChange = (event) => {
@@ -17,9 +42,7 @@ const ReactionForm = ({ mediaId }) => {
   };
 
   // submit form
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleFormSubmit = async () => {
     try {
       await addReaction({
         variables: { reactionBody, mediaId }
@@ -44,17 +67,20 @@ const ReactionForm = ({ mediaId }) => {
           Character Count: {characterCount}/280
           {error && <span className='ml-2'>Something went wrong...</span>}
         </p>
-        <Container>
-          <form onSubmit={handleFormSubmit}>
-            <TextField
-              placeholder='Leave a reaction to this thought...'
-              value={reactionBody}
-              onChange={handleChange}
-            ></TextField>
-            <br></br>
-            <Button type='submit'>Submit</Button>
-          </form>
-        </Container>
+        <form onSubmit={handleFormSubmit}>
+          <TextField
+            id='reaction-text-field'
+            multiline
+            maxRows={6}
+            placeholder='Leave a reaction to this thought...'
+            value={reactionBody}
+            onChange={handleChange}
+          ></TextField>
+          <br></br>
+          <Button id='react-submit' type='submit'>
+            Submit
+          </Button>
+        </form>
         {error && <div>Something went wrong...</div>}
       </Container>
     </div>
