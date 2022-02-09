@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
-import Auth from '../utils/auth';
-import '../components/Button/style.css';
-import { Button, Container, TextField } from '@mui/material';
+import { ADD_USER } from '../../utils/mutations';
+import Auth from '../../utils/auth';
 
-const Login = (props) => {
-  const [formState, setFormState] = useState({ email: '', password: '' });
+const Signup = () => {
+  const [formState, setFormState] = useState({
+    username: '',
+    email: '',
+    password: ''
+  });
 
-  const [login, { error }] = useMutation(LOGIN_USER);
+  const [addUser, { error }] = useMutation(ADD_USER);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -23,23 +25,32 @@ const Login = (props) => {
     event.preventDefault();
 
     try {
-      const { data } = await login({
+      const { data } = await addUser({
         variables: { ...formState }
       });
-      Auth.login(data.login.token);
+      Auth.login(data.addUser.token);
     } catch (e) {
       console.error(e);
     }
   };
 
   return (
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <main className='flex-row justify-center mb-4'>
       <div className='col-12 col-med-6'>
-        <h2>welcome back</h2>
+        <h2>Sign Up</h2>
         <div>
           <form onSubmit={handleFormSubmit}>
-            <label for='email'>email:</label>
+            <label htmlFor='username'>Username:</label>
+            <input
+              className='form-input'
+              placeholder='Your username'
+              name='username'
+              type='username'
+              id='username'
+              value={formState.username}
+              onChange={handleChange}
+            />
+            <label htmlFor='email'>Email:</label>
             <input
               className='form-input'
               placeholder='Your email'
@@ -48,9 +59,8 @@ const Login = (props) => {
               id='email'
               value={formState.email}
               onChange={handleChange}
-            />{' '}
-            <br></br>
-            <label for='password'>password:</label>
+            />
+            <label htmlFor='password'>Password:</label>
             <input
               className='form-input'
               placeholder='******'
@@ -60,17 +70,15 @@ const Login = (props) => {
               value={formState.password}
               onChange={handleChange}
             />
-            <br></br>
-            <Button id='submit' type='submit'>
+            <button className='btn d-block w-100' type='submit'>
               Submit
-            </Button>
-            {error && <div>Login failed</div>}
+            </button>
+            {error && <div>Sign up failed</div>}
           </form>
         </div>
       </div>
     </main>
-    </meta>
   );
 };
 
-export default Login;
+export default Signup;

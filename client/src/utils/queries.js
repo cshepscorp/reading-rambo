@@ -8,6 +8,7 @@ export const QUERY_ME = gql`
       email
       mediaCount
       savedMedia {
+        username
         title
         bookId
         mediaId
@@ -20,6 +21,7 @@ export const QUERY_ME = gql`
         poster
         image
         createdAt
+        reactionCount
       }
     }
   }
@@ -33,6 +35,7 @@ export const QUERY_USER = gql`
       email
       mediaCount
       savedMedia {
+        username
         title
         bookId
         mediaId
@@ -40,10 +43,42 @@ export const QUERY_USER = gql`
         plot
         description
         director
-        actors
+        stars
         authors
         poster
         image
+        createdAt
+        reactionCount
+      }
+    }
+  }
+`;
+
+export const QUERY_MEDIA = gql`
+  query mediaFeed($username: String) {
+    mediaFeed(username: $username) {
+      title
+      image
+      createdAt
+      username
+      mediaId
+      reactionCount
+    }
+  }
+`;
+
+export const QUERY_SINGLE_MEDIA = gql`
+  query media($mediaId: ID!) {
+    media(mediaId: $mediaId) {
+      title
+      mediaId
+      image
+      reactionCount
+      createdAt
+      reactions {
+        _id
+        reactionBody
+        username
         createdAt
       }
     }

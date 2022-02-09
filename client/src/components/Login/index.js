@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
-import Auth from '../utils/auth';
-import '../components/Button/style.css';
+import { LOGIN_USER } from '../../utils/mutations';
+import Auth from '../../utils/auth';
+import './style.css';
 import { Button, Container, TextField } from '@mui/material';
 
 const Login = (props) => {
@@ -33,43 +33,43 @@ const Login = (props) => {
   };
 
   return (
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <main className='flex-row justify-center mb-4'>
-      <div className='col-12 col-med-6'>
-        <h2>welcome back</h2>
-        <div>
-          <form onSubmit={handleFormSubmit}>
-            <label for='email'>email:</label>
-            <input
-              className='form-input'
-              placeholder='Your email'
+    <div>
+      <h2>welcome back</h2>
+      <Container>
+        <form onSubmit={handleFormSubmit}>
+          {/* <label for='email'>email:</label> */}
+          <Container>
+            <TextField
+              id='email-input'
+              variant='filled'
+              placeholder='your email'
               name='email'
               type='email'
-              id='email'
               value={formState.email}
               onChange={handleChange}
             />{' '}
-            <br></br>
-            <label for='password'>password:</label>
-            <input
-              className='form-input'
-              placeholder='******'
+          </Container>
+          <br></br>
+          {/* <label for='password'>password:</label> */}
+          <Container>
+            <TextField
+              id='password-input'
+              variant='filled'
+              placeholder='*password*'
               name='password'
               type='password'
-              id='password'
               value={formState.password}
               onChange={handleChange}
             />
-            <br></br>
-            <Button id='submit' type='submit'>
-              Submit
-            </Button>
-            {error && <div>Login failed</div>}
-          </form>
-        </div>
-      </div>
-    </main>
-    </meta>
+          </Container>
+          <br></br>
+          <Button id='submit' type='submit'>
+            Submit
+          </Button>
+          {error && <div>Login failed</div>}
+        </form>
+      </Container>
+    </div>
   );
 };
 

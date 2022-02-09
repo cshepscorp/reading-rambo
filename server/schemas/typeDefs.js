@@ -25,6 +25,7 @@ const typeDefs = gql`
 
   input MediaInput {
     mediaId: String
+    username: String
     bookId: String
     createdAt: String
     title: String!
@@ -33,13 +34,14 @@ const typeDefs = gql`
     description: String
     stars: String
     plot: String
-    authors: String
+    authors: [String]
     poster: String
     image: String
   }
 
   type Media {
     mediaId: String
+    username: String
     bookId: String
     createdAt: String
     title: String!
@@ -74,7 +76,8 @@ const typeDefs = gql`
     comments(username: String): [Comment]
     comment(_id: ID!): Comment
     savedMedia(username: String): [Media]
-    media: [Media]
+    mediaFeed(username: String): [Media]
+    media(mediaId: ID!): Media
   }
 
   type Mutation {
@@ -82,7 +85,7 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     addComment(commentText: String!): Comment
     addMedia(input: MediaInput!): User
-    removeMedia(title: String!): User
+    removeMedia(mediaId: ID!): User
     addReaction(mediaId: ID!, reactionBody: String!): Media
   }
 `;

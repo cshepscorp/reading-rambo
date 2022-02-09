@@ -1,0 +1,30 @@
+#mycontent-card {
+  border-radius: 8px;
+  background-color: #474d65;
+  border: 0px;
+  color: #f7f7ff;
+  margin: 10px;
+}
+
+.single-media-image {
+  width: 50% !important;
+  max-width: 10rem;
+  float: left;
+  margin: 10px;
+}
+
+#media-link-btn,
+#delete-item-btn {
+  color: thistle;
+  font-family: 'Roboto Mono', monospace;
+  box-shadow: -8px 8px;
+  margin: 6px;
+}
+
+#media-link-btn:hover,
+#delete-item-btn:hover {
+  color: #f7f7ff;
+  font-style: normal;
+  transition: 0.8s;
+  box-shadow: -4px 4px;
+}

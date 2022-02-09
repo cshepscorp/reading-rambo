@@ -46,9 +46,12 @@ const resolvers = {
 
       return Media.find(params).sort({ createdAt: -1 });
     },
-
-    media: async () => {
-      return Media.find().sort({ createdAt: -1 });
+    media: async (parent, { mediaId }) => {
+      return Media.findOne({ mediaId });
+    },
+    mediaFeed: async (parent, { username }) => {
+      const params = username ? { username } : {};
+      return Media.find(params).sort({ createdAt: -1 });
     },
   },
   Mutation: {
@@ -105,9 +108,9 @@ const resolvers = {
 
       throw new AuthenticationError("You need to be logged in!");
     },
-    removeMedia: async (parent, { title }, context) => {
+    removeMedia: async (parent, { mediaId }, context) => {
       if (context.user) {
-        const toDelete = await Media.findOne({ title });
+        const toDelete = await Media.findOneAndDelete({ mediaId });
 
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -123,7 +126,7 @@ const resolvers = {
     addReaction: async (parent, { mediaId, reactionBody }, context) => {
       if (context.user) {
         const updatedMedia = await Media.findOneAndUpdate(
-          { _id: mediaId },
+          { mediaId: mediaId },
           {
             $push: {
               reactions: { reactionBody, username: context.user.username },

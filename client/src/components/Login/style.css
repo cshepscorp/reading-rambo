@@ -1,0 +1,24 @@
+#submit {
+  color: thistle;
+  font-size: x-large;
+  font-family: 'Roboto Mono', monospace;
+  box-shadow: -10px 10px;
+}
+
+#submit:hover {
+  color: #f7f7ff;
+  font-style: normal;
+  transition: 0.8s;
+  box-shadow: -4px 4px;
+}
+
+/* text field for login and password */
+#password-input,
+#email-input {
+  color: #171a26;
+  font-size: x-large;
+  background-color: thistle;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'Roboto Mono', monospace;
+}

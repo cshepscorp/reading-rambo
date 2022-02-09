@@ -1,0 +1,70 @@
+#book-btn,
+#screen-btn {
+  color: thistle;
+  font-size: x-large;
+  font-family: 'Roboto Mono', monospace;
+  box-shadow: -10px 10px;
+}
+
+#related-btn,
+#save-content-btn {
+  color: thistle;
+  font-family: 'Roboto Mono', monospace;
+  box-shadow: -8px 8px;
+  margin: 0px 6px;
+}
+
+#related-btn:hover,
+#book-btn:hover,
+#screen-btn:hover,
+#save-content-btn:hover {
+  color: #f7f7ff;
+  font-style: normal;
+  transition: 0.8s;
+  box-shadow: -4px 4px;
+}
+
+#standard-search {
+  color: #171a26;
+  font-size: xx-large;
+  background-color: thistle;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.card {
+  border-radius: 8px;
+  background-color: #474d65;
+  border: 0px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.single-media-image {
+  width: 50% !important;
+  max-width: min-content;
+}
+
+#media-search-results {
+  margin-top: 20px;
+}
+
+#media-feed {
+  margin-top: 30px;
+}
+#media-feed .title {
+  display: none;
+}
+
+.cardHolder {
+  flex: 6;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+

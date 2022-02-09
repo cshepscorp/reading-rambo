@@ -1,0 +1,17 @@
+.feed-image {
+  width: 50% !important;
+  max-width: 10rem;
+}
+
+#card-feed {
+  border-radius: 8px;
+  background-color: #474d65;
+  border: 0px;
+  margin: 10px;
+}
+
+#see-reactions:hover {
+  color: #eefc7a;
+  letter-spacing: 1px;
+  transition: 0.5s ease;
+}
