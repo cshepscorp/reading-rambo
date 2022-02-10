@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import './style.css';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../../utils/mutations';
 import Auth from '../../utils/auth';
+import { Button, Container, TextField } from '@mui/material';
 
 const Signup = () => {
   const [formState, setFormState] = useState({
@@ -35,49 +37,54 @@ const Signup = () => {
   };
 
   return (
-    <main className='flex-row justify-center mb-4'>
-      <div className='col-12 col-med-6'>
-        <h2>Sign Up</h2>
-        <div>
-          <form onSubmit={handleFormSubmit}>
-            <label htmlFor='username'>Username:</label>
-            <input
-              className='form-input'
-              placeholder='Your username'
-              name='username'
-              type='username'
-              id='username'
-              value={formState.username}
-              onChange={handleChange}
-            />
-            <label htmlFor='email'>Email:</label>
-            <input
-              className='form-input'
-              placeholder='Your email'
-              name='email'
-              type='email'
-              id='email'
-              value={formState.email}
-              onChange={handleChange}
-            />
-            <label htmlFor='password'>Password:</label>
-            <input
-              className='form-input'
-              placeholder='******'
-              name='password'
-              type='password'
-              id='password'
-              value={formState.password}
-              onChange={handleChange}
-            />
-            <button className='btn d-block w-100' type='submit'>
-              Submit
-            </button>
-            {error && <div>Sign up failed</div>}
-          </form>
-        </div>
-      </div>
-    </main>
+    <Container>
+      <h2>Sign Up</h2>
+      <form onSubmit={handleFormSubmit}>
+        <Container>
+          <TextField
+            className='form-input'
+            placeholder='your username'
+            variant='filled'
+            name='username'
+            type='username'
+            id='username'
+            value={formState.username}
+            onChange={handleChange}
+          />
+        </Container>
+        <br></br>
+        <Container>
+          <TextField
+            className='form-input'
+            placeholder='your email'
+            variant='filled'
+            name='email'
+            type='email'
+            id='email'
+            value={formState.email}
+            onChange={handleChange}
+          />
+        </Container>
+        <br></br>
+        <Container>
+          <TextField
+            className='form-input'
+            placeholder='*password*'
+            variant='filled'
+            name='password'
+            type='password'
+            id='password'
+            value={formState.password}
+            onChange={handleChange}
+          />
+        </Container>
+        <br></br>
+        <Button id='signup-btn' type='submit'>
+          Submit
+        </Button>
+        {error && <div>Sign up failed</div>}
+      </form>
+    </Container>
   );
 };
 

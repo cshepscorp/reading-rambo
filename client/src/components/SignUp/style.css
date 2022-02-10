@@ -1,0 +1,29 @@
+#signup-btn {
+  color: thistle;
+  font-size: large;
+  font-family: 'Roboto Mono', monospace;
+  box-shadow: -10px 10px;
+}
+
+#signup-btn:hover {
+  color: #f7f7ff;
+  font-style: normal;
+  transition: 0.8s;
+  box-shadow: -4px 4px;
+}
+
+.form-input {
+  color: #171a26;
+  font-size: x-large;
+  background-color: thistle;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'Roboto Mono', monospace;
+}
+
+#password,
+#email,
+#username {
+  font-family: 'Roboto Mono', monospace;
+  font-size: large;
+}
