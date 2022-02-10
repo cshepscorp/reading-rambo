@@ -2,3 +2,26 @@
   width: 50%;
   max-width: 10rem;
 }
+
+#single-media-card {
+  border-radius: 8px;
+  background-color: #474d65;
+  border: 0px;
+  color: #f7f7ff;
+  margin: 10px 0;
+}
+
+@media screen and (min-width: 481px) and (max-width: 700px) {
+  /* comes into effect for screens  between 481 and 600 pixels (inclusive) */
+  .single-media-image {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 701px) and (max-width: 801px) {
+  /* comes into effect for screens  between 601 and 801 pixels (inclusive) */
+  .single-media-image {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

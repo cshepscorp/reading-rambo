@@ -1,37 +1,3 @@
-@media (min-width:320px)  { /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */ }
-@media (min-width:480px)  { /* smartphones, Android phones, landscape iPhone */ }
-@media (min-width:600px)  { /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */ }
-@media (min-width:801px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
-@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
-@media (min-width:1281px) { /* hi-res laptops and desktops */ }
-
-@media screen and (max-width: 320px) {
-  /* comes into effect for screens less than or equal to 320 pixels */
-}
-@media screen and (min-width: 321px) and (max-width: 480px) {
-  /* comes into effect for screens between 321 and 480 pixels (inclusive) */
-  
-}
-@media screen and (min-width: 481px) and (max-width: 600px) {
-  /* comes into effect for screens  between 481 and 600 pixels (inclusive) */
-}
-
-@media screen and (min-width: 601px) and (max-width: 801px) {
-  /* comes into effect for screens  between 601 and 801 pixels (inclusive) */
-}
-
-@media screen and (min-width: 802px) and (max-width: 1025px) {
-  /* comes into effect for screens  between 802 and 1025 pixels (inclusive) */
-}
-
-@media screen and (min-width: 1026px) and (max-width: 1281px) {
-  /* comes into effect for screens between 1026 and 1281 pixels (inclusive) */
-}
-
-@media screen and (min-width: 1282px) {
-  /* comes into effect for screens larger than or equal to 1282 pixels */
-}
-
 .App {
   text-align: center;
   display: flex;
