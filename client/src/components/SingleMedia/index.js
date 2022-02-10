@@ -97,7 +97,13 @@ const SingleMedia = (props) => {
             alt={`The main graphic for ${media.title}`}
           />
         ) : null}
-        added on {media.createdAt}
+                    <p className='small'>added by <Link
+              to={`/profile/${media.username}`}
+              style={{ fontWeight: 300 }}
+              className='text-light'
+            >
+              {media.username}
+            </Link>{' '} at {media.createdAt}</p>
         <div className="card-body">
           <p>{media.title}</p>
           {media.username ? <p>{media.username}</p> : null}

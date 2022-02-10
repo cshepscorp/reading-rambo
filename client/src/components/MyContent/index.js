@@ -1,17 +1,20 @@
-import React from 'react';
+import React from "react";
 // import ReactionList from "../ReactionList";
-import './style.css';
-import { useMutation, useQuery } from '@apollo/client';
-import { REMOVE_MEDIA } from '../../utils/mutations';
-import { QUERY_ME } from '../../utils/queries';
-import Auth from '../../utils/auth';
-import { removeMediaId } from '../../utils/localStorage';
-import { Button, Card, CardContent, Container } from '@mui/material';
+import "./style.css";
+import { useMutation, useQuery } from "@apollo/client";
+import { REMOVE_MEDIA } from "../../utils/mutations";
+import { QUERY_ME } from "../../utils/queries";
+import Auth from "../../utils/auth";
+import { removeMediaId } from "../../utils/localStorage";
+import { Button, Card, CardContent, Container } from "@mui/material";
+
+// friend stuff
+import FriendList from "../FriendList";
 
 const MyContent = () => {
   const { loading, data } = useQuery(QUERY_ME);
   const userData = data?.me || [];
-  console.log('=======ME DATA======');
+  console.log("=======ME DATA======");
 
   const [removeMedia] = useMutation(REMOVE_MEDIA);
 
@@ -23,7 +26,7 @@ const MyContent = () => {
     }
     try {
       await removeMedia({
-        variables: { mediaId: mediaId }
+        variables: { mediaId: mediaId },
       });
       removeMediaId(mediaId);
     } catch (e) {
@@ -40,43 +43,50 @@ const MyContent = () => {
 
   return (
     <Container>
+      <div className="col-12 col-lg-3 mb-3">
+        <FriendList
+          username={userData.username}
+          friendCount={userData.friendCount}
+          friends={userData.friends}
+        />
+      </div>
       <h2>{userData.username}'s saved content</h2>
       <h4>
         {`Viewing ${userData.mediaCount} saved ${
-          userData.mediaCount === 1 ? 'item' : 'items'
+          userData.mediaCount === 1 ? "item" : "items"
         }:`}
       </h4>
       {userData.savedMedia.map((media) => {
         return (
-          <Card id='mycontent-card' key={media.mediaId}>
+          <Card id="mycontent-card" key={media.mediaId}>
             <CardContent>
               {media.image ? (
                 <img
-                  className='single-media-image'
+                  className="single-media-image"
                   src={media.image}
                   alt={`The main graphic for ${media.title}`}
-                  variant='top'
+                  variant="top"
                 />
               ) : null}
               <div>
                 <p>{media.title}</p>
                 {media.year ? (
-                  <p className='small'>Year: {media.year}</p>
+                  <p className="small">Year: {media.year}</p>
                 ) : null}
                 {media.stars ? (
-                  <p className='small'>Starring: {media.stars}</p>
+                  <p className="small">Starring: {media.stars}</p>
                 ) : null}
                 {media.description ? (
-                  <p className='small'>Description: {media.description}</p>
+                  <p className="small">Description: {media.description}</p>
                 ) : null}
-                {media.link ? <p className='small'>{media.link}</p> : null}
+                {media.link ? <p className="small">{media.link}</p> : null}
                 {`${media.reactionCount} ${
-                  media.reactionCount === 1 ? 'reaction' : 'reactions'
+                  media.reactionCount === 1 ? "reaction" : "reactions"
                 }`}
               </div>
               {Auth.loggedIn() && (
                 <Button
-                  id='media-link-btn'
+                  id="media-link-btn"
                   href={`/media/${media.mediaId}`}
                   style={{ fontWeight: 300 }}
                 >
@@ -84,7 +94,7 @@ const MyContent = () => {
                 </Button>
               )}
               <Button
-                id='delete-item-btn'
+                id="delete-item-btn"
                 onClick={() => handleDeleteMedia(media.mediaId)}
               >
                 Delete this item

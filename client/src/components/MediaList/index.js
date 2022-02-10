@@ -23,13 +23,13 @@ const MediaList = ({ medias, title }) => {
                 />
               </Button>
             ) : null}
-            <Link
+            {/* <Link
               to={`/profile/${media.username}`}
               style={{ fontWeight: 300 }}
               className='text-light'
             >
               {media.username}
-            </Link>{' '}
+            </Link>{' '} */}
             <p>{media.title}</p>
             {media.year ? (
               <p className='small year'>Year: {media.year}</p>
@@ -53,23 +53,13 @@ const MediaList = ({ medias, title }) => {
                 </p>
               </Link>
             )}
-            <p className='small'>added {media.createdAt}</p>
-            {/* {media.stars ? (
-                  <p className="small">
-                    <a href={`https://www.imdb.com/title/${media.mediaId}`}>
-                      See full listing on IMDB
-                    </a>
-                  </p>
-                ) : null}
-                {media.authors !== '' ? (
-                  <p className="small">
-                    <a
-                      href={`https://www.googleapis.com/books/v1/volumes?q=${media.mediaId}`}
-                    >
-                      See full listing via Google Book Bearch
-                    </a>
-                  </p>
-                ) : null} */}
+            <p className='small'>added by <Link
+              to={`/profile/${media.username}`}
+              style={{ fontWeight: 300 }}
+              className='text-light'
+            >
+              {media.username}
+            </Link>{' '} at {media.createdAt}</p>
           </Card>
         ))}
     </div>
