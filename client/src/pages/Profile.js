@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // redirect allows us to redirect a user to another; kind of like window.replace() but it works without having to refresh
 import { Redirect, useParams } from "react-router-dom";
 import MediaList from "../components/MediaList";
 import { QUERY_USER, QUERY_ME } from "../utils/queries";
 import { useQuery, useMutation } from "@apollo/client";
-import { Button, Container, TextField } from '@mui/material';
-
+import { Button } from "@mui/material";
+import { saveFriendIds, getSavedFriendIds } from "../utils/localStorage";
 
 // friend stuff
 import FriendList from "../components/FriendList";
@@ -21,6 +21,12 @@ const Profile = (props) => {
   // Now if there's a value in userParam that we got from the URL bar, we'll use that value to run the QUERY_USER query. If there's no value in userParam, like if we simply visit /profile as a logged-in user, we'll execute the QUERY_ME query instead.
   const { loading, data } = useQuery(userParam ? QUERY_USER : QUERY_ME, {
     variables: { username: userParam },
+  });
+
+  // saved friend Id
+  const [savedFriendIds, setSavedFriendIds] = useState(getSavedFriendIds());
+  useEffect(() => {
+    return () => saveFriendIds(savedFriendIds);
   });
 
   // when we run QUERY_ME, the response will return with our data in the me property; but if it runs QUERY_USER instead, the response will return with our data in the user property. Now we have it set up to check for both.
@@ -48,11 +54,13 @@ const Profile = (props) => {
     );
   }
 
-  const handleClick = async () => {
+  const handleSaveFriend = async (friendId) => {
     try {
+      console.log(user._id);
       await addFriend({
         variables: { id: user._id },
       });
+      setSavedFriendIds([...savedFriendIds, user._id.friendId]);
     } catch (e) {
       console.error(e);
     }
@@ -65,11 +73,26 @@ const Profile = (props) => {
           {/* if userParam doesn't exist, we'll get a message saying "Viewing your profile." Otherwise, it will display the username of the other user on their profile. */}
           Viewing {userParam ? `${user.username}'s` : "your"} profile.
         </h2>
-        {userParam && (
+        {Auth.loggedIn() && (
+          <Button
+            id="save-content-btn"
+            disabled={savedFriendIds?.some(
+              (savedFriendId) => savedFriendId === user.friendId
+            )}
+            onClick={() => handleSaveFriend(user.friendId)}
+          >
+            {savedFriendIds?.some(
+              (savedFriendId) => savedFriendId === user.friendId
+            )
+              ? `person added to my friends`
+              : "add friend"}
+          </Button>
+        )}
+        {/* {userParam && (
           <button className="btn ml-auto" onClick={handleClick}>
             Add Friend
           </button>
-        )}
+        )} */}
       </div>
       <div className="col-12 col-lg-3 mb-3">
         <FriendList
