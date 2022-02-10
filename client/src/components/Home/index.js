@@ -194,7 +194,7 @@ const Home = () => {
       </form>{' '}
       <Container id='media-search-results'>
         <Container className='cardHolder'>
-          {searchedMedia.map((media) => {
+          {searchedMedia.length > 0 ? searchedMedia.map((media) => {
             return (
               <Container className='card' key={media.mediaId}>
                 {media.image ? (
@@ -242,7 +242,7 @@ const Home = () => {
                 {error && <div>save failed</div>}
               </Container>
             );
-          })}
+          }) : <p>nothing here</p>}
         </Container>
       </Container>
       <Container className="cardHolder" id='media-feed'>
