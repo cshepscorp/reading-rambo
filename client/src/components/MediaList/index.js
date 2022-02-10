@@ -2,7 +2,7 @@ import React from 'react';
 import './style.css';
 import { Link } from 'react-router-dom';
 import Auth from '../../utils/auth';
-import { Button, Card } from '@mui/material';
+import { Card } from '@mui/material';
 
 const MediaList = ({ medias, title }) => {
   if (!medias.length) {
@@ -15,11 +15,13 @@ const MediaList = ({ medias, title }) => {
         medias.map((media) => (
           <Card id='card-feed' key={media._id}>
             {media.image ? (
+              <Link to={`/media/${media.mediaId}`}>
                 <img
                   id='feed-image'
                   src={media.image}
                   alt={`The main graphic for ${media.title}`}
                 />
+              </Link>
             ) : null}
             {/* <Link
               to={`/profile/${media.username}`}
@@ -51,13 +53,17 @@ const MediaList = ({ medias, title }) => {
                 </p>
               </Link>
             )}
-            <p className='small'>added by <Link
-              to={`/profile/${media.username}`}
-              style={{ fontWeight: 300 }}
-              className='text-light'
-            >
-              {media.username}
-            </Link>{' '} at {media.createdAt}</p>
+            <p className='small'>
+              added by{' '}
+              <Link
+                to={`/profile/${media.username}`}
+                style={{ fontWeight: 300 }}
+                className='text-light'
+              >
+                {media.username}
+              </Link>{' '}
+              at {media.createdAt}
+            </p>
           </Card>
         ))}
     </div>

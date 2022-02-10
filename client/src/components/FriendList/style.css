@@ -1,0 +1,13 @@
+#prof-link-btn {
+  color: thistle;
+  font-family: 'Roboto Mono', monospace;
+  box-shadow: -8px 8px;
+  margin: 0px 6px;
+}
+
+#prof-link-btn:hover {
+  color: #f7f7ff;
+  font-style: normal;
+  transition: 0.8s;
+  box-shadow: -4px 4px;
+}
