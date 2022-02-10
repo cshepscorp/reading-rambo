@@ -1,9 +1,11 @@
-.feed-image {
+#feed-image {
   width: 50% !important;
   max-width: 10rem;
+  float: left;
 }
 
 #card-feed {
+  color: #f7f7ff;
   border-radius: 8px;
   background-color: #474d65;
   border: 0px;

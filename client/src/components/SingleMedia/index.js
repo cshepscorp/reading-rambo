@@ -112,18 +112,25 @@ const SingleMedia = (props) => {
         </div>
       </Card>
       <Card id='single-media-card'>
-        <h5>Join in on the convo!</h5>
+        <div>
+          <h4>Join in on the convo!</h4>
+        </div>
         {reactions &&
           reactions.map((reaction) => (
-            <p className='pill mb-3' key={reaction._id}>
-              {reaction.reactionBody} {' ---> '}
-              <Link
-                to={`/profile/${reaction.username}`}
-                style={{ fontWeight: 700 }}
-              >
-                {reaction.username} on {reaction.createdAt}
-              </Link>
-            </p>
+            <Container>
+              <p className='pill mb-3' key={reaction._id}>
+                <Container>{reaction.reactionBody}</Container>
+                <br></br> {' ---> '}
+                by:{' '}
+                <Link
+                  to={`/profile/${reaction.username}`}
+                  style={{ fontWeight: 700 }}
+                >
+                  <span id='reaction-user-link'>{reaction.username}</span> on{' '}
+                  {reaction.createdAt}
+                </Link>
+              </p>
+            </Container>
           ))}
       </Card>
       {Auth.loggedIn() ? (

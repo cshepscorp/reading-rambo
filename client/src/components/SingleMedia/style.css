@@ -3,6 +3,10 @@
   max-width: 10rem;
 }
 
+h4 {
+  margin-bottom: 20px;
+}
+
 #single-media-card {
   border-radius: 8px;
   background-color: #474d65;
@@ -32,6 +36,20 @@
   box-shadow: -4px 4px;
 }
 
+#reaction-user-link {
+  color: #eefc7a;
+}
+
+#reaction-user-link:hover {
+  font-style: italic;
+}
+
+@media screen and (max-width: 321px) {
+  p {
+    font-size: x-small;
+  }
+}
+
 @media screen and (min-width: 321px) and (max-width: 480px) {
   p {
     font-size: small;
@@ -44,12 +62,27 @@
   .single-media-image {
     width: 100%;
   }
+
+  p {
+    font-size: small;
+  }
 }
 
-@media screen and (min-width: 701px) and (max-width: 801px) {
+@media screen and (max-width: 801px) {
   /* comes into effect for screens  between 601 and 801 pixels (inclusive) */
   .single-media-image {
     display: flex;
     flex-wrap: wrap;
+  }
+
+  p {
+    font-size: small;
+  }
+}
+
+@media screen and (max-width: 1281px) {
+  /* comes into effect for screens between 1026 and 1281 pixels (inclusive) */
+  p {
+    font-weight: 100;
   }
 }

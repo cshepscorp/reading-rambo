@@ -15,13 +15,11 @@ const MediaList = ({ medias, title }) => {
         medias.map((media) => (
           <Card id='card-feed' key={media._id}>
             {media.image ? (
-              <Button href={`/media/${media.mediaId}`}>
                 <img
-                  className='feed-image'
+                  id='feed-image'
                   src={media.image}
                   alt={`The main graphic for ${media.title}`}
                 />
-              </Button>
             ) : null}
             <Link
               to={`/profile/${media.username}`}
