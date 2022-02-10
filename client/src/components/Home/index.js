@@ -27,53 +27,93 @@ const Home = () => {
     return () => saveMediaIds(savedMediaIds);
   });
 
-  // effect for related media button
+  /**
+ * Activates when mediaSearchType is altered. Checks to see 
+ * if mediaSearchType is either "books" or "screens", and if
+ * neither is true, it terminates. If it is one of those,
+ * then it'll do a search and populate for that respective
+ * search type. It will then set lastMediaTypeSearched to
+ * whatever the last kind of search was (books or screens).
+ * Then, it will RESET mediaSearchType to "" (aka nothing).
+ * This will activate it again, but it will terminate upon
+ * finding mediaSearchType to be empty.
+ */
   useEffect(async () => {
-    console.log('regular search useEffect activated');
+    console.log("regular search useEffect activated");
 
+    if (!mediaSearchInput) {
+      setMediaSearchType("");
+      return;
+    }
+
+    let mediaData = "error";
+    try {
+      if (mediaSearchType === "screens") {
+        mediaData = await searchScreens(mediaSearchInput);
+      }
+      else if (mediaSearchType === "books") {
+        mediaData = await searchBooks(mediaSearchInput);
+      }
+      else {
+        return;
+      }
+
+      setSearchedMedia(mediaData);
+      setLastMediaTypeSearched(mediaSearchType);
+      setMediaSearchInput('');
+      setMediaSearchType("");
+    } catch (error) {
+      console.log(error);
+    }
+  }, [mediaSearchType]);
+
+  /**
+    * Activates when relatedSearchValue is changed, which happens when
+    * a "find related media" button is clicked. Checks lastMediaTypeSearched
+    * to see what the last media type searched was, and then searches for
+    * the OPPOSITE of that, in order to get related media. Doesn't check
+    * mediaSearchType intentionally, as that is reset after each search,
+    * while lastMediaTypeSearched is not. Then, it resets relatedSearchValue,
+    * which reactivates this useEffect, which will immediately terminate once
+    * it finds relatedSearchValue to be reset (aka empty).
+    */
+  useEffect(async () => {
     if (!relatedSearchValue) {
+      console.log("No related search value found");
       return false;
     }
 
-    let mediaData = 'error';
-    if (mediaSearchType === 'books') {
+    let mediaData = "error";
+    if (lastMediaTypeSearched === "books") {
+      console.log("last media search type read as books");
       mediaData = await searchScreens(relatedSearchValue);
-    } else if (mediaSearchType === 'screens') {
+      setLastMediaTypeSearched("screens");
+    }
+    else if (lastMediaTypeSearched === "screens") {
+      console.log("state read as screens");
       mediaData = await searchBooks(relatedSearchValue);
-    } else {
-      throw new Error('Neither search type selected!');
+      setLastMediaTypeSearched("books");
+    }
+    else {
+      console.log("MediaSearchType at time of error:" + mediaSearchType);
+      throw new Error("Neither search type selected!")
     }
     console.log(mediaData);
     setSearchedMedia(mediaData);
     setMediaSearchInput('');
+    setRelatedSearchValue("");
   }, [relatedSearchValue]);
 
-  // handles state based on media type being searched
+  // ain't does nothin cowboy
   const handleMedia = async (e) => {
     e.preventDefault();
-
-    if (!mediaSearchInput) {
-      return false;
-    }
-
-    let mediaData = 'error';
-    if (mediaSearchType === 'screens') {
-      mediaData = await searchScreens(mediaSearchInput);
-    } else if (mediaSearchType === 'books') {
-      mediaData = await searchBooks(mediaSearchInput);
-    } else {
-      throw new Error('Neither search type selected!');
-    }
-
-    setSearchedMedia(mediaData);
-    setMediaSearchInput('');
   };
 
-    // to pull in medialist feed
-    const { data } = useQuery(QUERY_MEDIA);
-    const medias = data?.mediaFeed || [];
-    console.log("all media items incl fake data");
-    console.log(medias);
+  // to pull in medialist feed
+  const { data } = useQuery(QUERY_MEDIA);
+  const medias = data?.mediaFeed || [];
+  console.log("all media items incl fake data");
+  console.log(medias);
 
   // SAVE MEDIA query
   const [addMedia, { error }] = useMutation(ADD_MEDIA, {
@@ -159,7 +199,7 @@ const Home = () => {
               <Container className='card' key={media.mediaId}>
                 {media.image ? (
                   <img
-                  className='single-media-image'
+                    className='single-media-image'
                     src={media.image}
                     alt={`The poster for ${media.title}`}
                     variant='top'
