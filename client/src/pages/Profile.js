@@ -4,6 +4,8 @@ import { Redirect, useParams } from "react-router-dom";
 import MediaList from "../components/MediaList";
 import { QUERY_USER, QUERY_ME } from "../utils/queries";
 import { useQuery, useMutation } from "@apollo/client";
+import { Button, Container, TextField } from '@mui/material';
+
 
 // friend stuff
 import FriendList from "../components/FriendList";
@@ -13,6 +15,7 @@ import Auth from "../utils/auth";
 
 const Profile = (props) => {
   const [addFriend] = useMutation(ADD_FRIEND);
+  // SAVE MEDIA query
   const { username: userParam } = useParams();
 
   // Now if there's a value in userParam that we got from the URL bar, we'll use that value to run the QUERY_USER query. If there's no value in userParam, like if we simply visit /profile as a logged-in user, we'll execute the QUERY_ME query instead.
