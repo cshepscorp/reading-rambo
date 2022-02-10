@@ -7,6 +7,11 @@ export const QUERY_ME = gql`
       username
       email
       mediaCount
+      friendCount
+      friends {
+        _id
+        username
+      }
       savedMedia {
         username
         title
@@ -22,6 +27,12 @@ export const QUERY_ME = gql`
         image
         createdAt
         reactionCount
+        reactions {
+          _id
+          reactionBody
+          username
+          createdAt
+        }
       }
     }
   }
@@ -34,6 +45,11 @@ export const QUERY_USER = gql`
       username
       email
       mediaCount
+      friendCount
+      friends {
+        _id
+        username
+      }
       savedMedia {
         username
         title
@@ -49,6 +65,12 @@ export const QUERY_USER = gql`
         image
         createdAt
         reactionCount
+        reactions {
+          _id
+          reactionBody
+          username
+          createdAt
+        }
       }
     }
   }
@@ -68,8 +90,9 @@ export const QUERY_MEDIA = gql`
 `;
 
 export const QUERY_SINGLE_MEDIA = gql`
-  query media($mediaId: ID!) {
+  query media($mediaId: String!) {
     media(mediaId: $mediaId) {
+      username
       title
       mediaId
       image

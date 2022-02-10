@@ -11,6 +11,7 @@ const resolvers = {
           .select("-__v -password")
           .populate("comments")
           .populate("savedMedia")
+          .populate("friends")
           .sort({ createdAt: -1 });
         return userData;
       }
@@ -30,6 +31,7 @@ const resolvers = {
       return User.find()
         .select("-__v -password")
         .populate("comments")
+        .populate("friends")
         .populate("savedMedia");
     },
     // get a user by username
@@ -39,6 +41,7 @@ const resolvers = {
           // .select("-__v -password") //seems to be useless?
           .populate("comments")
           .populate("savedMedia")
+          .populate("friends")
       );
     },
     savedMedia: async (parent, { username }) => {
@@ -96,7 +99,10 @@ const resolvers = {
     },
     addMedia: async (parent, { input }, context) => {
       if (context.user) {
-        const newMedia = await Media.create({ ...input });
+        const newMedia = await Media.create({
+          username: context.user.username,
+          ...input,
+        });
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { savedMedia: newMedia } },
@@ -136,6 +142,19 @@ const resolvers = {
         ).populate("reactions");
 
         return updatedMedia;
+      }
+
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    addFriend: async (parent, { friendId }, context) => {
+      if (context.user) {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { friends: friendId } },
+          { new: true }
+        ).populate("friends");
+
+        return updatedUser;
       }
 
       throw new AuthenticationError("You need to be logged in!");

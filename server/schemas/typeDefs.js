@@ -7,7 +7,8 @@ const typeDefs = gql`
     email: String
     mediaCount: Int
     savedMedia: [Media]
-    comments: [Comment]
+    friendCount: Int
+    friends: [User]
   }
 
   type Comment {
@@ -77,7 +78,7 @@ const typeDefs = gql`
     comment(_id: ID!): Comment
     savedMedia(username: String): [Media]
     mediaFeed(username: String): [Media]
-    media(mediaId: ID!): Media
+    media(mediaId: String!): Media
   }
 
   type Mutation {
@@ -87,8 +88,8 @@ const typeDefs = gql`
     addMedia(input: MediaInput!): User
     removeMedia(mediaId: ID!): User
     addReaction(mediaId: ID!, reactionBody: String!): Media
+    addFriend(friendId: ID!): User
   }
 `;
 
 module.exports = typeDefs;
-//    media(_id: ID!): Media
