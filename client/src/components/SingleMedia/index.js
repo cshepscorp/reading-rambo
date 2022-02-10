@@ -106,7 +106,6 @@ const SingleMedia = (props) => {
             </Link>{' '} at {media.createdAt}</p>
         <div className="card-body">
           <p>{media.title}</p>
-          {media.username ? <p>{media.username}</p> : null}
           {media.year ? <p>{media.year}</p> : null}
           {media.description ? <p>{media.description}</p> : null}
           {media.stars ? <p>Starring: {media.stars}</p> : null}
