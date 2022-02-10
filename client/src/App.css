@@ -44,6 +44,7 @@
   display: block;
   float: left;
   width: 30%;
+  border-radius: 8px;
 }
 .card {
   flex: 0 0 31%;

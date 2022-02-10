@@ -2,6 +2,7 @@
   width: 50% !important;
   max-width: 10rem;
   float: left;
+  border-radius: 8px;
 }
 
 #card-feed {

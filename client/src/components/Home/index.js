@@ -6,7 +6,7 @@ import { QUERY_ME, QUERY_MEDIA } from '../../utils/queries';
 import { saveMediaIds, getSavedMediaIds } from '../../utils/localStorage';
 import { searchBooks, searchScreens } from '../../utils/search';
 import { useMutation } from '@apollo/client';
-import { Button, Container, TextField } from '@mui/material';
+import { Button, Card, Container, TextField } from '@mui/material';
 
 // for media feed
 import MediaList from '../MediaList';
@@ -193,60 +193,56 @@ const Home = () => {
         </Button>
       </form>{' '}
       <Container id='media-search-results'>
-        <Container className='cardHolder'>
-          {searchedMedia.map((media) => {
-            return (
-              <Container className='card' key={media.mediaId}>
-                {media.image ? (
-                  <img
-                    className='single-media-image'
-                    src={media.image}
-                    alt={`The poster for ${media.title}`}
-                    variant='top'
-                  />
-                ) : null}
-                <h4>{media.title}</h4>
-                {media.year ? (
-                  <p className='small'>Year: {media.year}</p>
-                ) : null}
-                {media.stars ? (
-                  <p className='small'>Starring: {media.stars}</p>
-                ) : null}
-                {media.description ? (
-                  <p className='small'>Description: {media.description}</p>
-                ) : null}
+        {searchedMedia.map((media) => {
+          return (
+            <Card id='card-feed' key={media.mediaId}>
+              {media.image ? (
+                <img
+                  className='single-media-image'
+                  src={media.image}
+                  alt={`The poster for ${media.title}`}
+                  variant='top'
+                />
+              ) : null}
+              <h4>{media.title}</h4>
+              {media.year ? <p className='small'>Year: {media.year}</p> : null}
+              {media.stars ? (
+                <p className='small'>Starring: {media.stars}</p>
+              ) : null}
+              {media.description ? (
+                <p className='small'>Description: {media.description}</p>
+              ) : null}
+              <Button
+                id='related-btn'
+                value={media.title}
+                onClick={() => setRelatedSearchValue(media.title)}
+              >
+                {lastMediaTypeSearched === 'screens'
+                  ? 'See Related Books'
+                  : 'See Related Movies'}{' '}
+              </Button>
+              {Auth.loggedIn() && (
                 <Button
-                  id='related-btn'
-                  value={media.title}
-                  onClick={() => setRelatedSearchValue(media.title)}
+                  id='save-content-btn'
+                  disabled={savedMediaIds?.some(
+                    (savedMediaId) => savedMediaId === media.mediaId
+                  )}
+                  onClick={() => handleSaveMedia(media.mediaId)}
                 >
-                  {lastMediaTypeSearched === 'screens'
-                    ? 'See Related Books'
-                    : 'See Related Movies'}{' '}
+                  {savedMediaIds?.some(
+                    (savedMediaId) => savedMediaId === media.mediaId
+                  )
+                    ? `item saved to 'my content'`
+                    : 'save this'}
                 </Button>
-                {Auth.loggedIn() && (
-                  <Button
-                    id='save-content-btn'
-                    disabled={savedMediaIds?.some(
-                      (savedMediaId) => savedMediaId === media.mediaId
-                    )}
-                    onClick={() => handleSaveMedia(media.mediaId)}
-                  >
-                    {savedMediaIds?.some(
-                      (savedMediaId) => savedMediaId === media.mediaId
-                    )
-                      ? `item saved to 'my content'`
-                      : 'save this'}
-                  </Button>
-                )}
-                {error && <div>save failed</div>}
-              </Container>
-            );
-          })}
-        </Container>
+              )}
+              {error && <div>save failed</div>}
+            </Card>
+          );
+        })}
       </Container>
-      <Container className="cardHolder" id='media-feed'>
-        <MediaList medias={medias} title="activity feed" />
+      <Container className='cardHolder' id='media-feed'>
+        <MediaList medias={medias} title='activity feed' />
       </Container>
     </div>
   );
