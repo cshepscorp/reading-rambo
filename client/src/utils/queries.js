@@ -68,7 +68,7 @@ export const QUERY_MEDIA = gql`
 `;
 
 export const QUERY_SINGLE_MEDIA = gql`
-  query media($mediaId: ID!) {
+  query media($mediaId: String!) {
     media(mediaId: $mediaId) {
       title
       mediaId

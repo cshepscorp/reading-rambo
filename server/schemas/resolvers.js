@@ -96,7 +96,10 @@ const resolvers = {
     },
     addMedia: async (parent, { input }, context) => {
       if (context.user) {
-        const newMedia = await Media.create({ ...input });
+        const newMedia = await Media.create({ 
+          username: context.user.username,
+          ...input
+        });
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { savedMedia: newMedia } },

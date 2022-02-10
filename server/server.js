@@ -36,6 +36,7 @@ app.use(express.json());
 
 // Serve up static assets for production
 if (process.env.NODE_ENV === "production") {
+  console.log("static service happened");
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
 
