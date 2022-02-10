@@ -9,6 +9,34 @@
   border: 0px;
   color: #f7f7ff;
   margin: 10px 0;
+  padding: 10px;
+}
+
+#reaction-text-field {
+  color: #f7f7ff;
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* BUTTON */
+#react-submit {
+  color: thistle;
+  font-family: 'Roboto Mono', monospace;
+  box-shadow: -8px 8px;
+  margin: 0px 6px;
+}
+
+#react-submit:hover {
+  color: #f7f7ff;
+  font-style: normal;
+  transition: 0.8s;
+  box-shadow: -4px 4px;
+}
+
+@media screen and (min-width: 321px) and (max-width: 480px) {
+  p {
+    font-size: small;
+    font-weight: 100;
+  }
 }
 
 @media screen and (min-width: 481px) and (max-width: 700px) {
