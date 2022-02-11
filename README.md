@@ -22,7 +22,7 @@
 
 Here is how the application appears and functions.
 
-<img src='' />
+<img src='./client/src/assets/images/reading-rambo.gif' />
 
 ## Installation
 
