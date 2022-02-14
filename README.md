@@ -4,6 +4,8 @@
 
 ## Purpose
 
+Connecting book lovers to movies, and movie lovers to books, by allowing users to search for their favorites of either and find the inverse, corresponding media.
+
 <a href="https://reactjs.org/docs/getting-started.html">
 <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" />
 </a>
@@ -22,7 +24,7 @@
 
 Here is how the application appears and functions.
 
-<img src='' />
+<img src='./client/src/assets/images/reading-rambo.gif' />
 
 ## Installation
 

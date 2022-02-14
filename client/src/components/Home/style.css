@@ -11,7 +11,7 @@
   color: thistle;
   font-family: 'Roboto Mono', monospace;
   box-shadow: -8px 8px;
-  margin: 0px 6px;
+  margin: 6px;
 }
 
 #related-btn:hover,
@@ -33,19 +33,24 @@
   font-family: 'Roboto Mono', monospace;
 }
 
-.card {
-  border-radius: 8px;
-  background-color: #474d65;
-  border: 0px;
-}
-
 a {
   text-decoration: none;
 }
 
 .single-media-image {
   width: 50% !important;
-  max-width: min-content;
+  max-width: 10rem;
+  float: left;
+  border-radius: 8px;
+}
+
+#card-feed {
+  color: #f7f7ff;
+  border-radius: 8px;
+  background-color: #474d65;
+  border: 0px;
+  margin: 10px;
+  padding: 10px;
 }
 
 #media-search-results {
@@ -55,6 +60,7 @@ a {
 #media-feed {
   margin-top: 30px;
 }
+
 #media-feed .title {
   display: none;
 }
@@ -67,4 +73,3 @@ a {
   flex-wrap: wrap;
   justify-content: space-between;
 }
-

@@ -1,5 +1,4 @@
 import React from "react";
-// import ReactionList from "../components/ReactionList";
 import { useMutation, useQuery } from "@apollo/client";
 import { REMOVE_MEDIA } from "../utils/mutations";
 import { QUERY_ME } from "../utils/queries";

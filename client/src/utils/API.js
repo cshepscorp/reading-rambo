@@ -12,6 +12,6 @@ export const searchOmdb = (query) => {
 
 export const searchImdb = (query) => {
   return fetch(
-    `https://imdb-api.com/API/AdvancedSearch/k_ie48e5ua?title=${query}&moviemeter=0,`
+    `https://imdb-api.com/API/AdvancedSearch/k_pxaaphkj?title=${query}&moviemeter=0,`
   );
 };

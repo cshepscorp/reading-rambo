@@ -8,6 +8,9 @@ import Auth from '../../utils/auth';
 import { removeMediaId } from '../../utils/localStorage';
 import { Button, Card, CardContent, Container } from '@mui/material';
 
+// friend stuff
+import FriendList from '../FriendList';
+
 const MyContent = () => {
   const { loading, data } = useQuery(QUERY_ME);
   const userData = data?.me || [];
@@ -93,6 +96,13 @@ const MyContent = () => {
           </Card>
         );
       })}
+      <Container id='friend-zone'>
+        <FriendList
+          username={userData.username}
+          friendCount={userData.friendCount}
+          friends={userData.friends}
+        />
+      </Container>
     </Container>
   );
 };

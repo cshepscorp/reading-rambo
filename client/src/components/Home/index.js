@@ -6,7 +6,7 @@ import { QUERY_ME, QUERY_MEDIA } from '../../utils/queries';
 import { saveMediaIds, getSavedMediaIds } from '../../utils/localStorage';
 import { searchBooks, searchScreens } from '../../utils/search';
 import { useMutation } from '@apollo/client';
-import { Button, Container, TextField } from '@mui/material';
+import { Button, Card, Container, TextField } from '@mui/material';
 
 // for media feed
 import MediaList from '../MediaList';
@@ -27,53 +27,93 @@ const Home = () => {
     return () => saveMediaIds(savedMediaIds);
   });
 
-  // effect for related media button
+  /**
+ * Activates when mediaSearchType is altered. Checks to see 
+ * if mediaSearchType is either "books" or "screens", and if
+ * neither is true, it terminates. If it is one of those,
+ * then it'll do a search and populate for that respective
+ * search type. It will then set lastMediaTypeSearched to
+ * whatever the last kind of search was (books or screens).
+ * Then, it will RESET mediaSearchType to "" (aka nothing).
+ * This will activate it again, but it will terminate upon
+ * finding mediaSearchType to be empty.
+ */
   useEffect(async () => {
-    console.log('regular search useEffect activated');
+    console.log("regular search useEffect activated");
 
+    if (!mediaSearchInput) {
+      setMediaSearchType("");
+      return;
+    }
+
+    let mediaData = "error";
+    try {
+      if (mediaSearchType === "screens") {
+        mediaData = await searchScreens(mediaSearchInput);
+      }
+      else if (mediaSearchType === "books") {
+        mediaData = await searchBooks(mediaSearchInput);
+      }
+      else {
+        return;
+      }
+
+      setSearchedMedia(mediaData);
+      setLastMediaTypeSearched(mediaSearchType);
+      setMediaSearchInput('');
+      setMediaSearchType("");
+    } catch (error) {
+      console.log(error);
+    }
+  }, [mediaSearchType]);
+
+  /**
+    * Activates when relatedSearchValue is changed, which happens when
+    * a "find related media" button is clicked. Checks lastMediaTypeSearched
+    * to see what the last media type searched was, and then searches for
+    * the OPPOSITE of that, in order to get related media. Doesn't check
+    * mediaSearchType intentionally, as that is reset after each search,
+    * while lastMediaTypeSearched is not. Then, it resets relatedSearchValue,
+    * which reactivates this useEffect, which will immediately terminate once
+    * it finds relatedSearchValue to be reset (aka empty).
+    */
+  useEffect(async () => {
     if (!relatedSearchValue) {
+      console.log("No related search value found");
       return false;
     }
 
-    let mediaData = 'error';
-    if (mediaSearchType === 'books') {
+    let mediaData = "error";
+    if (lastMediaTypeSearched === "books") {
+      console.log("last media search type read as books");
       mediaData = await searchScreens(relatedSearchValue);
-    } else if (mediaSearchType === 'screens') {
+      setLastMediaTypeSearched("screens");
+    }
+    else if (lastMediaTypeSearched === "screens") {
+      console.log("state read as screens");
       mediaData = await searchBooks(relatedSearchValue);
-    } else {
-      throw new Error('Neither search type selected!');
+      setLastMediaTypeSearched("books");
+    }
+    else {
+      console.log("MediaSearchType at time of error:" + mediaSearchType);
+      throw new Error("Neither search type selected!")
     }
     console.log(mediaData);
     setSearchedMedia(mediaData);
     setMediaSearchInput('');
+    setRelatedSearchValue("");
   }, [relatedSearchValue]);
 
-  // handles state based on media type being searched
+  // ain't does nothin cowboy
   const handleMedia = async (e) => {
     e.preventDefault();
-
-    if (!mediaSearchInput) {
-      return false;
-    }
-
-    let mediaData = 'error';
-    if (mediaSearchType === 'screens') {
-      mediaData = await searchScreens(mediaSearchInput);
-    } else if (mediaSearchType === 'books') {
-      mediaData = await searchBooks(mediaSearchInput);
-    } else {
-      throw new Error('Neither search type selected!');
-    }
-
-    setSearchedMedia(mediaData);
-    setMediaSearchInput('');
   };
 
-    // to pull in medialist feed
-    const { data } = useQuery(QUERY_MEDIA);
-    const medias = data?.mediaFeed || [];
-    console.log("all media items incl fake data");
-    console.log(medias);
+  // to pull in medialist feed
+  const { data } = useQuery(QUERY_MEDIA);
+  const medias = data?.mediaFeed || [];
+  console.log("all media items incl fake data");
+  console.log(medias);
 
   // SAVE MEDIA query
   const [addMedia, { error }] = useMutation(ADD_MEDIA, {
@@ -153,60 +193,56 @@ const Home = () => {
         </Button>
       </form>{' '}
       <Container id='media-search-results'>
-        <Container className='cardHolder'>
-          {searchedMedia.map((media) => {
-            return (
-              <Container className='card' key={media.mediaId}>
-                {media.image ? (
-                  <img
+        {searchedMedia.map((media) => {
+          return (
+            <Card id='card-feed' key={media.mediaId}>
+              {media.image ? (
+                <img
                   className='single-media-image'
-                    src={media.image}
-                    alt={`The poster for ${media.title}`}
-                    variant='top'
-                  />
-                ) : null}
-                <h4>{media.title}</h4>
-                {media.year ? (
-                  <p className='small'>Year: {media.year}</p>
-                ) : null}
-                {media.stars ? (
-                  <p className='small'>Starring: {media.stars}</p>
-                ) : null}
-                {media.description ? (
-                  <p className='small'>Description: {media.description}</p>
-                ) : null}
+                  src={media.image}
+                  alt={`The poster for ${media.title}`}
+                  variant='top'
+                />
+              ) : null}
+              <h4>{media.title}</h4>
+              {media.year ? <p className='small'>Year: {media.year}</p> : null}
+              {media.stars ? (
+                <p className='small'>Starring: {media.stars}</p>
+              ) : null}
+              {media.description ? (
+                <p className='small'>Description: {media.description}</p>
+              ) : null}
+              <Button
+                id='related-btn'
+                value={media.title}
+                onClick={() => setRelatedSearchValue(media.title)}
+              >
+                {lastMediaTypeSearched === 'screens'
+                  ? 'See Related Books'
+                  : 'See Related Movies'}{' '}
+              </Button>
+              {Auth.loggedIn() && (
                 <Button
-                  id='related-btn'
-                  value={media.title}
-                  onClick={() => setRelatedSearchValue(media.title)}
+                  id='save-content-btn'
+                  disabled={savedMediaIds?.some(
+                    (savedMediaId) => savedMediaId === media.mediaId
+                  )}
+                  onClick={() => handleSaveMedia(media.mediaId)}
                 >
-                  {lastMediaTypeSearched === 'screens'
-                    ? 'See Related Books'
-                    : 'See Related Movies'}{' '}
+                  {savedMediaIds?.some(
+                    (savedMediaId) => savedMediaId === media.mediaId
+                  )
+                    ? `item saved to 'my content'`
+                    : 'save this'}
                 </Button>
-                {Auth.loggedIn() && (
-                  <Button
-                    id='save-content-btn'
-                    disabled={savedMediaIds?.some(
-                      (savedMediaId) => savedMediaId === media.mediaId
-                    )}
-                    onClick={() => handleSaveMedia(media.mediaId)}
-                  >
-                    {savedMediaIds?.some(
-                      (savedMediaId) => savedMediaId === media.mediaId
-                    )
-                      ? `item saved to 'my content'`
-                      : 'save this'}
-                  </Button>
-                )}
-                {error && <div>save failed</div>}
-              </Container>
-            );
-          })}
-        </Container>
+              )}
+              {error && <div>save failed</div>}
+            </Card>
+          );
+        })}
       </Container>
-      <Container className="cardHolder" id='media-feed'>
-        <MediaList medias={medias} title="activity feed" />
+      <Container className='cardHolder' id='media-feed'>
+        <MediaList medias={medias} title='activity feed' />
       </Container>
     </div>
   );
