@@ -22,6 +22,10 @@ Connecting book lovers to movies, and movie lovers to books, by allowing users t
 
 ## Preview
 
+This application is currently live on Heroku.
+
+Check it out <a href='calm-river-58569.herokuapp.com/'>here!</a>
+
 Here is how the application appears and functions.
 
 <img src='./client/src/assets/images/reading-rambo.gif' />
