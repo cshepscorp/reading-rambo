@@ -4,18 +4,20 @@ import Auth from '../../utils/auth';
 import { ADD_MEDIA } from '../../utils/mutations';
 import { QUERY_ME, QUERY_MEDIA } from '../../utils/queries';
 import { saveMediaIds, getSavedMediaIds } from '../../utils/localStorage';
+import { saveFriendIds, getSavedFriendIds } from '../../utils/localStorage';
 import { searchBooks, searchScreens } from '../../utils/search';
 import { useMutation } from '@apollo/client';
 import { Button, Card, Container, TextField } from '@mui/material';
 
 // for media feed
 import MediaList from '../MediaList';
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client';
 
 const Home = () => {
   const [searchedMedia, setSearchedMedia] = useState([]);
   const [mediaSearchInput, setMediaSearchInput] = useState('');
   const [savedMediaIds, setSavedMediaIds] = useState(getSavedMediaIds());
+  const [savedFriendIds, setSavedFriendIds] = useState(getSavedMediaIds());
   // STATE for related media button
   const [relatedSearchValue, setRelatedSearchValue] = useState('');
   //this sets the media search type to either screens or books
@@ -27,81 +29,79 @@ const Home = () => {
     return () => saveMediaIds(savedMediaIds);
   });
 
+  console.log(savedFriendIds);
+
   /**
- * Activates when mediaSearchType is altered. Checks to see 
- * if mediaSearchType is either "books" or "screens", and if
- * neither is true, it terminates. If it is one of those,
- * then it'll do a search and populate for that respective
- * search type. It will then set lastMediaTypeSearched to
- * whatever the last kind of search was (books or screens).
- * Then, it will RESET mediaSearchType to "" (aka nothing).
- * This will activate it again, but it will terminate upon
- * finding mediaSearchType to be empty.
- */
+   * Activates when mediaSearchType is altered. Checks to see
+   * if mediaSearchType is either "books" or "screens", and if
+   * neither is true, it terminates. If it is one of those,
+   * then it'll do a search and populate for that respective
+   * search type. It will then set lastMediaTypeSearched to
+   * whatever the last kind of search was (books or screens).
+   * Then, it will RESET mediaSearchType to "" (aka nothing).
+   * This will activate it again, but it will terminate upon
+   * finding mediaSearchType to be empty.
+   */
   useEffect(async () => {
-    console.log("regular search useEffect activated");
+    console.log('regular search useEffect activated');
 
     if (!mediaSearchInput) {
-      setMediaSearchType("");
+      setMediaSearchType('');
       return;
     }
 
-    let mediaData = "error";
+    let mediaData = 'error';
     try {
-      if (mediaSearchType === "screens") {
+      if (mediaSearchType === 'screens') {
         mediaData = await searchScreens(mediaSearchInput);
-      }
-      else if (mediaSearchType === "books") {
+      } else if (mediaSearchType === 'books') {
         mediaData = await searchBooks(mediaSearchInput);
-      }
-      else {
+      } else {
         return;
       }
 
       setSearchedMedia(mediaData);
       setLastMediaTypeSearched(mediaSearchType);
       setMediaSearchInput('');
-      setMediaSearchType("");
+      setMediaSearchType('');
     } catch (error) {
       console.log(error);
     }
   }, [mediaSearchType]);
 
   /**
-    * Activates when relatedSearchValue is changed, which happens when
-    * a "find related media" button is clicked. Checks lastMediaTypeSearched
-    * to see what the last media type searched was, and then searches for
-    * the OPPOSITE of that, in order to get related media. Doesn't check
-    * mediaSearchType intentionally, as that is reset after each search,
-    * while lastMediaTypeSearched is not. Then, it resets relatedSearchValue,
-    * which reactivates this useEffect, which will immediately terminate once
-    * it finds relatedSearchValue to be reset (aka empty).
-    */
+   * Activates when relatedSearchValue is changed, which happens when
+   * a "find related media" button is clicked. Checks lastMediaTypeSearched
+   * to see what the last media type searched was, and then searches for
+   * the OPPOSITE of that, in order to get related media. Doesn't check
+   * mediaSearchType intentionally, as that is reset after each search,
+   * while lastMediaTypeSearched is not. Then, it resets relatedSearchValue,
+   * which reactivates this useEffect, which will immediately terminate once
+   * it finds relatedSearchValue to be reset (aka empty).
+   */
   useEffect(async () => {
     if (!relatedSearchValue) {
-      console.log("No related search value found");
+      console.log('No related search value found');
       return false;
     }
 
-    let mediaData = "error";
-    if (lastMediaTypeSearched === "books") {
-      console.log("last media search type read as books");
+    let mediaData = 'error';
+    if (lastMediaTypeSearched === 'books') {
+      console.log('last media search type read as books');
       mediaData = await searchScreens(relatedSearchValue);
-      setLastMediaTypeSearched("screens");
-    }
-    else if (lastMediaTypeSearched === "screens") {
-      console.log("state read as screens");
+      setLastMediaTypeSearched('screens');
+    } else if (lastMediaTypeSearched === 'screens') {
+      console.log('state read as screens');
       mediaData = await searchBooks(relatedSearchValue);
-      setLastMediaTypeSearched("books");
-    }
-    else {
-      console.log("MediaSearchType at time of error:" + mediaSearchType);
-      throw new Error("Neither search type selected!")
+      setLastMediaTypeSearched('books');
+    } else {
+      console.log('MediaSearchType at time of error:' + mediaSearchType);
+      throw new Error('Neither search type selected!');
     }
     console.log(mediaData);
     setSearchedMedia(mediaData);
     setMediaSearchInput('');
-    setRelatedSearchValue("");
+    setRelatedSearchValue('');
   }, [relatedSearchValue]);
 
   // ain't does nothin cowboy
@@ -111,9 +111,13 @@ const Home = () => {
 
   // to pull in medialist feed
   const { data } = useQuery(QUERY_MEDIA);
+  const userdata = useQuery(QUERY_ME);
+  const myUserData = userdata.data?.me || [];
+  console.log(myUserData, 'myUserData.friends');
+  const { friends } = myUserData || [];
   const medias = data?.mediaFeed || [];
-  console.log("all media items incl fake data");
-  console.log(medias);
+  // console.log("all media items incl fake data");
+  // console.log(medias);
 
   // SAVE MEDIA query
   const [addMedia, { error }] = useMutation(ADD_MEDIA, {
@@ -123,12 +127,12 @@ const Home = () => {
 
         cache.writeQuery({
           query: QUERY_ME,
-          data: { me: { ...me, savedMedia: [...me.savedMedia, addMedia] } }
+          data: { me: { ...me, savedMedia: [...me.savedMedia, addMedia] } },
         });
       } catch (e) {
         console.error(e);
       }
-    }
+    },
   });
 
   // SAVE MEDIA HANDLER
@@ -146,13 +150,22 @@ const Home = () => {
     try {
       console.log(mediaToSave);
       await addMedia({
-        variables: { input: mediaToSave }
+        variables: { input: mediaToSave },
       });
       setSavedMediaIds([...savedMediaIds, mediaToSave.mediaId]);
     } catch (err) {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    const friendIds = friends?.map((friend) => friend._id);
+    setSavedFriendIds(friendIds);
+    console.log(friendIds, 'friendIds');
+    if (friendIds) {
+      saveFriendIds(friendIds);
+    }
+  }, []);
 
   return (
     <div>
@@ -161,21 +174,21 @@ const Home = () => {
         <h2>let's take a look!</h2>
       </div>
       <br></br>
-      <form onSubmit={handleMedia} className='container'>
+      <form onSubmit={handleMedia} className="container">
         <div>
           <TextField
-            id='standard-search'
-            label='search titles'
-            type='search'
-            variant='filled'
+            id="standard-search"
+            label="search titles"
+            type="search"
+            variant="filled"
             value={mediaSearchInput}
             onChange={(e) => setMediaSearchInput(e.target.value)}
           />{' '}
         </div>
         <br></br>
         <Button
-          type='submit'
-          id='book-btn'
+          type="submit"
+          id="book-btn"
           onClick={() => {
             setMediaSearchType('books');
           }}
@@ -183,8 +196,8 @@ const Home = () => {
           books
         </Button>{' '}
         <Button
-          type='submit'
-          id='screen-btn'
+          type="submit"
+          id="screen-btn"
           onClick={() => {
             setMediaSearchType('screens');
           }}
@@ -192,28 +205,28 @@ const Home = () => {
           screens
         </Button>
       </form>{' '}
-      <Container id='media-search-results'>
+      <Container id="media-search-results">
         {searchedMedia.map((media) => {
           return (
-            <Card id='card-feed' key={media.mediaId}>
+            <Card id="card-feed" key={media.mediaId}>
               {media.image ? (
                 <img
-                  className='single-media-image'
+                  className="single-media-image"
                   src={media.image}
                   alt={`The poster for ${media.title}`}
-                  variant='top'
+                  variant="top"
                 />
               ) : null}
               <h4>{media.title}</h4>
-              {media.year ? <p className='small'>Year: {media.year}</p> : null}
+              {media.year ? <p className="small">Year: {media.year}</p> : null}
               {media.stars ? (
-                <p className='small'>Starring: {media.stars}</p>
+                <p className="small">Starring: {media.stars}</p>
               ) : null}
               {media.description ? (
-                <p className='small'>Description: {media.description}</p>
+                <p className="small">Description: {media.description}</p>
               ) : null}
               <Button
-                id='related-btn'
+                id="related-btn"
                 value={media.title}
                 onClick={() => setRelatedSearchValue(media.title)}
               >
@@ -223,7 +236,7 @@ const Home = () => {
               </Button>
               {Auth.loggedIn() && (
                 <Button
-                  id='save-content-btn'
+                  id="save-content-btn"
                   disabled={savedMediaIds?.some(
                     (savedMediaId) => savedMediaId === media.mediaId
                   )}
@@ -241,8 +254,8 @@ const Home = () => {
           );
         })}
       </Container>
-      <Container className='cardHolder' id='media-feed'>
-        <MediaList medias={medias} title='activity feed' />
+      <Container className="cardHolder" id="media-feed">
+        <MediaList medias={medias} title="activity feed" />
       </Container>
     </div>
   );
