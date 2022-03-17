@@ -1,6 +1,6 @@
 export const getSavedMediaIds = () => {
-  const savedMediaIds = localStorage.getItem("saved_media")
-    ? JSON.parse(localStorage.getItem("saved_media"))
+  const savedMediaIds = localStorage.getItem('saved_media')
+    ? JSON.parse(localStorage.getItem('saved_media'))
     : [];
 
   return savedMediaIds;
@@ -8,15 +8,15 @@ export const getSavedMediaIds = () => {
 
 export const saveMediaIds = (mediaIdArr) => {
   if (mediaIdArr.length) {
-    localStorage.setItem("saved_media", JSON.stringify(mediaIdArr));
+    localStorage.setItem('saved_media', JSON.stringify(mediaIdArr));
   } else {
-    localStorage.removeItem("saved_media");
+    localStorage.removeItem('saved_media');
   }
 };
 
 export const removeMediaId = (mediaId) => {
-  const savedMediaIds = localStorage.getItem("saved_media")
-    ? JSON.parse(localStorage.getItem("saved_media"))
+  const savedMediaIds = localStorage.getItem('saved_media')
+    ? JSON.parse(localStorage.getItem('saved_media'))
     : null;
 
   if (!savedMediaIds) {
@@ -26,14 +26,14 @@ export const removeMediaId = (mediaId) => {
   const updatedSavedMediaIds = savedMediaIds?.filter(
     (savedMediaId) => savedMediaId !== mediaId
   );
-  localStorage.setItem("saved_media", JSON.stringify(updatedSavedMediaIds));
+  localStorage.setItem('saved_media', JSON.stringify(updatedSavedMediaIds));
 
   return true;
 };
 
 export const getSavedFriendIds = () => {
-  const savedFriendIds = localStorage.getItem("saved_friends")
-    ? JSON.parse(localStorage.getItem("saved_friends"))
+  const savedFriendIds = localStorage.getItem('saved_friends')
+    ? JSON.parse(localStorage.getItem('saved_friends'))
     : [];
 
   return savedFriendIds;
@@ -41,8 +41,8 @@ export const getSavedFriendIds = () => {
 
 export const saveFriendIds = (friendIdArr) => {
   if (friendIdArr.length) {
-    localStorage.setItem("saved_friends", JSON.stringify(friendIdArr));
+    localStorage.setItem('saved_friends', JSON.stringify(friendIdArr));
   } else {
-    localStorage.removeItem("saved_friends");
+    localStorage.removeItem('saved_friends');
   }
 };

@@ -31,7 +31,7 @@ const Profile = () => {
   });
 
   // saved friend Ids
-  const [savedFriendIds, setSavedFriendIds] = useState(getSavedFriendIds());
+  const [savedFriendIds, setSavedFriendIds] = useState(fakeFriends);
 
   useEffect(() => {
     const friendIds = friends?.map((friend) => friend._id);

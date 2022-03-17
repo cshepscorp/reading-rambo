@@ -7,7 +7,7 @@ const FriendList = ({ friendCount, username, friends }) => {
   console.log(friends);
   if (!friends || !friends.length) {
     return (
-      <p className='bg-dark text-light p-3'>{username}, make some friends!</p>
+      <p className="bg-dark text-light p-3">{username}, make some friends!</p>
     );
   }
 
@@ -18,7 +18,7 @@ const FriendList = ({ friendCount, username, friends }) => {
       </h5>
       {friends.map((friend) => (
         <Container>
-          <Button id='prof-link-btn'>
+          <Button id="prof-link-btn" key={friend._id}>
             <Link to={`/profile/${friend.username}`}>{friend.username}</Link>
           </Button>
         </Container>
